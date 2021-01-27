@@ -1,6 +1,22 @@
-import React from 'react';
-import { render } from 'react-dom';
+import React, {Component} from 'react';
+import ReactDOM from 'react-dom'
+import { AppContainer } from 'react-hot-loader'
+import { Provider } from 'react-redux'
+import { history, store } from './configureStore'
+import { App } from './App';
 
-import HelloWorld from './HelloWorld';
+const target = document.querySelector('#root')
 
-render(<HelloWorld />, document.getElementById('root'));
+class Root extends Component {
+    render() {
+        return (
+            <AppContainer>
+                <Provider store={store}>
+                    <App history={history} />
+                </Provider>
+            </AppContainer>
+        )
+    }
+}
+
+ReactDOM.render(<Root />, target);

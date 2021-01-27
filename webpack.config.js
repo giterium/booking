@@ -3,6 +3,9 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: './src/index.tsx',
+    devServer: {
+        hot: true
+    },
     output: {
         path: path.resolve(__dirname, 'build'),
         filename: 'bundle.js',
