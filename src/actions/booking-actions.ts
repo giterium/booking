@@ -27,108 +27,66 @@ export function bookingFetchDataSuccess(booking: TypeBooking[]) {
 export function itemsBookingFetchData(url: string) {
     return (dispatch: any) => {
         dispatch(bookingIsLoading(true));
-        dispatch(bookingFetchDataSuccess([]));
+        let bookingStore:string|null = localStorage.getItem('booking');
+        let bookingList:TypeBooking[] = [];
+        if(bookingStore != null)
+            bookingList = JSON.parse(bookingStore);
+
         dispatch(bookingHasErrored(false));
+        setTimeout(() => {
+            dispatch(bookingIsLoading(false));
 
+            dispatch(bookingFetchDataSuccess(bookingList));
+        }, 500);
 
-
-        dispatch(bookingFetchDataSuccess([]));
-
-        /*
-        axios.get(url)
-            .then((response) => {
-                dispatch(bookingIsLoading(false));
-                return response.data;
-            })
-            .then((booking) => dispatch(bookingFetchDataSuccess(booking)))
-            .catch(function(err) {
-                if(err.response.data == 'Unauthorized')
-                    unauth('itemsRoomsFetchData', url);
-                dispatch(bookingHasErrored(true))
-            });
-
-         */
     };
 }
 
 export function createBooking (booking: TypeBooking) {
     return (dispatch: any, getState: any) => {
-
         dispatch({type: ADD_BOOKING});
+
+        booking._id = Math.random().toString(36).substring(7);
+        let bookingStore:string|null = localStorage.getItem('booking');
+        let bookingList:TypeBooking[] = [];
+        if(bookingStore != null)
+            bookingList = JSON.parse(bookingStore);
+        bookingList.push(booking);
+        localStorage.setItem('booking', JSON.stringify(bookingList));
+
+        dispatch({type: ADD_BOOKING_SUCCESS, payload: booking})
         EventBus.dispatch('bookingUpdatedAlert', [2]);
-/*
-        const formData = new FormData();
-        formData.append('action','create')
-        formData.append('booking',JSON.stringify(booking))
-
-        axios.post('/api/booking/action', formData).then((res: any) =>{
-            booking._id = res.data._id;
-            dispatch({type: ADD_BOOKING_SUCCESS, payload: booking})
-            EventBus.dispatch('bookingUpdatedAlert', [2]);
-            //dispatch({type: USERS_IS_ADDED, isCreated: true})
-        })
-            .catch(err => {
-                if(err.response.data == 'Unauthorized')
-                    unauth();
-                dispatch({
-                    type: ADD_BOOKING_ERRORS,
-                    payload: err.response.data
-                });
-            });
-
- */
     }
 }
 
 export function updateBooking (booking: TypeBooking, index: number) {
     return (dispatch: any, getState: any) => {
         dispatch({type: UPDATE_BOOKING});
-/*
-        const formData = new FormData();
-        formData.append('action','update')
-        //formData.append('_id',booking._id)
-        formData.append('booking',JSON.stringify(booking))
 
-        axios.post('/api/booking/action', formData).then(() =>{
-            dispatch({type: UPDATE_BOOKING_SUCCESS, payload: [index, booking]})
-            EventBus.dispatch('bookingUpdatedAlert', [1]);
-            //dispatch({type: USERS_IS_UPDATED, isUpdated: true})
-        })
-            .catch(err => {
-                if(err.response.data == 'Unauthorized')
-                    unauth();
-                dispatch({
-                    type: UPDATE_BOOKING_ERRORS,
-                    payload: err.response.data
-                });
-            });
-            */
+        let bookingStore:string|null = localStorage.getItem('booking');
+        let bookingList:TypeBooking[] = [];
+        if(bookingStore != null)
+            bookingList = JSON.parse(bookingStore);
+        bookingList[index] = booking;
+        localStorage.setItem('booking', JSON.stringify(bookingList));
+
+        dispatch({type: UPDATE_BOOKING_SUCCESS, payload: [index, booking]});
+        EventBus.dispatch('bookingUpdatedAlert', [1]);
     }
 }
 
 export function deleteBooking (id: string, index:number) {
     return (dispatch: any, getState: any) => {
         dispatch({type: DELETE_BOOKING});
-        /*
-        const formData = new FormData();
-        formData.append('action','delete')
-        formData.append('id', id)
+        let bookingStore:string|null = localStorage.getItem('booking');
+        let bookingList:TypeBooking[] = [];
+        if(bookingStore != null)
+            bookingList = JSON.parse(bookingStore);
+        bookingList.splice(index, 1);
+        localStorage.setItem('booking', JSON.stringify(bookingList));
 
-        axios.post('/api/booking/action', formData).then(() =>{
-            dispatch({type: DELETE_BOOKING_SUCCESS, payload: [index, id]})
-            EventBus.dispatch('bookingRemoveAlert');
-            //dispatch({type: USERS_IS_UPDATED, isUpdated: true})
-        })
-            .catch(err => {
-                if(err.response.data == 'Unauthorized')
-                    unauth();
-                dispatch({
-                    type: DELETE_BOOKING_ERRORS,
-                    payload: err.response.data
-                });
-            });
-
-         */
+        dispatch({type: DELETE_BOOKING_SUCCESS, payload: [index, id]});
+        EventBus.dispatch('bookingUpdatedAlert', [1]);
     }
 }
 

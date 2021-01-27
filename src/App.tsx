@@ -1,11 +1,11 @@
 import React from 'react'
-import Booking from './views/Booking';
+import { Booking } from './views/Booking';
 import './css/app.css';
 
-export const App = ({ history: any }) => {
+export const App = () => {
     return (
-        <>
-            <Booking />
-        </>
+        <div id="wrapper">
+            <Booking props/>
+        </div>
     )
 }
