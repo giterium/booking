@@ -120,13 +120,13 @@ export const BookingModal = () => {
                     &&
                     currentBooking._id == 'create'
                     &&
-                    isGoodDiapazon(moment(startDate), moment(endDate), e.value, booking)
+                    isGoodDiapazon(moment(startDate), moment(endDate), e.value)
                 )
                 ||
                 (
                     currentBooking._id != 'create'
                     &&
-                    isGoodDiapazon(moment(startDate), moment(endDate), e.value, booking, currentBooking._id)
+                    isGoodDiapazon(moment(startDate), moment(endDate), e.value, currentBooking._id)
                 )
             )
         ) {
@@ -226,13 +226,13 @@ export const BookingModal = () => {
                     setEndDate(selected.end.day.toDate());
                     alert('Дата выезда и дата въезда должны различаться.')
                 }
-                else if(moment(startDate).diff(endDate, 'days') < 0 &&  isGoodDiapazon(moment(startDate), moment(endDate), room, booking)) {
+                else if(moment(startDate).diff(endDate, 'days') < 0 &&  isGoodDiapazon(moment(startDate), moment(endDate), room)) {
                     setSelected({
                         start: {day: moment(timenull(startDate)), room: room},
                         end: {day: moment(timenull(endDate)), room: room}
                     });
                 }
-                else if(moment(startDate).diff(endDate, 'days') > 0 && isGoodDiapazon(moment(endDate), moment(startDate), room, booking)) {
+                else if(moment(startDate).diff(endDate, 'days') > 0 && isGoodDiapazon(moment(endDate), moment(startDate), room)) {
                     setSelected({
                         start: {day: moment(timenull(endDate)), room: room},
                         end: {day: moment(timenull(startDate)), room: room}
@@ -253,7 +253,7 @@ export const BookingModal = () => {
                     setEndDate(new Date(currentBooking.endDate))
                     alert('Дата выезда и дата въезда должны различаться.')
                 }
-                else if(moment(startDate).diff(endDate, 'days') < 0 && isGoodDiapazon(moment(startDate), moment(endDate), room, booking, currentBooking._id)) {
+                else if(moment(startDate).diff(endDate, 'days') < 0 && isGoodDiapazon(moment(startDate), moment(endDate), room, currentBooking._id)) {
                     const curRoom = rooms.filter((item) => item._id == room)[0];
                     const cost = Math.abs(moment(startDate).diff(moment(endDate), "days") * parseInt(curRoom.cost));
 
@@ -266,7 +266,7 @@ export const BookingModal = () => {
                         endDate: moment(endDate).format('YYYY-MM-DD')
                     });
                 }
-                else if(moment(startDate).diff(endDate, 'days') > 0 && isGoodDiapazon(moment(endDate), moment(startDate), room, booking, currentBooking._id)) {
+                else if(moment(startDate).diff(endDate, 'days') > 0 && isGoodDiapazon(moment(endDate), moment(startDate), room, currentBooking._id)) {
                     const curRoom = rooms.filter((item) => item._id == room)[0];
                     const cost = Math.abs(moment(endDate).diff(moment(startDate), "days") * parseInt(curRoom.cost));
 

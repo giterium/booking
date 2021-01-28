@@ -83,7 +83,7 @@ export const Shahmatka = () => {
                 })
             } else {
                 if (!selected.end.day) {
-                    if(isGoodDiapazon(selected.start.day, day.date, room._id, booking)) {
+                    if(isGoodDiapazon(selected.start.day, day.date, room._id)) {
                         if (selected.start.day.format('DD.MM.YY') == day.date.format('DD.MM.YY')) {
                             unSelected();
                         } else if (selected.start.room != room._id)

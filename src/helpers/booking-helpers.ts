@@ -4,7 +4,7 @@ import { store } from '../configureStore';
 import {TypeBooking} from "../reducers/booking-reducers";
 //import {RootState} from "../reducers";
 
-export function isGoodDiapazon (startDate, endDate, id_room, booking2, curIdBooking = '') {
+export function isGoodDiapazon (startDate, endDate, id_room, curIdBooking = '') {
 
     const booking:TypeBooking[] = store.getState().booking;
     for(const curBooking of booking) {
