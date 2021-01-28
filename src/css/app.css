@@ -1,0 +1,22 @@
+*, ::before, ::after {
+    box-sizing: border-box;
+}
+#wrapper {
+    width: 1500px;
+    margin: auto;
+}
+.titlePage {
+    font-size: 28px;
+    margin: 20px 0px;
+
+}
+.updateFieldTitle {
+    text-align: right;
+}
+.tableUpdateDept {
+    border-collapse: collapse;
+    width: 100%;
+}
+.tableUpdateDept td{
+    padding: 5px 2px;
+}

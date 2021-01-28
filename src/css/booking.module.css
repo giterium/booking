@@ -1,0 +1,229 @@
+.shahmatkaBox {
+    margin-bottom: 10px;
+}
+.headerRow {
+    clear:both;
+    display: flex;
+    width: 1500px;
+}
+.roomRow {
+    clear:both;
+    display: flex;
+    margin-top: -1px;
+}
+.roomRow {
+    width: 1500px;
+    border-bottom: 1px solid grey;
+}
+.headerCell {
+    background: #f0f0f0;
+    padding: 10px;
+    width: 100px;
+//height: 15px;
+    border: 1px solid grey;
+    border-right: 0;
+//float: left;
+    text-align: center;
+}
+.headerCell:last-child {
+    border-right: 1px solid grey;
+}
+.roomCell {
+    background: #f0f0f0;
+    padding: 10px;
+    width: 100px;
+//height: 15px;
+    border: 1px solid grey;
+    border-bottom: 0;
+    border-right: 0;
+//float: left;
+//border-top: 0;
+    text-align: center;
+}
+.dayCell {
+    padding: 10px;
+    width: 100px;
+//height: 10px;
+    border: 1px solid grey;
+    border-bottom: 0;
+    border-right: 0;
+//float: left;
+//border-top: 0;
+}
+.dayCell:hover {
+    background: #cbcbcb;
+    cursor: pointer;
+}
+.preventHover {
+
+}
+.isFirstBooking.dayCell:hover {
+    background: #cbcbcb !important;
+    cursor: pointer;
+}
+
+.isFirstBooking.isLastBooking.dayCell:hover {
+    background: none !important;
+    cursor: default;
+}
+.isLastBooking.dayCell:hover {
+    background: #cbcbcb !important;
+    cursor: pointer;
+}
+.preventHover:hover {
+    background: none !important;
+}
+.dayCell:last-child {
+    border-right: 1px solid grey;
+}
+.selected {
+    background: grey;
+    border-left: 0;
+}
+.firstSelected {
+    border-left: 1px solid grey;
+    background: linear-gradient(to right, #ffffff 50%,  slategray 50%) !important;
+}
+.lastSelected {
+    background: none;
+    border-top: 21px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 21px solid transparent;
+    border-left: 50px solid slategray !important;
+    padding: 0;
+}
+.modalBoxButton {
+    text-align: right;
+    padding-topop: 10px;
+}
+.modalBoxButton button:first-child {
+    margin-right: 15px;
+}
+.deleteButton {
+    position: relative;
+    bottom: -20px;
+}
+.noupBooking {
+    font-size: 16px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.controlButtons {
+    margin-right: 10px;
+    width: 120px;
+}
+.cellModal {
+    text-align: right;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+}
+.isBooking {
+    background: #74adf2 !important;
+    border-left: 0;
+}
+.isFirstBooking {
+    border-left: 1px solid grey;
+    background: none !important;
+//background: linear-gradient(to right, #ffffff 50%,  #74adf2 50%) !important;
+}
+.isLastBooking{
+    background: none !important;
+    border-top: 21px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 21px solid transparent;
+    border-left: 50px solid #74adf2;
+    padding: 0;
+}
+.isFirstBooking .roomSubCell{
+    margin-top: -45px;
+    margin-left: 40px;
+    height: 193%;
+    width: 50px;
+    background: #74adf2;
+    position: relative;
+    top: 35px;
+}
+.isFirstBooking.lastSelected .roomSubCell, .isFirstBooking.isLastBooking .roomSubCell {
+    margin-top: -42px;
+    height: 42px;
+    width: 50px;
+    background: #74adf2;
+    position: relative;
+    top: 22px;
+    margin-left: 1px;
+}
+.isLastBooking.firstSelected .roomSubCell  {
+    margin-top: -42px;
+    margin-left: ;
+    height: 43px;
+    width: 50px;
+    background: grey;
+    position: relative;
+    top: 22px;
+    margin-left: 0;
+}
+.bookingCellFio {
+    display: none;
+    margin-left: 40px;
+    margin-top: -8px;
+    color: white;
+    font-weight: bold;
+    padding: 10px 0 10px 10px;
+}
+.roomSubCellLeft {
+    display: none;
+}
+
+.isFirstBooking .roomSubCellLeft {
+    display: block;
+    background: white;
+    margin-top: -6px;
+    margin-left: -10px;
+    position:absolute;
+    height: 41px;
+    width: 50px;
+}
+
+.isFirstBooking.isLastBooking .roomSubCellLeft {
+    display: none;
+}
+.isFirstBooking.lastSelected .roomSubCellLeft {
+    display: none;
+}
+.roomSubCellLeft:hover {
+    background: #cbcbcb !important;
+}
+
+.bookingCellFio:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+.isFirstBooking.lastSelected .bookingCellFio, .isFirstBooking.isLastBooking .bookingCellFio {
+    margin-top: -20px;
+}
+.isFirstBooking.isLastBooking .bookingCellFio {
+    margin-left: 1px;
+}
+.isFirstBooking.lastSelected .bookingCellFio {
+    margin-left: 10px;
+}
+.isFirstBooking .bookingCellFio {
+    display: block;
+    position: absolute;
+}
+input {
+    height: 38px;
+    border: 1px solid lightgrey;
+    font-size: 16px;
+    padding-left: 10px;
+}
+/*
+.lastSelected .roomSubCell {
+    margin-top: -45px;
+    height: 42px;
+    width: 50px;
+    background: #74adf2;
+    position: relative;
+    top: 25px;
+}
+ */
