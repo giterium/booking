@@ -25,7 +25,7 @@ export function roomsFetchDataSuccess(rooms: TypeRoom[]) {
 }
 
 export function itemsRoomsFetchData(url: string) {
-    return (dispatch: any) => {
+    return (dispatch) => {
         dispatch(roomsIsLoading(true));
         dispatch(roomsHasErrored(false));
         dispatch(roomsFetchDataSuccess(rooms));

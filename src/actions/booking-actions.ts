@@ -1,7 +1,7 @@
 import { EventBus } from '../events';
 import { TypeBooking } from '../reducers/booking-reducers';
-
 import { BOOKING_FETCH_DATA_SUCCESS, BOOKING_IS_LOADING, BOOKING_HAS_ERRORED, CLEAR_ERRORS, DELETE_BOOKING, DELETE_BOOKING_SUCCESS, DELETE_BOOKING_ERRORS, UPDATE_BOOKING, UPDATE_BOOKING_SUCCESS, UPDATE_BOOKING_ERRORS, ADD_BOOKING, ADD_BOOKING_SUCCESS, ADD_BOOKING_ERRORS} from './types';
+import {RootState} from "../reducers";
 
 export function bookingHasErrored(bool: boolean) {
     return {
@@ -25,7 +25,7 @@ export function bookingFetchDataSuccess(booking: TypeBooking[]) {
 }
 
 export function itemsBookingFetchData(url: string) {
-    return (dispatch: any) => {
+    return (dispatch) => {
         dispatch(bookingIsLoading(true));
         let bookingStore:string|null = localStorage.getItem('booking');
         let bookingList:TypeBooking[] = [];
@@ -43,7 +43,7 @@ export function itemsBookingFetchData(url: string) {
 }
 
 export function createBooking (booking: TypeBooking) {
-    return (dispatch: any, getState: any) => {
+    return (dispatch, getState: RootState) => {
         dispatch({type: ADD_BOOKING});
 
         booking._id = Math.random().toString(36).substring(7);
@@ -60,7 +60,7 @@ export function createBooking (booking: TypeBooking) {
 }
 
 export function updateBooking (booking: TypeBooking, index: number) {
-    return (dispatch: any, getState: any) => {
+    return (dispatch, getState: RootState) => {
         dispatch({type: UPDATE_BOOKING});
 
         let bookingStore:string|null = localStorage.getItem('booking');
@@ -76,7 +76,7 @@ export function updateBooking (booking: TypeBooking, index: number) {
 }
 
 export function deleteBooking (id: string, index:number) {
-    return (dispatch: any, getState: any) => {
+    return (dispatch, getState: RootState) => {
         dispatch({type: DELETE_BOOKING});
         let bookingStore:string|null = localStorage.getItem('booking');
         let bookingList:TypeBooking[] = [];

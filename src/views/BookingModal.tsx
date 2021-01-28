@@ -1,8 +1,8 @@
 import React, {useEffect, useState, useContext, useMemo}  from 'react';
 import {TypeRoom} from "../reducers/rooms-reducers";
+//import {RootState} from "../reducers";
 import {WindowContext} from './Booking';
 import Modal from 'react-modal';
-import {TypeDay} from "./BookingShahmatka";
 import {TableInput} from "../components/TableInput";
 import {TableErrors} from "../components/TableErrors";
 import {shallowEqual, useSelector, useDispatch} from "react-redux";
@@ -13,8 +13,9 @@ import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Select from 'react-select';
 import {EventBus} from "../events";
-import {isGoodDiapazon} from "../helpers/booking-helpers";
+import {isGoodDiapazon, timenull} from "../helpers/booking-helpers";
 import {TypeBooking} from "../reducers/booking-reducers";
+import {RootState} from "../reducers";
 //import ru from 'date-fns/locale/ru';
 //registerLocale('ru', ru);
 
@@ -48,9 +49,9 @@ interface TypeRoomsOptions {
 }
 
 export const BookingModal = () => {
-    const errors: any = useSelector((state: any) => state.errors, shallowEqual);
-    const rooms: TypeRoom[] = useSelector((state: any) => state.rooms, shallowEqual);
-    const booking: TypeBooking[] = useSelector((state: any) => state.booking, shallowEqual);
+    const errors: any = useSelector((state: RootState) => state.errors, shallowEqual);
+    const rooms: TypeRoom[] = useSelector((state: RootState) => state.rooms, shallowEqual);
+    const booking: TypeBooking[] = useSelector((state: RootState) => state.booking, shallowEqual);
 
     const [fio, setFio] = useState<string>('');
     const [startDate, setStartDate] = useState<Date>(new Date());
@@ -58,8 +59,9 @@ export const BookingModal = () => {
     const [cost, setCost] = useState<string>('');
     const [room, setRoom] = useState<string>('');
     const [roomsOptions, setRoomsOptions] = useState<TypeRoomsOptions[]>([]);
-    const [defRoomsOptions, setDefRoomsOptions] = useState<any>([]);
-    const dispatch: any = useDispatch();
+    const [defRoomsOptions, setDefRoomsOptions] = useState<TypeRoomsOptions>([]);
+
+    const dispatch = useDispatch();
     const { openWindow, setOpenWindow, currentBooking, setCurrentBooking, selected, setSelected } = useContext(WindowContext);
     EventBus.subscribe('bookingUpdatedAlert', (mode) => closeWindow(mode))
 
@@ -109,7 +111,6 @@ export const BookingModal = () => {
     }
 
     const changeRoom = (e) => {
-        //alert(isGoodDiapazon(moment(startDate), moment(endDate), e.value, booking))
         if(
             currentBooking
             &&
@@ -219,36 +220,40 @@ export const BookingModal = () => {
 
     useEffect(() => {
         if ((selected.start.day && selected.end.day && currentBooking._id == 'create') || currentBooking._id != 'create') {
-            if(moment(startDate).milliseconds(0).second(0).minutes(0).hours(0).isSame(moment(endDate).milliseconds(0).second(0).minutes(0).hours(0))) {
-                if(currentBooking._id == 'create') {
-                    if (selected && selected.start && selected.start.day && selected.end && selected.end.day) {
-                        setStartDate(selected.start.day.toDate())
-                        setEndDate(selected.end.day.toDate())
-                    }
+            if(currentBooking._id == 'create') {
+                if(moment(timenull(startDate)).isSame(timenull(endDate))) {
+                    setStartDate(selected.start.day.toDate());
+                    setEndDate(selected.end.day.toDate());
+                    alert('Дата выезда и дата въезда должны различаться.')
                 }
-                else {
-                    setStartDate(new Date(currentBooking.startDate))
-                    setEndDate(new Date(currentBooking.endDate))
-                }
-                alert('Дата выезда и дата въезда должны различаться.')
-            }
-            else if(moment(startDate).diff(endDate, 'days') < 0 && (
-                isGoodDiapazon(moment(startDate), moment(endDate), room, booking)
-                ||
-                (
-                    currentBooking._id != 'create'
-                    &&
-                    isGoodDiapazon(moment(startDate), moment(endDate), room, booking, currentBooking._id)
-                )
-            )
-            ) {
-                if(currentBooking._id == 'create') {
+                else if(moment(startDate).diff(endDate, 'days') < 0 &&  isGoodDiapazon(moment(startDate), moment(endDate), room, booking)) {
                     setSelected({
-                        start: {day: moment(startDate).milliseconds(0).second(0).minutes(0).hours(0), room: room},
-                        end: {day: moment(endDate).milliseconds(0).second(0).minutes(0).hours(0), room: room}
+                        start: {day: moment(timenull(startDate)), room: room},
+                        end: {day: moment(timenull(endDate)), room: room}
                     });
                 }
+                else if(moment(startDate).diff(endDate, 'days') > 0 && isGoodDiapazon(moment(endDate), moment(startDate), room, booking)) {
+                    setSelected({
+                        start: {day: moment(timenull(endDate)), room: room},
+                        end: {day: moment(timenull(startDate)), room: room}
+                    })
+                    let date1 = startDate;
+                    setStartDate(endDate);
+                    setEndDate(date1);
+                }
                 else {
+                    setStartDate(new Date(selected.start.day.format('YYYY-MM-DD')));
+                    setEndDate(new Date(selected.end.day.format('YYYY-MM-DD')));
+                    alert('На этот дипазон уже назначено бронирование.')
+                }
+            }
+            else {
+                if(moment(timenull(startDate)).isSame(timenull(endDate))) {
+                    setStartDate(new Date(currentBooking.startDate))
+                    setEndDate(new Date(currentBooking.endDate))
+                    alert('Дата выезда и дата въезда должны различаться.')
+                }
+                else if(moment(startDate).diff(endDate, 'days') < 0 && isGoodDiapazon(moment(startDate), moment(endDate), room, booking, currentBooking._id)) {
                     const curRoom = rooms.filter((item) => item._id == room)[0];
                     const cost = Math.abs(moment(startDate).diff(moment(endDate), "days") * parseInt(curRoom.cost));
 
@@ -261,27 +266,24 @@ export const BookingModal = () => {
                         endDate: moment(endDate).format('YYYY-MM-DD')
                     });
                 }
-            }
-            else if(isGoodDiapazon(moment(endDate), moment(startDate), room, booking)) {
-                setSelected({
-                    start: {day: moment(endDate).milliseconds(0).second(0).minutes(0).hours(0), room: room},
-                    end: {day: moment(startDate).milliseconds(0).second(0).minutes(0).hours(0), room: room}
-                })
-                let date1 = startDate;
-                setStartDate(endDate);
-                setEndDate(date1);
+                else if(moment(startDate).diff(endDate, 'days') > 0 && isGoodDiapazon(moment(endDate), moment(startDate), room, booking, currentBooking._id)) {
+                    const curRoom = rooms.filter((item) => item._id == room)[0];
+                    const cost = Math.abs(moment(endDate).diff(moment(startDate), "days") * parseInt(curRoom.cost));
 
-            }
-            else {
-                if(currentBooking._id == 'create' && selected && selected.start.day && selected.end.day) {
-                    setStartDate(new Date(selected.start.day.format('YYYY-MM-DD')));
-                    setEndDate(new Date(selected.end.day.format('YYYY-MM-DD')));
+                    setCurrentBooking({
+                        _id: currentBooking._id,
+                        fio: fio,
+                        cost: cost,
+                        room: currentBooking.room,
+                        startDate: moment(endDate).format('YYYY-MM-DD'),
+                        endDate: moment(startDate).format('YYYY-MM-DD')
+                    });
                 }
                 else {
                     setStartDate(new Date(currentBooking.startDate));
                     setEndDate(new Date(currentBooking.endDate));
+                    alert('На этот дипазон уже назначено бронирование.')
                 }
-                alert('На этот дипазон уже назначено бронирование.')
             }
         }
     }, [startDate, endDate]);
@@ -301,19 +303,7 @@ export const BookingModal = () => {
                     <DatePicker
                         locale="ru"
                         selected={new Date(startDate)}
-                        onChange={date => {
-                            if(isGoodDiapazon(moment(date), moment(endDate), room, booking) && moment(date).diff(endDate, 'days') < 0) {
-                                setStartDate(date)
-                            }
-                            else {
-                                if(moment(date).diff(endDate, 'days') > 0)
-                                    alert('Дата въезда должна быть меньше даты выезда')
-                                else {
-                                    alert('На этот диапазон уже назначено бронирование')
-                                }
-                            }
-                        }
-                        }
+                        onChange={date => setStartDate(date)}
                         dateFormat="dd.MM.yyyy"
 
                     />
@@ -324,19 +314,7 @@ export const BookingModal = () => {
                     <DatePicker
                         locale="ru"
                         selected={new Date(endDate)}
-                        onChange={date => {
-                            if(isGoodDiapazon(moment(startDate), moment(date), room, booking) && moment(startDate).diff(date, 'days') < 0) {
-                                setEndDate(date)
-                            }
-                            else {
-                                if(moment(startDate).diff(date, 'days') > 0)
-                                    alert('Дата выезда должна быть больше даты въезда')
-                                else {
-                                    alert('На этот диапазон уже назначено бронирование')
-                                }
-                            }
-                        }
-                        }
+                        onChange={date => setEndDate(date)}
                         dateFormat="dd.MM.yyyy"
                     />
                 </td></tr>
@@ -354,8 +332,9 @@ export const BookingModal = () => {
                 <br /><br /><br /><br /><br />
             </table>
 
-            <button onClick={actionDelete}>Delete</button>
-            <div className={styles.modalBoxButton} style={{paddingTop: '10px'}}>
+            {(currentBooking._id == 'create') ? '' :  <button onClick={actionDelete} className={styles.deleteButton}>Delete</button>}
+
+            <div className={styles.modalBoxButton}>
                 <button onClick={actionModal}>{(currentBooking._id == 'create') ? 'Add' : 'Save'}</button>
                 <button onClick={closeModal}>Cancel</button>
             </div>

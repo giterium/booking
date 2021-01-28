@@ -94,9 +94,14 @@
 }
 .modalBoxButton {
     text-align: right;
+    padding-topop: 10px;
 }
 .modalBoxButton button:first-child {
     margin-right: 15px;
+}
+.deleteButton {
+    position: relative;
+    bottom: -20px;
 }
 .noupBooking {
     font-size: 16px;
@@ -205,6 +210,12 @@
 .isFirstBooking .bookingCellFio {
     display: block;
     position: absolute;
+}
+input {
+    height: 38px;
+    border: 1px solid lightgrey;
+    font-size: 16px;
+    padding-left: 10px;
 }
 /*
 .lastSelected .roomSubCell {

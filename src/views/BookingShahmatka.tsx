@@ -1,11 +1,12 @@
 import React, {useEffect, useState, useContext}  from 'react';
 import {TypeRoom} from "../reducers/rooms-reducers";
 import {shallowEqual, useSelector} from "react-redux";
-import moment from 'moment';
+import moment, {Moment} from 'moment';
 import {WindowContext, IContextProps} from './Booking';
 import styles from '../css/booking.module.css';
 import {TypeBooking} from "../reducers/booking-reducers";
-import {isGoodDiapazon} from "../helpers/booking-helpers";
+import {RootState} from "../reducers";
+import {isGoodDiapazon, timenull, isBooking, isSelected} from "../helpers/booking-helpers";
 
 export interface TypeDay {
     date: Date;
@@ -13,10 +14,10 @@ export interface TypeDay {
 }
 
 export const Shahmatka = () => {
-    const rooms: TypeRoom[] = useSelector((state: any) => state.rooms, shallowEqual);
-    const booking: TypeBooking[] = useSelector((state: any) => state.booking, shallowEqual);
-    const [startDate, setStartDate] = useState<any>(moment().milliseconds(0).second(0).minutes(0).hours(0));
-    const [endDate, setEndDate] = useState<any>(moment().add(13,'days').milliseconds(0).second(0).minutes(0).hours(0));
+    const rooms: TypeRoom[] = useSelector((state: RootState) => state.rooms, shallowEqual);
+    const booking: TypeBooking[] = useSelector((state: RootState) => state.booking, shallowEqual);
+    const [startDate, setStartDate] = useState<Moment>(moment().milliseconds(0).second(0).minutes(0).hours(0));
+    const [endDate, setEndDate] = useState<Moment>(moment().add(13,'days').milliseconds(0).second(0).minutes(0).hours(0));
     const [daysList, setDaysList] = useState<TypeDay[]>([]);
 
     const { openWindow, setOpenWindow, currentBooking, setCurrentBooking, selected, setSelected } = useContext<IContextProps>(WindowContext);
@@ -26,6 +27,51 @@ export const Shahmatka = () => {
             start:{day:false, room:false},
             end:{day:false, room:false}
         });
+    }
+
+    const getBookingId = (day, room) => {
+        for(const curBooking of booking) {
+            if (
+                curBooking.room == room._id
+                &&
+                moment(timenull(curBooking.startDate)).diff(timenull(day.date)) == 0
+            ) {
+                return curBooking._id;
+            }
+        }
+        return 0;
+    }
+
+    const getBookingFio = (day, room) => {
+        for(const curBooking of booking) {
+            if (
+                curBooking.room == room._id
+                &&
+                moment(timenull(curBooking.startDate)).diff(timenull(day.date)) == 0
+            ) {
+                return curBooking.fio;
+            }
+        }
+        return '';
+    }
+
+    const getWidthFio = (day, room) => {
+        let duration = 0;
+        for(const curBooking of booking) {
+            if (
+                curBooking.room == room._id
+                &&
+                moment(curBooking.startDate).milliseconds(0).second(0).minutes(0).hours(0).diff(day.date.milliseconds(0).second(0).minutes(0).hours(0)) == 0
+            ) {
+                duration = moment(curBooking.endDate).milliseconds(0).second(0).minutes(0).hours(0)
+                    .diff(moment(curBooking.startDate).milliseconds(0).second(0).minutes(0).hours(0), 'days');
+                break;
+            }
+        }
+        if(duration == 1)
+            return 50 + 'px';
+        else
+            return 100*duration-50+'px';
     }
 
     const clickDayRoom = (day, room) => {
@@ -79,124 +125,12 @@ export const Shahmatka = () => {
         }
     };
 
-    const isBooking = (day, room) => {
-        let is_booking = false;
-        let is_first_booking = false;
-        let is_last_booking = false;
-
-        booking.map(curBooking => {
-            if (
-                moment(curBooking.startDate).milliseconds(0).second(0).minutes(0).hours(0).diff(day.date.milliseconds(0).second(0).minutes(0).hours(0)) <= 0
-                &&
-                moment(curBooking.endDate).milliseconds(0).second(0).minutes(0).hours(0).diff(day.date.milliseconds(0).second(0).minutes(0).hours(0)) >= 0
-                &&
-                curBooking.room == room._id
-            ) {
-                if( moment(curBooking.startDate).milliseconds(0).second(0).minutes(0).hours(0).diff(day.date.milliseconds(0).second(0).minutes(0).hours(0)) == 0) {
-                    is_first_booking = true;
-                }
-                if( moment(curBooking.endDate).milliseconds(0).second(0).minutes(0).hours(0).diff(day.date.milliseconds(0).second(0).minutes(0).hours(0)) == 0) {
-                    is_last_booking = true;
-                }
-                is_booking = true;
-            }
-        })
-        if(is_booking) {
-            if(is_last_booking && is_first_booking)
-                return styles.isBooking + ' '+styles.isFirstBooking+ ' '+styles.isLastBooking;
-            else if(is_first_booking)
-                return styles.isBooking + ' '+styles.isFirstBooking;
-            else if(is_last_booking)
-                return styles.isBooking + ' '+styles.isLastBooking;
-            else
-                return styles.isBooking
-        }
-        else
-            return '';
-    }
-
-    const getBookingFio = (day, room) => {
-        for(const curBooking of booking) {
-            if (
-                curBooking.room == room._id
-                &&
-                moment(curBooking.startDate).milliseconds(0).second(0).minutes(0).hours(0).diff(day.date.milliseconds(0).second(0).minutes(0).hours(0)) == 0
-            ) {
-                return curBooking.fio;
-            }
-        }
-        return '';
-    }
 
     const editBooking = (id) => {
         const editBooking = booking.filter(item => item._id == id)[0];
         setCurrentBooking(editBooking);
         setOpenWindow(true);
     }
-
-    const getBookingId = (day, room) => {
-        for(const curBooking of booking) {
-            if (
-                curBooking.room == room._id
-                &&
-                moment(curBooking.startDate).milliseconds(0).second(0).minutes(0).hours(0).diff(day.date.milliseconds(0).second(0).minutes(0).hours(0)) == 0
-            ) {
-                return curBooking._id;
-            }
-        }
-        return 0;
-    }
-
-    const getWidthFio = (day, room) => {
-        let duration = 0;
-        for(const curBooking of booking) {
-            if (
-                curBooking.room == room._id
-                &&
-                moment(curBooking.startDate).milliseconds(0).second(0).minutes(0).hours(0).diff(day.date.milliseconds(0).second(0).minutes(0).hours(0)) == 0
-            ) {
-                duration = moment(curBooking.endDate).milliseconds(0).second(0).minutes(0).hours(0)
-                    .diff(moment(curBooking.startDate).milliseconds(0).second(0).minutes(0).hours(0), 'days');
-                break;
-            }
-        }
-        if(duration == 1)
-            return 50 + 'px';
-        else
-            return 100*duration-50+'px';
-    }
-
-    const isSelected = (day, room) => {
-        if(selected.start.day && !selected.end.day ) {
-            if(selected.start.day.format('DD.MM.YY') == day.date.format('DD.MM.YY') && selected.start.room == room._id) {
-                return isBooking(day, room) + ' d' + day.date.format('DD-MM-YY') + ' ' +styles.dayCell   + ' ' + styles.selected +' '+ styles.firstSelected;
-            }
-            else {
-                return isBooking(day, room) + ' d' + day.date.format('DD-MM-YY') + ' ' +styles.dayCell ;
-            }
-        }
-        else if(selected.start.day && selected.end.day && selected.start.room == room._id && selected.end.room == room._id) {
-            if(selected.start.day.diff(day.date) <= 0 && selected.end.day.diff(day.date) >= 0) {
-                if(selected.start.day.format('DD.MM.YY') == day.date.format('DD.MM.YY')) {
-                    return isBooking(day, room) + ' d' + day.date.format('DD-MM-YY') + ' ' +styles.dayCell   + ' ' + styles.selected + ' ' + styles.firstSelected;
-                }
-                else if(moment(selected.end.day).milliseconds(0).second(0).minutes(0).hours(0).diff(day.date.milliseconds(0).second(0).minutes(0).hours(0)) == 0) {
-                    return isBooking(day, room) + ' d' + day.date.format('DD-MM-YY') + ' ' +styles.dayCell  + ' ' + styles.selected + ' ' + styles.lastSelected;
-                }
-                else
-                    return isBooking(day, room) + ' d' + day.date.format('DD-MM-YY') + ' ' +styles.dayCell  + ' ' + styles.selected;
-            }
-            else {
-                return isBooking(day, room) + ' d' + day.date.format('DD-MM-YY') + ' ' +styles.dayCell ;
-            }
-        }
-        else {
-            return isBooking(day, room) + ' d' + day.date.format('DD-MM-YY') + ' ' +styles.dayCell;
-        }
-
-
-    }
-
 
     const NextWeek = () => {
         setStartDate(startDate.clone().add(7, 'days'));
@@ -244,7 +178,7 @@ export const Shahmatka = () => {
                     {daysList.map((day:TypeDay) =>
                         <div
                             onClick={()=>clickDayRoom(day, room)}
-                            className={isSelected(day, room)}
+                            className={isSelected(day, room, selected)}
                         >
                             <div className={styles.roomSubCell}></div>
                             <div className={styles.roomSubCellLeft}></div>

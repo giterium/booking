@@ -8,11 +8,11 @@ import {Loading} from '../components/Loading';
 import {LoadError} from '../components/LoadError';
 import {TitlePage} from '../components/TitlePage';
 import {TypeRoom} from '../reducers/rooms-reducers';
+import {RootState} from '../reducers';
 import {TypeBooking} from '../reducers/booking-reducers';
 import {useHistory} from "react-router";
 import moment, {Moment} from 'moment';
 import styles from '../css/booking.module.css';
-
 
 export interface IContextProps {
     openWindow: boolean;
@@ -25,14 +25,13 @@ export interface IContextProps {
 
 interface TypesProps {
     rooms: TypeRoom[];
-    auth: any;
-    hasErrored: any;
-    isLoading: any;
-    history: any;
+    hasErrored: boolean;
+    isLoading: boolean;
+    history: History;
     fetchDataRooms: Function;
     roomsHasErrored: Function;
     roomsIsLoading: Function;
-    router: any;
+    router: Function;
 }
 
 interface TypeItemSelected {
@@ -48,8 +47,8 @@ interface TypeSelected {
 export const WindowContext = React.createContext({} as IContextProps);
 
 export const Booking = ({props: TypesProps}) => {
-    const bookingIsLoading: any = useSelector((state: any) => state.bookingIsLoading, shallowEqual);
-    const bookingHasErrored: any = useSelector((state: any) => state.bookingHasErrored, shallowEqual);
+    const bookingIsLoading: Function = useSelector((state: RootState) => state.bookingIsLoading, shallowEqual);
+    const bookingHasErrored: Function = useSelector((state: RootState) => state.bookingHasErrored, shallowEqual);
     const [openWindow, setOpenWindow] = useState(false);
     const [currentBooking, setCurrentBooking] = useState<TypeBooking>({
         _id: 'create',
@@ -59,10 +58,10 @@ export const Booking = ({props: TypesProps}) => {
         startDate: moment(),
         endDate: moment()
     });
-    const rooms: TypeRoom[] = useSelector((state: any) => state.rooms, shallowEqual);
-    const booking: TypeBooking[] = useSelector((state: any) => state.booking, shallowEqual);
-    const history: any = useHistory();
-    const dispatch: any = useDispatch();
+    const rooms: TypeRoom[] = useSelector((state: RootState) => state.rooms, shallowEqual);
+    const booking: TypeBooking[] = useSelector((state: RootState) => state.booking, shallowEqual);
+    const history: History = useHistory();
+    const dispatch = useDispatch();
     const [selected, setSelected] = useState<TypeSelected>({
         start:{day:null, room:false},
         end:{day:null, room:false}
