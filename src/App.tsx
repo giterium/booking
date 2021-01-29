@@ -5,7 +5,7 @@ import './css/app.css';
 export const App = () => {
     return (
         <div id="wrapper">
-            <Booking props/>
+            <Booking />
         </div>
     )
 }

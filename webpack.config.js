@@ -1,13 +1,33 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+const plugins = require('./plugins');
+const ErrorOverlayWebpackPlugin = require("error-overlay-webpack-plugin");
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-    entry: './src/index.tsx',
+    entry: {
+        'app': [
+            'react-hot-loader/patch',
+            './src/index.tsx'
+        ]
+    },
+    target: 'web',
     devServer: {
-        hot: true
+        lazy: false,
+        liveReload: true,
+        //contentBase: path.resolve(__dirname, "./public"),
+        contentBasePublicPath:  path.resolve(__dirname, "./public"),
+        hot: true,
+        watchContentBase: true,
+        watchOptions: {
+            aggregateTimeout: 200,
+            poll: 1000
+        },
+        publicPath: '/'
     },
     output: {
-        path: path.resolve(__dirname, 'build'),
+        path: path.resolve(__dirname, './public'),
         filename: 'bundle.js',
     },
     resolve: {
@@ -16,6 +36,7 @@ module.exports = {
             react: path.join(__dirname, 'node_modules', 'react'),
         },
     },
+
     module: {
         rules: [
             {
@@ -38,18 +59,28 @@ module.exports = {
             },
             {
                 test: /\.tsx?/,
-                use: 'ts-loader',
+                use: ["eslint-loader", "ts-loader"],
                 exclude: /node_modules/,
                 //options: {configFile: 'tsconfig.webpack.json'}
             }
         ],
     },
+    devtool: 'source-map',
     resolve: {
         extensions: [ '.tsx', '.ts', '.js' ],
     },
     plugins: [
         new HtmlWebPackPlugin({
-            template: './src/index.html',
+            template: './index.html',
         }),
-    ],
+        plugins.ESLintPlugin,
+
+        new webpack.ProvidePlugin({
+            process: 'process/browser',
+        }),
+        new webpack.ProgressPlugin(),
+        new webpack.HotModuleReplacementPlugin({template: './index.html'}),
+        new ErrorOverlayWebpackPlugin(),
+
+    ]
 };

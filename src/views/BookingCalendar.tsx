@@ -13,14 +13,37 @@ export interface TypeDay {
     display: Date;
 }
 
-export const Shahmatka = () => {
-    const rooms: TypeRoom[] = useSelector((state: RootState) => state.rooms, shallowEqual);
-    const booking: TypeBooking[] = useSelector((state: RootState) => state.booking, shallowEqual);
+interface TypeItemSelected {
+    day: null | Moment;
+    room: string | boolean;
+}
+
+interface TypeSelected {
+    start: TypeItemSelected;
+    end: TypeItemSelected;
+}
+
+type CalendarProps = {
+    onChangeSelected: (selected: TypeSelected) => void;
+    onClickBooking: (id: string) => void;
+    selected?: TypeSelected;
+    rooms: TypeRoom[];
+    booking: TypeBooking[];
+};
+
+export const Calendar = (props : CalendarProps) => {
+    //const rooms: TypeRoom[] = useSelector((state: RootState) => state.rooms, shallowEqual);
+    //const booking: TypeBooking[] = useSelector((state: RootState) => state.booking, shallowEqual);
     const [startDate, setStartDate] = useState<Moment>(moment().milliseconds(0).second(0).minutes(0).hours(0));
     const [endDate, setEndDate] = useState<Moment>(moment().add(13,'days').milliseconds(0).second(0).minutes(0).hours(0));
     const [daysList, setDaysList] = useState<TypeDay[]>([]);
+    const [selected, setSelected] = useState<TypeSelected>({
+        start:{day:null, room:false},
+        end:{day:null, room:false}
+    });
 
-    const { openWindow, setOpenWindow, currentBooking, setCurrentBooking, selected, setSelected } = useContext<IContextProps>(WindowContext);
+    const { openWindow } = useContext<IContextProps>(WindowContext);
+
 
     const unSelected = () => {
         setSelected({
@@ -30,7 +53,7 @@ export const Shahmatka = () => {
     }
 
     const getBookingId = (day, room) => {
-        for(const curBooking of booking) {
+        for(const curBooking of props.booking) {
             if (
                 curBooking.room == room._id
                 &&
@@ -43,7 +66,7 @@ export const Shahmatka = () => {
     }
 
     const getBookingFio = (day, room) => {
-        for(const curBooking of booking) {
+        for(const curBooking of props.booking) {
             if (
                 curBooking.room == room._id
                 &&
@@ -57,14 +80,13 @@ export const Shahmatka = () => {
 
     const getWidthFio = (day, room) => {
         let duration = 0;
-        for(const curBooking of booking) {
+        for(const curBooking of props.booking) {
             if (
                 curBooking.room == room._id
                 &&
-                moment(curBooking.startDate).milliseconds(0).second(0).minutes(0).hours(0).diff(day.date.milliseconds(0).second(0).minutes(0).hours(0)) == 0
+                moment(timenull(curBooking.startDate)).diff(timenull(day.date)) == 0
             ) {
-                duration = moment(curBooking.endDate).milliseconds(0).second(0).minutes(0).hours(0)
-                    .diff(moment(curBooking.startDate).milliseconds(0).second(0).minutes(0).hours(0), 'days');
+                duration = moment(timenull(curBooking.endDate)).diff(moment(timenull(curBooking.startDate)), 'days');
                 break;
             }
         }
@@ -100,6 +122,8 @@ export const Shahmatka = () => {
                                     end: {day: day.date, room: room._id}
                                 })
                             }
+
+                            /*
                             setOpenWindow(true);
                             setCurrentBooking({
                                 _id: 'create',
@@ -109,6 +133,8 @@ export const Shahmatka = () => {
                                 startDate: selected.start.day.format('YYYY-MM-DD'),
                                 endDate: moment(day.date).format('YYYY-MM-DD')
                             });
+
+                             */
                         }
                     }
                     else {
@@ -125,11 +151,12 @@ export const Shahmatka = () => {
         }
     };
 
-
     const editBooking = (id) => {
-        const editBooking = booking.filter(item => item._id == id)[0];
-        setCurrentBooking(editBooking);
-        setOpenWindow(true);
+
+        //const editBooking = props.booking.filter(item => item._id == id)[0];
+        props.onClickBooking(id);
+        //setCurrentBooking(editBooking);
+        //setOpenWindow(true);
     }
 
     const NextWeek = () => {
@@ -143,14 +170,17 @@ export const Shahmatka = () => {
     };
 
     useEffect(() => {
-        if(!openWindow) {
-            unSelected();
-        }
-    }, [openWindow])
+        if(selected.end.day)
+            props.onChangeSelected(selected);
+    }, [selected]);
 
     useEffect(() => {
-        let list:TypeDay[] = [];
-        let current = startDate.clone();
+        setSelected(props.selected);
+    }, [props.selected]);
+
+    useEffect(() => {
+        const list:TypeDay[] = [];
+        const current = startDate.clone();
         while(current <= endDate){
             list.push({
                 date:current.clone(),
@@ -167,16 +197,17 @@ export const Shahmatka = () => {
             <div className={styles.headerRow}>
                 <div className={styles.headerCell}></div>
                 {daysList.map((day:TypeDay) =>
-                    <div className={styles.headerCell}>
+                    <div key={day.date+'-head'} className={styles.headerCell}>
                         {day.display}
                     </div>
                 )}
             </div>
-            {rooms.map((room:TypeRoom) =>
-                <div className={styles.roomRow}>
+            {props.rooms.map((room:TypeRoom) =>
+                <div className={styles.roomRow} key={room.num+'-col'}>
                     <div className={styles.roomCell}>№ {room.num}</div>
                     {daysList.map((day:TypeDay) =>
                         <div
+                            key={room.num+'-'+day.date+'-cell'}
                             onClick={()=>clickDayRoom(day, room)}
                             className={isSelected(day, room, selected)}
                         >

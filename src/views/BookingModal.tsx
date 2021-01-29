@@ -48,7 +48,12 @@ interface TypeRoomsOptions {
     value: string;
 }
 
-export const BookingModal = () => {
+type ModalProps = {
+    //onClickDay: Function;
+    onChangeBooking: any;
+};
+
+export const BookingModal = (props: ModalProps) => {
     const errors: any = useSelector((state: RootState) => state.errors, shallowEqual);
     const rooms: TypeRoom[] = useSelector((state: RootState) => state.rooms, shallowEqual);
     const booking: TypeBooking[] = useSelector((state: RootState) => state.booking, shallowEqual);
@@ -66,7 +71,7 @@ export const BookingModal = () => {
     EventBus.subscribe('bookingUpdatedAlert', (mode) => closeWindow(mode))
 
     useMemo(() => {
-        let roomsOptions: TypeRoomsOptions[] = [];
+        const roomsOptions: TypeRoomsOptions[] = [];
         rooms.map((room) => {
             roomsOptions.push({label: room.num, value: room._id})
         });
@@ -177,6 +182,22 @@ export const BookingModal = () => {
     }
 
     useEffect(() => {
+
+        const getCost = () => {
+            if (typeof rooms.filter((item) => item._id == currentBooking.room)[0] != 'undefined') {
+                setCost(Math.abs(
+                    moment(endDate).diff(moment(startDate), "days")
+                    *
+                    parseInt(rooms.filter((item) => item._id == currentBooking.room)[0].cost)
+                ))
+            }
+            else {
+                setCost(0)
+            }
+        }
+    }, [currentBooking]);
+
+    useEffect(() => {
         if(openWindow) {
             setDefRoomsOptions({
                 label: rooms.filter(room => room._id == currentBooking.room)[0].num,
@@ -219,6 +240,7 @@ export const BookingModal = () => {
     },[room, startDate, endDate])
 
     useEffect(() => {
+
         if ((selected.start.day && selected.end.day && currentBooking._id == 'create') || currentBooking._id != 'create') {
             if(currentBooking._id == 'create') {
                 if(moment(timenull(startDate)).isSame(timenull(endDate))) {
@@ -227,17 +249,19 @@ export const BookingModal = () => {
                     alert('Дата выезда и дата въезда должны различаться.')
                 }
                 else if(moment(startDate).diff(endDate, 'days') < 0 &&  isGoodDiapazon(moment(startDate), moment(endDate), room)) {
+
                     setSelected({
                         start: {day: moment(timenull(startDate)), room: room},
                         end: {day: moment(timenull(endDate)), room: room}
                     });
                 }
                 else if(moment(startDate).diff(endDate, 'days') > 0 && isGoodDiapazon(moment(endDate), moment(startDate), room)) {
+
                     setSelected({
                         start: {day: moment(timenull(endDate)), room: room},
                         end: {day: moment(timenull(startDate)), room: room}
                     })
-                    let date1 = startDate;
+                    const date1 = startDate;
                     setStartDate(endDate);
                     setEndDate(date1);
                 }
@@ -327,7 +351,9 @@ export const BookingModal = () => {
                 </td></tr>
                 <TableErrors errors={errors.room} />
 
-                <tr><td className={styles.cellModal}>Cost: </td><td>{cost} $</td></tr>
+                <tr><td className={styles.cellModal}>
+                    Cost: </td><td>{cost} $
+                </td></tr>
 
                 <br /><br /><br /><br /><br />
             </table>
