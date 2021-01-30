@@ -1,5 +1,5 @@
 import { TypeRoom } from '../reducers/rooms-reducers';
-import { rooms } from './data';
+import { rooms } from './rooms-data';
 
 import { ROOMS_FETCH_DATA_SUCCESS, ROOMS_IS_LOADING, ROOMS_HAS_ERRORED} from './types';
 

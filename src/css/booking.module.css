@@ -99,6 +99,9 @@
 .modalBoxButton button:first-child {
     margin-right: 15px;
 }
+.tableModal {
+    margin-bottom: 100px;
+}
 .deleteButton {
     position: relative;
     bottom: -20px;
@@ -154,7 +157,6 @@
 }
 .isLastBooking.firstSelected .roomSubCell  {
     margin-top: -42px;
-    margin-left: ;
     height: 43px;
     width: 50px;
     background: grey;

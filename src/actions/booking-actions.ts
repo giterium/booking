@@ -55,7 +55,7 @@ export function createBooking (booking: TypeBooking) {
         localStorage.setItem('booking', JSON.stringify(bookingList));
 
         dispatch({type: ADD_BOOKING_SUCCESS, payload: booking})
-        EventBus.dispatch('bookingUpdatedAlert', [2]);
+        EventBus.dispatch('bookingCloseWindow', []);
     }
 }
 
@@ -71,7 +71,7 @@ export function updateBooking (booking: TypeBooking, index: number) {
         localStorage.setItem('booking', JSON.stringify(bookingList));
 
         dispatch({type: UPDATE_BOOKING_SUCCESS, payload: [index, booking]});
-        EventBus.dispatch('bookingUpdatedAlert', [1]);
+        EventBus.dispatch('bookingCloseWindow', []);
     }
 }
 
@@ -86,7 +86,7 @@ export function deleteBooking (id: string, index:number) {
         localStorage.setItem('booking', JSON.stringify(bookingList));
 
         dispatch({type: DELETE_BOOKING_SUCCESS, payload: [index, id]});
-        EventBus.dispatch('bookingUpdatedAlert', [1]);
+        EventBus.dispatch('bookingCloseWindow', []);
     }
 }
 

@@ -2,12 +2,12 @@ import moment from "moment";
 import styles from "../css/booking.module.css";
 import { store } from '../configureStore';
 import {TypeBooking} from "../reducers/booking-reducers";
-//import {RootState} from "../reducers";
 
-export function isGoodDiapazon (startDate, endDate, id_room, curIdBooking = '') {
+export function isGoodRange (startDate, endDate, id_room, curIdBooking = '') {
 
     const booking:TypeBooking[] = store.getState().booking;
-    for(const curBooking of booking) {
+    const bookingSlice = booking.filter(item => item.room == id_room)
+    for(const curBooking of bookingSlice) {
         if(
             (
                 moment(timenull(startDate)).isAfter(timenull(curBooking.startDate)) && moment(timenull(startDate)).isBefore(timenull(curBooking.endDate))
@@ -18,8 +18,6 @@ export function isGoodDiapazon (startDate, endDate, id_room, curIdBooking = '') 
                 ||
                 moment(timenull(startDate)).isSame(timenull(curBooking.startDate)) && moment(timenull(endDate)).isSame(timenull(curBooking.endDate))
             )
-            &&
-            id_room == curBooking.room
             &&
             curIdBooking != curBooking._id
         ) {
@@ -39,11 +37,13 @@ export function timenull(date) {
 export const isBooking = (day, room) => {
 
     const booking:TypeBooking[] = store.getState().booking;
+    const bookingSlice = booking.filter(item => item.room == room._id)
+
     let is_booking = false;
     let is_first_booking = false;
     let is_last_booking = false;
 
-    booking.map(curBooking => {
+    for(const curBooking of bookingSlice) {
         if (
             moment(timenull(curBooking.startDate)).diff(timenull(day.date)) <= 0
             &&
@@ -59,7 +59,7 @@ export const isBooking = (day, room) => {
             }
             is_booking = true;
         }
-    })
+    }
     if(is_booking) {
         if(is_last_booking && is_first_booking)
             return styles.isBooking + ' '+styles.isFirstBooking+ ' '+styles.isLastBooking;
@@ -106,4 +106,3 @@ export const isSelected = (day, room, selected) => {
         return commonStylesCell(day, room);
     }
 }
-
