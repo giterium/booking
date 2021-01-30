@@ -35,7 +35,7 @@ const modalStyles = {
     }
 };
 
-Modal.setAppElement('#root')
+
 
 const customStyles = {
     control: (styles, isFocused) => ({ ...styles, backgroundColor: 'white', boxShadow: isFocused ? '' : '', border: isFocused ? '0px solid grey' : '0px solid grey' }),
@@ -182,6 +182,10 @@ export const BookingModal = (props: ModalProps) => {
     }
 
     useEffect(() => {
+        Modal.setAppElement('#root')
+    }, []);
+
+    useEffect(() => {
 
         const getCost = () => {
             if (typeof rooms.filter((item) => item._id == currentBooking.room)[0] != 'undefined') {
@@ -316,6 +320,7 @@ export const BookingModal = (props: ModalProps) => {
         <Modal
             isOpen={openWindow}
             style={modalStyles}
+            ariaHideApp={false}
         >
             <h2 className="titleModal">{(currentBooking._id == 'create') ? 'Adding a reservation' : currentBooking.fio} </h2>
             <br />
