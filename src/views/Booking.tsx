@@ -33,7 +33,7 @@ export const WindowContext = React.createContext<IContextProps>({});
 
 export const Booking = () => {
     const bookingIsLoading: boolean = useSelector((state: RootState) => state.bookingIsLoading, shallowEqual);
-    const bookingHasErrored: (a: boolean) => void = useSelector((state: RootState) => state.bookingHasErrored, shallowEqual);
+    const bookingHasErrored: (a: boolean) => boolean = useSelector((state: RootState) => state.bookingHasErrored, shallowEqual);
     const [openWindow, setOpenWindow] = useState(false);
     const [currentBooking, setCurrentBooking] = useState<TypeBooking>({
         _id: 'create',

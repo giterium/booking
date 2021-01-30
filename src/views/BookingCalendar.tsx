@@ -32,10 +32,10 @@ type CalendarProps = {
 };
 
 export const Calendar = (props : CalendarProps) => {
-    const [startDate, setStartDate] = useState<Moment>(props.startDate);
-    const [endDate, setEndDate] = useState<Moment>(props.endDate);
-    const [daysList, setDaysList] = useState<TypeDay[]>([]);
-    const [selected, setSelected] = useState<TypeSelected>({
+    const [startDate, setStartDate] = useState(props.startDate);
+    const [endDate, setEndDate] = useState(props.endDate);
+    const [daysList, setDaysList] = useState([]);
+    const [selected, setSelected] = useState({
         start:{day:null, room:false},
         end:{day:null, room:false}
     });
