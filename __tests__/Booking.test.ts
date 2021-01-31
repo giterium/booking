@@ -29,13 +29,7 @@ describe("Booking component", () => {
         jest.clearAllMocks();
     });
 
-    it('renders BOOKING, when window is open', () => {
-        const wrapper = mount(<Provider store={store}><Booking /></Provider>);
-        expect(wrapper.exists('#wrapper')).toEqual(true);
-
-    });
-
-    it('renders BOOKING, when window is open', () => {
+    it('should renders Booking', () => {
         const wrapper = mount(<Provider store={store}><Booking /></Provider>);
         expect(wrapper.exists('#wrapper')).toEqual(true);
     });
@@ -52,5 +46,23 @@ describe("Booking component", () => {
         wrapper.find(".bookingCellFio").first().simulate('click')
         expect(wrapper.find('.cost').text()).toBe('200');
     });
+
+    it("should selected cell in Booking", () => {
+        const wrapper = mount( <Provider store={store}><Booking /></Provider>)
+        wrapper.find(".cell").first().simulate('click')
+        wrapper.find(".cell").last().simulate('click')
+        expect(wrapper.find('.selected')).toHaveLength(14);
+    });
+
+    it("should alert error when startDate and endDate in editable booking equal", (done) => {
+        jest.spyOn(window, 'alert').mockImplementation(() => {})
+        const wrapper = mount( <Provider store={store}><Booking /></Provider>)
+        wrapper.find(".bookingCellFio").first().simulate('click')
+        const dateInput = wrapper.find(".endDatePicker").last();
+        dateInput.simulate('change', {target: { value: moment().toDate() }});
+        done();
+        expect(window.alert).toBeCalledWith('Дата выезда и дата въезда должны различаться.');
+    });
+
 
 });

@@ -6,7 +6,7 @@ import {shallowWithContext} from 'shallow-with-context';
 const mockStore = configureStore([]);
 import "regenerator-runtime/runtime";
 
-describe("Booking component", () => {
+describe("Booking Modal component", () => {
     let store;
     const setState = jest.fn();
     const useStateSpy = jest.spyOn(React, "useState")

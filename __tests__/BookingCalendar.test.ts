@@ -4,7 +4,7 @@ import "regenerator-runtime/runtime";
 import {timenull} from "../src/helpers/booking-helpers";
 import moment from "moment";
 
-describe("Booking component", () => {
+describe("Booking Calendar component", () => {
     let rooms = [{
         _id: '233422323',
         num: 23,

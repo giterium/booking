@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render TableInput component should render TableInput component 1`] = `
+"<tr>
+  <td className=\\"updateFieldTitle\\">
+    :
+  </td>
+  <td>
+    <input type=\\"text\\" className=\\"\\" name={[undefined]} onChange={[undefined]} onFocus={[undefined]} onClick={[undefined]} onKeyUp={[undefined]} onKeyPress={[undefined]} defaultValue={[undefined]} />
+  </td>
+</tr>"
+`;
