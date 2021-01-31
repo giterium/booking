@@ -1,6 +1,4 @@
-import { Action } from 'redux'
 import { ROOMS_FETCH_DATA_SUCCESS, ROOMS_IS_LOADING, ROOMS_HAS_ERRORED, CLEAR_ERRORS, DELETE_ROOMS, DELETE_ROOMS_SUCCESS, UPDATE_ROOMS, UPDATE_ROOMS_SUCCESS, UPDATE_ROOMS_ERRORS, ADD_ROOMS, ADD_ROOMS_SUCCESS, ADD_ROOMS_ERRORS } from '../actions/types';
-import {RootState} from "./index";
 
 export interface TypeRoom {
     _id: string;

@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { BookingModal } from "../src/views/BookingModal";
 import { Provider } from "react-redux";
 import configureStore from 'redux-mock-store';
-import {shallowWithContext} from 'shallow-with-context';
 const mockStore = configureStore([]);
 import "regenerator-runtime/runtime";
 

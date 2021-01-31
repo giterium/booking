@@ -4,7 +4,6 @@ import { Provider } from "react-redux";
 import configureStore from 'redux-mock-store';
 const mockStore = configureStore([]);
 import "regenerator-runtime/runtime";
-import {Calendar} from "../src/views/BookingCalendar";
 import moment from "moment";
 
 

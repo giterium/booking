@@ -2,6 +2,7 @@ import {store} from '../src/configureStore';
 import "regenerator-runtime/runtime";
 import * as selectActions from "../src/actions/booking-actions";
 import moment from "moment";
+import {BOOKING_FETCH_DATA_SUCCESS} from "../src/actions/types";
 
 describe('Booking actions', () => {
     test('Should dispatches correct itemsBookingFetchData', () => {
@@ -23,5 +24,18 @@ describe('Booking actions', () => {
     test('Should dispatches correct updateBooking', () => {
         store.dispatch(selectActions.deleteBooking(0));
         expect(store.getState().booking.length).toEqual(0);
+    });
+
+    test('Should dispatches correct bookingHasErrored', () => {
+        store.dispatch(selectActions.bookingHasErrored(true));
+        expect(store.getState().bookingHasErrored).toEqual(true);
+    });
+
+    test('Should dispatches correct bookingFetchDataSuccess', () => {
+        const result = {
+            type: 'BOOKING_FETCH_DATA_SUCCESS',
+            booking: []
+        }
+        expect(store.dispatch(selectActions.bookingFetchDataSuccess([]))).toEqual(result);
     });
 });

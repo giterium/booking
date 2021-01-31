@@ -33,11 +33,11 @@ export function itemsBookingFetchData(url: string) {
             bookingList = JSON.parse(bookingStore);
 
         dispatch(bookingHasErrored(false));
-        //setTimeout(() => {
+        setTimeout(() => {
             dispatch(bookingIsLoading(false));
 
             dispatch(bookingFetchDataSuccess(bookingList || []));
-        //}, 500);
+        }, 500);
 
     };
 }
