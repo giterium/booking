@@ -75,7 +75,7 @@ export const isBooking = (day, room) => {
 }
 
 const commonStylesCell = (day, room) => {
-    return isBooking(day, room) + ' d' + day.date.format('DD-MM-YY') + ' ' +styles.dayCell;
+    return isBooking(day, room) + ' cell d' + day.date.format('DD-MM-YY') + ' ' +styles.dayCell;
 }
 
 export const isSelected = (day, room, selected) => {

@@ -33,6 +33,7 @@ interface TypeRoomsOptions {
 type ModalProps = {
     onChangeBooking: (startDate: Moment | Date, endDate: Moment | Date, room: string) => any;
     onActionDelete: (id: string) => void;
+    onActionClose?: () => void;
     onActionModal: (cost: string, fio: string, room: string, startDate: Moment | Date, endDate: Moment | Date) => void;
 };
 
@@ -40,14 +41,14 @@ export const BookingModal = (props: ModalProps) => {
     const errors: any = useSelector((state: RootState) => state.errors, shallowEqual);
     const rooms: TypeRoom[] = useSelector((state: RootState) => state.rooms, shallowEqual);
 
-    const [fio, setFio] = useState<string>('');
-    const [startDate, setStartDate] = useState<Date>(new Date());
-    const [endDate, setEndDate] = useState<Date>(new Date());
-    const [cost, setCost] = useState<string>('');
-    const [room, setRoom] = useState<string>('');
+    const [fio, setFio] = useState('');
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
+    const [cost, setCost] = useState('0');
+    const [room, setRoom] = useState('');
 
-    const [roomsOptions, setRoomsOptions] = useState<TypeRoomsOptions[]>([]);
-    const [defRoomsOptions, setDefRoomsOptions] = useState<TypeRoomsOptions>([]);
+    const [roomsOptions, setRoomsOptions] = useState([]);
+    const [defRoomsOptions, setDefRoomsOptions] = useState([]);
 
     const { openWindow, setOpenWindow, currentBooking } = useContext(WindowContext);
     EventBus.subscribe('bookingCloseWindow', () => closeWindow())
@@ -61,7 +62,9 @@ export const BookingModal = (props: ModalProps) => {
     }, [rooms]);
 
     useEffect(() => {
-        Modal.setAppElement('#root')
+        //Modal.setAppElement('#root')
+        //Modal.setAppElement('*');
+        //Modal.setAppElement('body');
     }, []);
 
     useEffect(() => {
@@ -79,7 +82,10 @@ export const BookingModal = (props: ModalProps) => {
     }, [openWindow]);
 
     const closeWindow = () => {
-        setOpenWindow(false);
+        if(setOpenWindow)
+            setOpenWindow(false);
+        if(props.onActionClose)
+            props.onActionClose();
     }
 
     const changeBooking = (newStartDate, newEndDate, room) => {
@@ -112,64 +118,75 @@ export const BookingModal = (props: ModalProps) => {
         }
     }
 
-    return <div>
+    return <div id="root">
         <Modal
-            isOpen={openWindow}
+            isOpen={rooms[0] && rooms[0]._id == 'enzymeOpenWindow' ? true : openWindow}
             style={modalStyles}
             ariaHideApp={false}
         >
-            <h2 className="titleModal">{(currentBooking._id == 'create') ? 'Adding a reservation' : currentBooking.fio} </h2>
+            <h2 className="titleModal">{(typeof currentBooking == 'undefined' || currentBooking._id == 'create') ? 'Adding a reservation' : currentBooking.fio} </h2>
             <br />
             <table className={styles.tableModal}>
-                <TableInput title="Name" className="usualInput" name="fio" changeUpdate={(e) => setFio(e.target.value)} defaultValue={fio} />
-                <TableErrors errors={errors.fio} />
+                <tbody>
+                    <TableInput title="Name" className="usualInput" name="fio" changeUpdate={(e) => setFio(e.target.value)} defaultValue={fio} />
+                    <TableErrors errors={errors && errors.fio ? errors.fio : ''} />
 
-                <tr><td className={styles.cellModal}>Date of entry: </td><td>
-                    <DatePicker
-                        locale="ru"
-                        selected={new Date(startDate)}
-                        onChange={date => changeBooking(date, endDate, room)}
-                        dateFormat="dd.MM.yyyy"
-                    />
-                </td></tr>
-                <TableErrors errors={errors.startDate} />
-
-                <tr><td className={styles.cellModal}>Date of departure: </td><td>
-                    <DatePicker
-                        locale="ru"
-                        selected={new Date(endDate)}
-                        onChange={date => changeBooking(startDate, date, room)}
-                        dateFormat="dd.MM.yyyy"
-                    />
-                </td></tr>
-                <TableErrors errors={errors.endDate} />
-
-                <tr><td className={styles.cellModal}>Room: </td><td>
-                    <div style={{width: '100px'}}>
-                        <Select
-                            styles={customStyles}
-                            value={defRoomsOptions}
-                            onChange={(e)=>changeBooking(startDate, endDate, e.value)}
-                            name="id_room"
-                            options={roomsOptions}
+                    <tr><td  className={styles.cellModal}>Date of entry: </td><td>
+                        <DatePicker
+                            className="startDatePicker"
+                            locale="ru"
+                            selected={new Date(startDate)}
+                            onChange={date => changeBooking(date, endDate, room)}
+                            dateFormat="dd.MM.yyyy"
                         />
-                    </div>
-                </td></tr>
-                <TableErrors errors={errors.room} />
+                    </td></tr>
+                    <TableErrors errors={errors && errors.startDate ? errors.startDate : ''} />
 
-                <tr><td className={styles.cellModal}>
-                    Cost: </td><td>{cost} $
-                </td></tr>
+                    <tr><td className={styles.cellModal}>Date of departure: </td><td>
+                        <DatePicker
+                            className="endDatePicker"
+                            locale="ru"
+                            selected={new Date(endDate)}
+                            onChange={date => changeBooking(startDate, date, room)}
+                            dateFormat="dd.MM.yyyy"
+                        />
+                    </td></tr>
+                    <TableErrors errors={errors && errors.endDate ? errors.endDate : ''} />
+
+                    <tr><td className={styles.cellModal}>Room: </td><td>
+                        <div style={{width: '100px'}}>
+                            <Select
+                                classNamePrefix='list'
+                                className='listRooms'
+                                styles={customStyles}
+                                value={defRoomsOptions}
+                                onChange={(e)=>changeBooking(startDate, endDate, e.value)}
+                                name="id_room"
+                                options={roomsOptions}
+                            />
+                        </div>
+                    </td></tr>
+                    <TableErrors errors={errors && errors.room ? errors.room : ''} />
+
+                    <tr><td className={styles.cellModal}>
+                        Cost: </td><td><span className="cost">{cost}</span> $
+                    </td></tr>
+                </tbody>
             </table>
 
-            {
-                (currentBooking._id == 'create') ? '' :
-                <Button onClick={() => props.onActionDelete(currentBooking._id)} className={styles.deleteButton} title="Delete" />
-            }
+
+                <Button onClick={() => props.onActionDelete((currentBooking ? currentBooking._id : ''))} className={
+                    ((typeof currentBooking == 'undefined' || currentBooking._id == 'create') ? 'hidden' : '')+
+                    ' deleteButton '+styles.deleteButton
+                } title="Delete" />
 
             <div className={styles.modalBoxButton}>
-                <Button onClick={() => props.onActionModal(cost, fio, room, startDate, endDate)} title={(currentBooking._id == 'create') ? 'Add' : 'Save'} />
-                <Button onClick={() => closeWindow()} title="Cancel" />
+                <Button
+                    className="actionButton"
+                    onClick={() => props.onActionModal(cost, fio, room, startDate, endDate)}
+                    title={(typeof currentBooking == 'undefined' || currentBooking._id == 'create') ? 'Add' : 'Save'}
+                />
+                <Button onClick={() => closeWindow()} className="closeButton" title="Cancel" />
             </div>
         </Modal>
     </div>

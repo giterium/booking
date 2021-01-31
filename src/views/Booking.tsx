@@ -29,13 +29,13 @@ interface TypeSelected {
     end: TypeItemSelected;
 }
 
-export const WindowContext = React.createContext<IContextProps>({});
+export const WindowContext = React.createContext({});
 
 export const Booking = () => {
     const bookingIsLoading: boolean = useSelector((state: RootState) => state.bookingIsLoading, shallowEqual);
     const bookingHasErrored: (a: boolean) => boolean = useSelector((state: RootState) => state.bookingHasErrored, shallowEqual);
     const [openWindow, setOpenWindow] = useState(false);
-    const [currentBooking, setCurrentBooking] = useState<TypeBooking>({
+    const [currentBooking, setCurrentBooking] = useState({
         _id: 'create',
         fio: '',
         cost: '',
@@ -46,7 +46,7 @@ export const Booking = () => {
     const rooms: TypeRoom[] = useSelector((state: RootState) => state.rooms, shallowEqual)
     const booking: TypeBooking[] = useSelector((state: RootState) => state.booking, shallowEqual)
     const dispatch = useDispatch()
-    const [selected, setSelected] = useState<TypeSelected>({
+    const [selected, setSelected] = useState({
         start:{day:null, room:false},
         end:{day:null, room:false}
     })
