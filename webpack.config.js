@@ -1,30 +1,31 @@
 const path = require('path');
-const HtmlWebPackPlugin = require('html-webpack-plugin');
-
+const webpack = require('webpack');
+const plugins = require('./plugins');
+const ErrorOverlayWebpackPlugin = require("error-overlay-webpack-plugin");
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
-    entry: './src/index.tsx',
+    mode: 'development',
     devServer: {
-        hot: true
+        contentBase: path.join(__dirname, 'public'),
+        port: 8080,
+        host: `localhost`,
+    },
+    target: 'web',
+    entry: {
+
+        app: [
+            'webpack-hot-middleware/client',
+            './src/index.tsx'
+        ]
     },
     output: {
-        path: path.resolve(__dirname, 'build'),
-        filename: 'bundle.js',
+        path: path.join(__dirname, 'dist'),
+        publicPath: '/',
+        filename: `[name].js`,
     },
-    resolve: {
-        modules: [path.join(__dirname, 'src'), 'node_modules'],
-        alias: {
-            react: path.join(__dirname, 'node_modules', 'react'),
-        },
-    },
+    devtool: 'cheap-module-source-map',
     module: {
         rules: [
-            {
-                test: /\.(js|jsx)$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                },
-            },
             {
                 test: /\.css$/,
                 use: [
@@ -37,19 +38,49 @@ module.exports = {
                 ],
             },
             {
+                test: /\.js$/,
+                exclude: /(node_modules|bower_components)/,
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: [
+                                [
+                                    '@babel/preset-env',
+                                    {
+                                        'modules': false,//commonjs,amd,umd,systemjs,auto
+                                        'useBuiltIns': 'usage',
+                                        'targets': '> 0.25%, not dead',
+                                        'corejs': 3
+                                    }
+                                ]
+                            ]
+                        }
+                    }
+                ]
+            },
+            {
                 test: /\.tsx?/,
-                use: 'ts-loader',
+                use: ["eslint-loader", "ts-loader"],
                 exclude: /node_modules/,
                 //options: {configFile: 'tsconfig.webpack.json'}
             }
-        ],
+        ]
     },
     resolve: {
+        modules: [path.join(__dirname, 'src'), 'node_modules'],
+        alias: {
+            react: path.join(__dirname, 'node_modules', 'react'),
+        },
         extensions: [ '.tsx', '.ts', '.js' ],
     },
     plugins: [
-        new HtmlWebPackPlugin({
-            template: './src/index.html',
+        new CleanWebpackPlugin(),
+        plugins.ESLintPlugin,
+        new webpack.ProvidePlugin({
+            process: 'process/browser',
         }),
+        new ErrorOverlayWebpackPlugin(),
     ],
+
 };

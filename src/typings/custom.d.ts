@@ -22,3 +22,9 @@ declare module '*.module.styl' {
     const classes: { [key: string]: string };
     export default classes;
 }
+
+declare var module : {
+    hot : {
+        accept(path?:string, callback?:() => void): void;
+    };
+};

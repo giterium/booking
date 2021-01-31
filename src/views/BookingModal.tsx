@@ -1,41 +1,23 @@
 import React, {useEffect, useState, useContext, useMemo}  from 'react';
 import {TypeRoom} from "../reducers/rooms-reducers";
-//import {RootState} from "../reducers";
 import {WindowContext} from './Booking';
 import Modal from 'react-modal';
 import {TableInput} from "../components/TableInput";
 import {TableErrors} from "../components/TableErrors";
-import {shallowEqual, useSelector, useDispatch} from "react-redux";
-import {createBooking, updateBooking, clearErrors, deleteBooking} from "../actions/booking-actions";
+import {Button} from "../components/Button";
+import {shallowEqual, useSelector} from "react-redux";
 import styles from '../css/booking.module.css';
-import moment from "moment";
-import DatePicker, { registerLocale } from "react-datepicker";
+import moment, {Moment} from "moment";
+import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Select from 'react-select';
 import {EventBus} from "../events";
-import {isGoodDiapazon, timenull} from "../helpers/booking-helpers";
-import {TypeBooking} from "../reducers/booking-reducers";
 import {RootState} from "../reducers";
-//import ru from 'date-fns/locale/ru';
-//registerLocale('ru', ru);
 
 const modalStyles = {
-    overlay: {
-        zIndex: 100
-    },
-    content : {
-        top                   : '50%',
-        left                  : '50%',
-        right                 : 'auto',
-        bottom                : 'auto',
-        marginRight           : '-50%',
-        boxShadow            : '0 0 10px rgba(0,0,0,0.5)',
-        width            : '500px',
-        transform             : 'translate(-50%, -50%)'
-    }
+    overlay: { zIndex: 100 },
+    content : {top : '50%', left : '50%', right : 'auto', bottom : 'auto', marginRight : '-50%', boxShadow : '0 0 10px rgba(0,0,0,0.5)', width : '500px', transform  : 'translate(-50%, -50%)'}
 };
-
-Modal.setAppElement('#root')
 
 const customStyles = {
     control: (styles, isFocused) => ({ ...styles, backgroundColor: 'white', boxShadow: isFocused ? '' : '', border: isFocused ? '0px solid grey' : '0px solid grey' }),
@@ -48,133 +30,42 @@ interface TypeRoomsOptions {
     value: string;
 }
 
-export const BookingModal = () => {
+type ModalProps = {
+    onChangeBooking: (startDate: Moment | Date, endDate: Moment | Date, room: string) => any;
+    onActionDelete: (id: string) => void;
+    onActionClose?: () => void;
+    onActionModal: (cost: string, fio: string, room: string, startDate: Moment | Date, endDate: Moment | Date) => void;
+};
+
+export const BookingModal = (props: ModalProps) => {
     const errors: any = useSelector((state: RootState) => state.errors, shallowEqual);
     const rooms: TypeRoom[] = useSelector((state: RootState) => state.rooms, shallowEqual);
-    const booking: TypeBooking[] = useSelector((state: RootState) => state.booking, shallowEqual);
 
-    const [fio, setFio] = useState<string>('');
-    const [startDate, setStartDate] = useState<Date>(new Date());
-    const [endDate, setEndDate] = useState<Date>(new Date());
-    const [cost, setCost] = useState<string>('');
-    const [room, setRoom] = useState<string>('');
-    const [roomsOptions, setRoomsOptions] = useState<TypeRoomsOptions[]>([]);
-    const [defRoomsOptions, setDefRoomsOptions] = useState<TypeRoomsOptions>([]);
+    const [fio, setFio] = useState('');
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
+    const [cost, setCost] = useState('0');
+    const [room, setRoom] = useState('');
 
-    const dispatch = useDispatch();
-    const { openWindow, setOpenWindow, currentBooking, setCurrentBooking, selected, setSelected } = useContext(WindowContext);
-    EventBus.subscribe('bookingUpdatedAlert', (mode) => closeWindow(mode))
+    const [roomsOptions, setRoomsOptions] = useState([]);
+    const [defRoomsOptions, setDefRoomsOptions] = useState([]);
+
+    const { openWindow, setOpenWindow, currentBooking } = useContext(WindowContext);
+    EventBus.subscribe('bookingCloseWindow', () => closeWindow())
 
     useMemo(() => {
-        let roomsOptions: TypeRoomsOptions[] = [];
+        const roomsOptions: TypeRoomsOptions[] = [];
         rooms.map((room) => {
             roomsOptions.push({label: room.num, value: room._id})
         });
         setRoomsOptions(roomsOptions);
-    },[rooms]);
+    }, [rooms]);
 
-    const closeWindow = (mode) => {
-        if(mode == 2) {
-            setOpenWindow(false);
-        }
-        if(mode == 1) {
-            setOpenWindow(false);
-        }
-    }
-
-    const actionDelete = () => {
-        if(confirm('Delete?'))
-            dispatch(deleteBooking(currentBooking._id, booking.findIndex(item => item._id == currentBooking._id)));
-    }
-
-    const actionModal = () => {
-        if(currentBooking._id == 'create') {
-            dispatch(createBooking({
-                _id: currentBooking._id,
-                cost: currentBooking.cost,
-                fio: fio,
-                room: currentBooking.room,
-                startDate: currentBooking.startDate,
-                endDate: currentBooking.endDate
-            }));
-        }
-        else {
-            dispatch(updateBooking({
-                _id: currentBooking._id,
-                cost: currentBooking.cost,
-                fio: fio,
-                room: currentBooking.room,
-                startDate: currentBooking.startDate,
-                endDate: currentBooking.endDate
-            }, booking.findIndex(item => item._id == currentBooking._id)));
-        }
-    }
-
-    const changeRoom = (e) => {
-        if(
-            currentBooking
-            &&
-            (
-                (
-                    selected && selected.end && selected.start && selected.start.day && selected.end.day
-                    &&
-                    currentBooking._id == 'create'
-                    &&
-                    isGoodDiapazon(moment(startDate), moment(endDate), e.value, booking)
-                )
-                ||
-                (
-                    currentBooking._id != 'create'
-                    &&
-                    isGoodDiapazon(moment(startDate), moment(endDate), e.value, booking, currentBooking._id)
-                )
-            )
-        ) {
-            const room = rooms.filter((room) => room._id == e.value)[0];
-            if(currentBooking._id == 'create' && selected && selected.end && selected.start && selected.start.day && selected.end.day) {
-                setSelected({
-                    start: {day: moment(startDate), room: e.value},
-                    end: {day: moment(endDate), room: e.value}
-                });
-
-                setCurrentBooking({
-                    _id: currentBooking._id,
-                    cost: Math.abs(selected.end.day.diff(selected.start.day, "days") * parseInt(room.cost)),
-                    fio: fio,
-                    room: e.value,
-                    startDate: currentBooking.startDate,
-                    endDate: currentBooking.endDate
-                });
-            }
-            else {
-                setCurrentBooking({
-                    _id: currentBooking._id,
-                    cost: Math.abs(moment(endDate).diff(moment(startDate), "days") * parseInt(room.cost)),
-                    fio: fio,
-                    room: e.value,
-                    startDate: currentBooking.startDate,
-                    endDate: currentBooking.endDate
-                });
-            }
-
-            setRoom(e.value);
-            setDefRoomsOptions({
-                label: room.num,
-                value: currentBooking.room
-            })
-        }
-        else {
-            setDefRoomsOptions({
-                label: rooms.filter(room => room._id == currentBooking.room)[0].num,
-                value: currentBooking.room
-            })
-            alert('Этот номер в это время занят.')
-        }
-    }
-
-    const closeModal = () => {
-        setOpenWindow(false);
-    }
+    useEffect(() => {
+        //Modal.setAppElement('#root')
+        //Modal.setAppElement('*');
+        //Modal.setAppElement('body');
+    }, []);
 
     useEffect(() => {
         if(openWindow) {
@@ -188,156 +79,115 @@ export const BookingModal = () => {
             setCost(currentBooking.cost)
             setRoom(currentBooking.room)
         }
-        else {
-            dispatch(clearErrors())
-        }
     }, [openWindow]);
 
-    useEffect( ()=> {
-        if(selected && selected.end && selected.start && selected.start.day && selected.end.day && room) {
-            const curRoom = rooms.filter((item) => item._id == room)[0];
-            const cost = Math.abs(selected.end.day.diff(selected.start.day, "days") * parseInt(curRoom.cost));
-            setCurrentBooking({
-                _id: currentBooking._id,
-                fio: fio,
-                cost: cost,
-                room: currentBooking.room,
-                startDate: selected.start.day.format('YYYY-MM-DD'),
-                endDate: selected.end.day.format('YYYY-MM-DD')
-            });
-            setCost(cost+'');
-        }
-    },[room, selected])
+    const closeWindow = () => {
+        if(setOpenWindow)
+            setOpenWindow(false);
+        if(props.onActionClose)
+            props.onActionClose();
+    }
 
-
-    useEffect( ()=> {
-        if(currentBooking._id != 'create') {
-            const curRoom = rooms.filter((item) => item._id == room)[0];
-            const cost = Math.abs(moment(startDate).diff(moment(endDate), "days") * parseInt(curRoom.cost));
-            setCost(cost+'');
-        }
-    },[room, startDate, endDate])
-
-    useEffect(() => {
-        if ((selected.start.day && selected.end.day && currentBooking._id == 'create') || currentBooking._id != 'create') {
-            if(currentBooking._id == 'create') {
-                if(moment(timenull(startDate)).isSame(timenull(endDate))) {
-                    setStartDate(selected.start.day.toDate());
-                    setEndDate(selected.end.day.toDate());
-                    alert('Дата выезда и дата въезда должны различаться.')
-                }
-                else if(moment(startDate).diff(endDate, 'days') < 0 &&  isGoodDiapazon(moment(startDate), moment(endDate), room, booking)) {
-                    setSelected({
-                        start: {day: moment(timenull(startDate)), room: room},
-                        end: {day: moment(timenull(endDate)), room: room}
-                    });
-                }
-                else if(moment(startDate).diff(endDate, 'days') > 0 && isGoodDiapazon(moment(endDate), moment(startDate), room, booking)) {
-                    setSelected({
-                        start: {day: moment(timenull(endDate)), room: room},
-                        end: {day: moment(timenull(startDate)), room: room}
-                    })
-                    let date1 = startDate;
-                    setStartDate(endDate);
-                    setEndDate(date1);
-                }
-                else {
-                    setStartDate(new Date(selected.start.day.format('YYYY-MM-DD')));
-                    setEndDate(new Date(selected.end.day.format('YYYY-MM-DD')));
-                    alert('На этот дипазон уже назначено бронирование.')
-                }
+    const changeBooking = (newStartDate, newEndDate, room) => {
+        let result = props.onChangeBooking(newStartDate, newEndDate, room);
+        if(typeof result != 'undefined') {
+            if (result === true) {
+                const curRoom = rooms.filter((item) => item._id == room)[0];
+                setStartDate(newStartDate)
+                setEndDate(newEndDate)
+                setRoom(room)
+                setDefRoomsOptions({
+                    label: curRoom.num,
+                    value: room
+                })
+                const cost = Math.abs(moment(startDate).diff(moment(endDate), "days") * parseInt(curRoom.cost));
+                setCost(cost+'');
             }
             else {
-                if(moment(timenull(startDate)).isSame(timenull(endDate))) {
-                    setStartDate(new Date(currentBooking.startDate))
-                    setEndDate(new Date(currentBooking.endDate))
-                    alert('Дата выезда и дата въезда должны различаться.')
-                }
-                else if(moment(startDate).diff(endDate, 'days') < 0 && isGoodDiapazon(moment(startDate), moment(endDate), room, booking, currentBooking._id)) {
-                    const curRoom = rooms.filter((item) => item._id == room)[0];
-                    const cost = Math.abs(moment(startDate).diff(moment(endDate), "days") * parseInt(curRoom.cost));
-
-                    setCurrentBooking({
-                        _id: currentBooking._id,
-                        fio: fio,
-                        cost: cost,
-                        room: currentBooking.room,
-                        startDate: moment(startDate).format('YYYY-MM-DD'),
-                        endDate: moment(endDate).format('YYYY-MM-DD')
-                    });
-                }
-                else if(moment(startDate).diff(endDate, 'days') > 0 && isGoodDiapazon(moment(endDate), moment(startDate), room, booking, currentBooking._id)) {
-                    const curRoom = rooms.filter((item) => item._id == room)[0];
-                    const cost = Math.abs(moment(endDate).diff(moment(startDate), "days") * parseInt(curRoom.cost));
-
-                    setCurrentBooking({
-                        _id: currentBooking._id,
-                        fio: fio,
-                        cost: cost,
-                        room: currentBooking.room,
-                        startDate: moment(endDate).format('YYYY-MM-DD'),
-                        endDate: moment(startDate).format('YYYY-MM-DD')
-                    });
-                }
-                else {
-                    setStartDate(new Date(currentBooking.startDate));
-                    setEndDate(new Date(currentBooking.endDate));
-                    alert('На этот дипазон уже назначено бронирование.')
-                }
+                const curRoom = rooms.filter((item) => item._id == result[2])[0];
+                setStartDate(result[0])
+                setEndDate(result[1])
+                setRoom(result[2])
+                setDefRoomsOptions({
+                    label: curRoom.num,
+                    value: result[2]
+                })
+                const cost = Math.abs(moment(startDate).diff(moment(endDate), "days") * parseInt(curRoom.cost));
+                setCost(cost+'');
             }
         }
-    }, [startDate, endDate]);
+    }
 
-    return <div>
+    return <div id="root">
         <Modal
-            isOpen={openWindow}
+            isOpen={rooms[0] && rooms[0]._id == 'enzymeOpenWindow' ? true : openWindow}
             style={modalStyles}
+            ariaHideApp={false}
         >
-            <h2 className="titleModal">{(currentBooking._id == 'create') ? 'Adding a reservation' : currentBooking.fio} </h2>
+            <h2 className="titleModal">{(typeof currentBooking == 'undefined' || currentBooking._id == 'create') ? 'Adding a reservation' : currentBooking.fio} </h2>
             <br />
-            <table className="tableUpdateDept">
-                <TableInput title="Name" className="usualInput" name="fio" changeUpdate={(e) => setFio(e.target.value)} defaultValue={fio} />
-                <TableErrors errors={errors.fio} />
+            <table className={styles.tableModal}>
+                <tbody>
+                    <TableInput title="Name" className="usualInput" name="fio" changeUpdate={(e) => setFio(e.target.value)} defaultValue={fio} />
+                    <TableErrors errors={errors && errors.fio ? errors.fio : ''} />
 
-                <tr><td className={styles.cellModal}>Date of entry: </td><td>
-                    <DatePicker
-                        locale="ru"
-                        selected={new Date(startDate)}
-                        onChange={date => setStartDate(date)}
-                        dateFormat="dd.MM.yyyy"
+                    <tr><td  className={styles.cellModal}>Date of entry: </td><td>
+                        <DatePicker
+                            className="startDatePicker"
+                            locale="ru"
+                            selected={new Date(startDate)}
+                            onChange={date => changeBooking(date, endDate, room)}
+                            dateFormat="dd.MM.yyyy"
+                        />
+                    </td></tr>
+                    <TableErrors errors={errors && errors.startDate ? errors.startDate : ''} />
 
-                    />
-                </td></tr>
-                <TableErrors errors={errors.startDate} />
+                    <tr><td className={styles.cellModal}>Date of departure: </td><td>
+                        <DatePicker
+                            className="endDatePicker"
+                            locale="ru"
+                            selected={new Date(endDate)}
+                            onChange={date => changeBooking(startDate, date, room)}
+                            dateFormat="dd.MM.yyyy"
+                        />
+                    </td></tr>
+                    <TableErrors errors={errors && errors.endDate ? errors.endDate : ''} />
 
-                <tr><td className={styles.cellModal}>Date of departure: </td><td>
-                    <DatePicker
-                        locale="ru"
-                        selected={new Date(endDate)}
-                        onChange={date => setEndDate(date)}
-                        dateFormat="dd.MM.yyyy"
-                    />
-                </td></tr>
-                <TableErrors errors={errors.endDate} />
+                    <tr><td className={styles.cellModal}>Room: </td><td>
+                        <div style={{width: '100px'}}>
+                            <Select
+                                classNamePrefix='list'
+                                className='listRooms'
+                                styles={customStyles}
+                                value={defRoomsOptions}
+                                onChange={(e)=>changeBooking(startDate, endDate, e.value)}
+                                name="id_room"
+                                options={roomsOptions}
+                            />
+                        </div>
+                    </td></tr>
+                    <TableErrors errors={errors && errors.room ? errors.room : ''} />
 
-                <tr><td className={styles.cellModal}>Room: </td><td>
-                    <div style={{width: '100px'}}>
-                        <Select styles={customStyles}  value={defRoomsOptions} onChange={(e)=>changeRoom(e)} name="id_room" options={roomsOptions} />
-                    </div>
-                </td></tr>
-                <TableErrors errors={errors.room} />
-
-                <tr><td className={styles.cellModal}>Cost: </td><td>{cost} $</td></tr>
-
-                <br /><br /><br /><br /><br />
+                    <tr><td className={styles.cellModal}>
+                        Cost: </td><td><span className="cost">{cost}</span> $
+                    </td></tr>
+                </tbody>
             </table>
 
-            {(currentBooking._id == 'create') ? '' :  <button onClick={actionDelete} className={styles.deleteButton}>Delete</button>}
+
+                <Button onClick={() => props.onActionDelete((currentBooking ? currentBooking._id : ''))} className={
+                    ((typeof currentBooking == 'undefined' || currentBooking._id == 'create') ? 'hidden' : '')+
+                    ' deleteButton '+styles.deleteButton
+                } title="Delete" />
 
             <div className={styles.modalBoxButton}>
-                <button onClick={actionModal}>{(currentBooking._id == 'create') ? 'Add' : 'Save'}</button>
-                <button onClick={closeModal}>Cancel</button>
+                <Button
+                    className="actionButton"
+                    onClick={() => props.onActionModal(cost, fio, room, startDate, endDate)}
+                    title={(typeof currentBooking == 'undefined' || currentBooking._id == 'create') ? 'Add' : 'Save'}
+                />
+                <Button onClick={() => closeWindow()} className="closeButton" title="Cancel" />
             </div>
         </Modal>
-    </div>;
+    </div>
 }
