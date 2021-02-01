@@ -3,7 +3,7 @@ Booking Calendar
 
 ### Warning
 
-For error-overlay to work correctly in webpack 5, you must manually change the code in node_modules/webpack-hot-middleware in accordance with this PR https://github.com/webpack-contrib/webpack-hot-middleware/pull/393
+For webpack 5 to work properly, you need to manually make changes from the PR https://github.com/webpack-contrib/webpack-hot-middleware/pull/393/commits/5da51540dacb103a018e08f39b4bba4b9b2f95ab (node_modules/webpack-hot-middleware)
 
 ### Live Demo
 

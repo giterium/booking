@@ -10,8 +10,7 @@
     clear:both;
     display: flex;
     margin-top: -1px;
-}
-.roomRow {
+    height: 43px;
     width: 1500px;
     border-bottom: 1px solid grey;
 }
