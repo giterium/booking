@@ -69,7 +69,7 @@ export const BookingModal = (props: ModalProps) => {
     }, [rooms])
 
     useEffect(() => {
-        if(openWindow) {
+        if(openWindow && currentBooking) {
             setDefRoomsOptions({
                 label: rooms.filter(room => room._id == currentBooking.room)[0].num,
                 value: currentBooking.room
@@ -80,7 +80,7 @@ export const BookingModal = (props: ModalProps) => {
             setCost(currentBooking.cost)
             setRoom(currentBooking.room)
         }
-    }, [openWindow])
+    }, [openWindow, currentBooking])
 
     const closeWindow = () => {
         if(setOpenWindow)
@@ -89,7 +89,6 @@ export const BookingModal = (props: ModalProps) => {
             props.onActionClose()
     }
 
-    //const changeSelected = (newSelected: TypeSelected) => {
     useEffect(() => {
         if (selected.end.room) {
             const curRoom = rooms.filter((item) => item._id == selected.start.room)[0]
@@ -104,7 +103,6 @@ export const BookingModal = (props: ModalProps) => {
                     endDate: moment(selected.end.day).toDate()
                 }))
                 dispatch(updateSelected(selected))
-                //setSelected(newSelected)
                 dispatch(clearErrors())
                 setOpenWindow(true)
             }

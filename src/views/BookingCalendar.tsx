@@ -21,9 +21,10 @@ type CalendarProps = {
 };
 
 export const Calendar = (props : CalendarProps) => {
+    const rooms: TypeRoom[] = useSelector((state: RootState) => state.rooms, shallowEqual);
     const selected: TypeSelected = useSelector((state: RootState) => state.selected, shallowEqual);
     const booking: TypeBooking[] = useSelector((state: RootState) => state.booking, shallowEqual);
-    const rooms: TypeRoom[] = useSelector((state: RootState) => state.rooms, shallowEqual);
+
     const [startDate, setStartDate] = useState(props.startDate);
     const [endDate, setEndDate] = useState(props.endDate);
     const [daysList, setDaysList] = useState([]);

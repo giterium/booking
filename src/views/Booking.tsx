@@ -45,8 +45,6 @@ export const Booking = () => {
         }))
     }
 
-    document.title = "Booking"
-
     if (bookingHasErrored) {
         dispatch(bookingHasErrored(false))
         return <><LoadError /></>
@@ -94,6 +92,8 @@ export const Booking = () => {
         dispatch(setCurrentBooking(editBooking))
         setOpenWindow(true)
     }
+
+    document.title = "Booking"
 
     return  <div id="wrapper">
                 <TitlePage title='Booking' />

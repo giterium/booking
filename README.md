@@ -20,6 +20,7 @@ git clone https://github.com/giterium/booking.git
 npm install
 npm run start
 ```
+http://localhost:8080
 
 ### Run tests
 
