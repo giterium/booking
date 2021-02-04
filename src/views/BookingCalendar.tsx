@@ -1,54 +1,37 @@
 import React, {useEffect, useState}  from 'react';
+import {useDispatch, shallowEqual, useSelector} from 'react-redux';
 import {TypeRoom} from "../reducers/rooms-reducers";
 import moment, {Moment} from 'moment';
 import styles from '../css/booking.module.css';
 import {Button} from "../components/Button";
 import {TypeBooking} from "../reducers/booking-reducers";
-import {isGoodRange, timenull, isBooking, isSelected} from "../helpers/booking-helpers";
+import {TypeSelected} from "../reducers/selected-reducers";
+import {timenull, isSelected, updateSelected, clickDayRoom} from "../utils/booking-utils";
+import {RootState} from "../reducers";
 
 export interface TypeDay {
     date: Date;
     display: Date;
 }
 
-interface TypeItemSelected {
-    day: null | Moment;
-    room: string | boolean;
-}
-
-interface TypeSelected {
-    start: TypeItemSelected;
-    end: TypeItemSelected;
-}
-
 type CalendarProps = {
-    onChangeSelected: (selected: TypeSelected) => void;
     onClickBooking: (id: string) => void;
-    selected?: TypeSelected;
-    rooms: TypeRoom[];
-    booking: TypeBooking[];
     startDate: Date | Moment;
     endDate: Date | Moment;
 };
 
 export const Calendar = (props : CalendarProps) => {
+    const rooms: TypeRoom[] = useSelector((state: RootState) => state.rooms, shallowEqual);
+    const selected: TypeSelected = useSelector((state: RootState) => state.selected, shallowEqual);
+    const booking: TypeBooking[] = useSelector((state: RootState) => state.booking, shallowEqual);
+
     const [startDate, setStartDate] = useState(props.startDate);
     const [endDate, setEndDate] = useState(props.endDate);
     const [daysList, setDaysList] = useState([]);
-    const [selected, setSelected] = useState({
-        start:{day:null, room:false},
-        end:{day:null, room:false}
-    });
-
-    const unSelected = () => {
-        setSelected({
-            start:{day:false, room:false},
-            end:{day:false, room:false}
-        });
-    }
+    const dispatch = useDispatch();
 
     const getBookingInfo = (day, room, field) => {
-        for(const curBooking of props.booking) {
+        for(const curBooking of booking) {
             if (
                 curBooking.room == room._id
                 &&
@@ -62,7 +45,7 @@ export const Calendar = (props : CalendarProps) => {
 
     const getWidthFio = (day, room) => {
         let duration = 0;
-        for(const curBooking of props.booking) {
+        for(const curBooking of booking) {
             if (
                 curBooking.room == room._id
                 &&
@@ -78,48 +61,6 @@ export const Calendar = (props : CalendarProps) => {
             return 100*duration-50+'px';
     }
 
-    const clickDayRoom = (day, room) => {
-        if(isBooking(day, room) != styles.isBooking && isBooking(day, room) != styles.isBooking + ' '+styles.isFirstBooking+ ' '+styles.isLastBooking) {
-            if (!selected.start.day) {
-                setSelected({
-                    start: {day: day.date, room: room._id},
-                    end: {day: false, room: false}
-                })
-            } else {
-                if (!selected.end.day) {
-                    if(isGoodRange(selected.start.day, day.date, room._id)) {
-                        if (selected.start.day.format('DD.MM.YY') == day.date.format('DD.MM.YY')) {
-                            unSelected();
-                        } else if (selected.start.room != room._id)
-                            unSelected();
-                        else {
-                            if (day.date < selected.start.day) {
-                                setSelected({
-                                    start: {day: day.date, room: room._id},
-                                    end: selected.start
-                                })
-                            } else {
-                                setSelected({
-                                    start: selected.start,
-                                    end: {day: day.date, room: room._id}
-                                })
-                            }
-                        }
-                    }
-                    else {
-                        unSelected();
-                    }
-                }
-                else {
-                    unSelected();
-                }
-            }
-        }
-        else {
-            unSelected();
-        }
-    };
-
     const NextWeek = () => {
         setStartDate(startDate.clone().add(7, 'days'));
         setEndDate(endDate.clone().add(7, 'days'));
@@ -131,19 +72,14 @@ export const Calendar = (props : CalendarProps) => {
     };
 
     const clickBooking = (id) => {
-        if(!selected.start.day) {
+        if(!selected.start.room) {
             props.onClickBooking(id);
         }
     }
 
     useEffect(() => {
-        if(selected.end.day)
-            props.onChangeSelected(selected);
+        dispatch(updateSelected(selected))
     }, [selected]);
-
-    useEffect(() => {
-        setSelected(props.selected);
-    }, [props.selected]);
 
     useEffect(() => {
         const list:TypeDay[] = [];
@@ -169,7 +105,7 @@ export const Calendar = (props : CalendarProps) => {
                     </div>
                 )}
             </div>
-            {props.rooms.map((room:TypeRoom) =>
+            {rooms.map((room:TypeRoom) =>
                 <div className={styles.roomRow} key={room.num+'-col'}>
                     <div className={styles.roomCell}>№ {room.num}</div>
                     {daysList.map((day:TypeDay) =>

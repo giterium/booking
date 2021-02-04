@@ -5,7 +5,7 @@ import Modal from 'react-modal';
 import {TableInput} from "../components/TableInput";
 import {TableErrors} from "../components/TableErrors";
 import {Button} from "../components/Button";
-import {shallowEqual, useSelector} from "react-redux";
+import {shallowEqual, useSelector, useDispatch} from "react-redux";
 import styles from '../css/booking.module.css';
 import moment, {Moment} from "moment";
 import DatePicker from "react-datepicker";
@@ -13,11 +13,15 @@ import "react-datepicker/dist/react-datepicker.css";
 import Select from 'react-select';
 import {EventBus} from "../events";
 import {RootState} from "../reducers";
+import {TypeBooking} from "../reducers/booking-reducers";
+import {clearErrors} from "../actions/booking-actions";
+import {setCurrentBooking, updateSelected} from "../utils/booking-utils";
+import {TypeSelected} from "../reducers/selected-reducers";
 
 const modalStyles = {
     overlay: { zIndex: 100 },
     content : {top : '50%', left : '50%', right : 'auto', bottom : 'auto', marginRight : '-50%', boxShadow : '0 0 10px rgba(0,0,0,0.5)', width : '500px', transform  : 'translate(-50%, -50%)'}
-};
+}
 
 const customStyles = {
     control: (styles, isFocused) => ({ ...styles, backgroundColor: 'white', boxShadow: isFocused ? '' : '', border: isFocused ? '0px solid grey' : '0px solid grey' }),
@@ -35,40 +39,37 @@ type ModalProps = {
     onActionDelete: (id: string) => void;
     onActionClose?: () => void;
     onActionModal: (cost: string, fio: string, room: string, startDate: Moment | Date, endDate: Moment | Date) => void;
-};
+}
 
 export const BookingModal = (props: ModalProps) => {
-    const errors: any = useSelector((state: RootState) => state.errors, shallowEqual);
-    const rooms: TypeRoom[] = useSelector((state: RootState) => state.rooms, shallowEqual);
+    const errors: any = useSelector((state: RootState) => state.errors, shallowEqual)
+    const rooms: TypeRoom[] = useSelector((state: RootState) => state.rooms, shallowEqual)
+    const booking: TypeBooking[] = useSelector((state: RootState) => state.booking, shallowEqual)
+    const selected: TypeSelected = useSelector((state: RootState) => state.selected, shallowEqual)
+    const currentBooking: TypeBooking = useSelector((state: RootState) => state.currentBooking, shallowEqual)
 
-    const [fio, setFio] = useState('');
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
-    const [cost, setCost] = useState('0');
-    const [room, setRoom] = useState('');
+    const [fio, setFio] = useState('')
+    const [startDate, setStartDate] = useState(new Date())
+    const [endDate, setEndDate] = useState(new Date())
+    const [cost, setCost] = useState('0')
+    const [room, setRoom] = useState('')
 
-    const [roomsOptions, setRoomsOptions] = useState([]);
-    const [defRoomsOptions, setDefRoomsOptions] = useState([]);
-
-    const { openWindow, setOpenWindow, currentBooking } = useContext(WindowContext);
+    const [roomsOptions, setRoomsOptions] = useState([])
+    const [defRoomsOptions, setDefRoomsOptions] = useState([])
+    const dispatch = useDispatch();
+    const { openWindow, setOpenWindow } = useContext(WindowContext)
     EventBus.subscribe('bookingCloseWindow', () => closeWindow())
 
     useMemo(() => {
-        const roomsOptions: TypeRoomsOptions[] = [];
+        const roomsOptions: TypeRoomsOptions[] = []
         rooms.map((room) => {
             roomsOptions.push({label: room.num, value: room._id})
         });
-        setRoomsOptions(roomsOptions);
-    }, [rooms]);
+        setRoomsOptions(roomsOptions)
+    }, [rooms])
 
     useEffect(() => {
-        //Modal.setAppElement('#root')
-        //Modal.setAppElement('*');
-        //Modal.setAppElement('body');
-    }, []);
-
-    useEffect(() => {
-        if(openWindow) {
+        if(openWindow && currentBooking) {
             setDefRoomsOptions({
                 label: rooms.filter(room => room._id == currentBooking.room)[0].num,
                 value: currentBooking.room
@@ -79,17 +80,37 @@ export const BookingModal = (props: ModalProps) => {
             setCost(currentBooking.cost)
             setRoom(currentBooking.room)
         }
-    }, [openWindow]);
+    }, [openWindow, currentBooking])
 
     const closeWindow = () => {
         if(setOpenWindow)
-            setOpenWindow(false);
+            setOpenWindow(false)
         if(props.onActionClose)
-            props.onActionClose();
+            props.onActionClose()
     }
 
+    useEffect(() => {
+        if (selected.end.room) {
+            const curRoom = rooms.filter((item) => item._id == selected.start.room)[0]
+            if (typeof curRoom != 'undefined') {
+                const cost = Math.abs(moment(selected.start.day).diff(moment(selected.end.day), "days") * parseInt(curRoom.cost))
+                dispatch(setCurrentBooking({
+                    _id: 'create',
+                    cost: cost + '',
+                    fio: '',
+                    room: selected.start.room,
+                    startDate: selected.start.day.toDate(),
+                    endDate: moment(selected.end.day).toDate()
+                }))
+                dispatch(updateSelected(selected))
+                dispatch(clearErrors())
+                setOpenWindow(true)
+            }
+        }
+    }, [selected])
+
     const changeBooking = (newStartDate, newEndDate, room) => {
-        let result = props.onChangeBooking(newStartDate, newEndDate, room);
+        const result = props.onChangeBooking(newStartDate, newEndDate, room)
         if(typeof result != 'undefined') {
             if (result === true) {
                 const curRoom = rooms.filter((item) => item._id == room)[0];
@@ -100,11 +121,11 @@ export const BookingModal = (props: ModalProps) => {
                     label: curRoom.num,
                     value: room
                 })
-                const cost = Math.abs(moment(startDate).diff(moment(endDate), "days") * parseInt(curRoom.cost));
-                setCost(cost+'');
+                const cost = Math.abs(moment(startDate).diff(moment(endDate), "days") * parseInt(curRoom.cost))
+                setCost(cost+'')
             }
             else {
-                const curRoom = rooms.filter((item) => item._id == result[2])[0];
+                const curRoom = rooms.filter((item) => item._id == result[2])[0]
                 setStartDate(result[0])
                 setEndDate(result[1])
                 setRoom(result[2])
@@ -112,8 +133,8 @@ export const BookingModal = (props: ModalProps) => {
                     label: curRoom.num,
                     value: result[2]
                 })
-                const cost = Math.abs(moment(startDate).diff(moment(endDate), "days") * parseInt(curRoom.cost));
-                setCost(cost+'');
+                const cost = Math.abs(moment(startDate).diff(moment(endDate), "days") * parseInt(curRoom.cost))
+                setCost(cost+'')
             }
         }
     }

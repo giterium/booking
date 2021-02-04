@@ -29,8 +29,8 @@ export function bookingIsLoading(state = false, action: {type: string; isLoading
     }
 }
 
-
 export function booking(state:TypeBooking[] = [], action: {type: string; booking: TypeBooking[]; payload: TypeBooking;}) {
+    //alert(1)
     const payload = action.payload
     switch (action.type) {
         case BOOKING_FETCH_DATA_SUCCESS:

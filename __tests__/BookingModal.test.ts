@@ -4,6 +4,8 @@ import { Provider } from "react-redux";
 import configureStore from 'redux-mock-store';
 const mockStore = configureStore([]);
 import "regenerator-runtime/runtime";
+import {momentNullDate} from "../src/utils/booking-utils";
+import {Booking} from "../src/views/Booking";
 
 describe("Booking Modal component", () => {
     let store;
@@ -25,13 +27,23 @@ describe("Booking Modal component", () => {
                 building: 2,
                 capacity: 2,
                 cost: '200'
-            }]
+            }],
+            selected: {
+                start:{day:momentNullDate(), room:''},
+                end:{day:momentNullDate(), room:''}
+            },
+            currentBooking: {}
         });
 
     });
 
     afterEach(() => {
         jest.clearAllMocks();
+    });
+
+    it("should snapshot BookingModal ", () => {
+        const wrapper = mount(<Provider store={store}><BookingModal /></Provider>);
+        expect(wrapper.debug()).toMatchSnapshot();
     });
 
     it('renders modal when open flag is true', () => {
