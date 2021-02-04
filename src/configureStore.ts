@@ -23,4 +23,5 @@ export default function configureStore() {
     return store
 }
 
+
 export const store = configureStore();

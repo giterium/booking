@@ -46,7 +46,7 @@ export function rooms(state:TypeRoom[] = [], action:{type: string; rooms: TypeRo
             var newState:any = state;
             newState.splice(payload[0], 1);
             state = [];
-            return state.concat(newState);
+            return newState;
 
         case ADD_ROOMS_SUCCESS:
             return state.concat(payload);

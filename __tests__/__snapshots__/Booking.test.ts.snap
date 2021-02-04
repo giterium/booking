@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Booking component renders BOOKING, when window is open 1`] = `
-"<ContextProvider value={{...}}>
-  <Booking />
-</ContextProvider>"
-`;

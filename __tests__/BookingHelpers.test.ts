@@ -1,5 +1,5 @@
 import {store} from '../src/configureStore';
-import {isGoodRange} from "../src/helpers/booking-helpers";
+import {isGoodRange} from "../src/utils/booking-utils";
 import * as selectActions from "../src/actions/booking-actions";
 import "regenerator-runtime/runtime";
 import moment from "moment";

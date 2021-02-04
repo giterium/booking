@@ -1,7 +1,7 @@
 import React from "react";
 import { Calendar } from "../src/views/BookingCalendar";
 import "regenerator-runtime/runtime";
-import {timenull} from "../src/helpers/booking-helpers";
+import {timenull} from "../src/utils/booking-utils";
 import moment from "moment";
 
 describe("Booking Calendar component", () => {
