@@ -15,24 +15,22 @@ export interface TypeDay {
 }
 
 type CalendarProps = {
-    onChangeSelected: (selected: TypeSelected) => void;
     onClickBooking: (id: string) => void;
-    selected: TypeSelected;
-    rooms: TypeRoom[];
-    booking: TypeBooking[];
     startDate: Date | Moment;
     endDate: Date | Moment;
 };
 
 export const Calendar = (props : CalendarProps) => {
     const selected: TypeSelected = useSelector((state: RootState) => state.selected, shallowEqual);
+    const booking: TypeBooking[] = useSelector((state: RootState) => state.booking, shallowEqual);
+    const rooms: TypeRoom[] = useSelector((state: RootState) => state.rooms, shallowEqual);
     const [startDate, setStartDate] = useState(props.startDate);
     const [endDate, setEndDate] = useState(props.endDate);
     const [daysList, setDaysList] = useState([]);
     const dispatch = useDispatch();
 
     const getBookingInfo = (day, room, field) => {
-        for(const curBooking of props.booking) {
+        for(const curBooking of booking) {
             if (
                 curBooking.room == room._id
                 &&
@@ -46,7 +44,7 @@ export const Calendar = (props : CalendarProps) => {
 
     const getWidthFio = (day, room) => {
         let duration = 0;
-        for(const curBooking of props.booking) {
+        for(const curBooking of booking) {
             if (
                 curBooking.room == room._id
                 &&
@@ -79,11 +77,6 @@ export const Calendar = (props : CalendarProps) => {
     }
 
     useEffect(() => {
-        if(selected.end.room)
-            props.onChangeSelected(selected);
-    }, [selected]);
-
-    useEffect(() => {
         dispatch(updateSelected(selected))
     }, [selected]);
 
@@ -111,7 +104,7 @@ export const Calendar = (props : CalendarProps) => {
                     </div>
                 )}
             </div>
-            {props.rooms.map((room:TypeRoom) =>
+            {rooms.map((room:TypeRoom) =>
                 <div className={styles.roomRow} key={room.num+'-col'}>
                     <div className={styles.roomCell}>№ {room.num}</div>
                     {daysList.map((day:TypeDay) =>

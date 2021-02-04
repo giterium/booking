@@ -5,7 +5,7 @@ import Modal from 'react-modal';
 import {TableInput} from "../components/TableInput";
 import {TableErrors} from "../components/TableErrors";
 import {Button} from "../components/Button";
-import {shallowEqual, useSelector} from "react-redux";
+import {shallowEqual, useSelector, useDispatch} from "react-redux";
 import styles from '../css/booking.module.css';
 import moment, {Moment} from "moment";
 import DatePicker from "react-datepicker";
@@ -14,6 +14,9 @@ import Select from 'react-select';
 import {EventBus} from "../events";
 import {RootState} from "../reducers";
 import {TypeBooking} from "../reducers/booking-reducers";
+import {clearErrors} from "../actions/booking-actions";
+import {setCurrentBooking, updateSelected} from "../utils/booking-utils";
+import {TypeSelected} from "../reducers/selected-reducers";
 
 const modalStyles = {
     overlay: { zIndex: 100 },
@@ -41,6 +44,8 @@ type ModalProps = {
 export const BookingModal = (props: ModalProps) => {
     const errors: any = useSelector((state: RootState) => state.errors, shallowEqual)
     const rooms: TypeRoom[] = useSelector((state: RootState) => state.rooms, shallowEqual)
+    const booking: TypeBooking[] = useSelector((state: RootState) => state.booking, shallowEqual)
+    const selected: TypeSelected = useSelector((state: RootState) => state.selected, shallowEqual)
     const currentBooking: TypeBooking = useSelector((state: RootState) => state.currentBooking, shallowEqual)
 
     const [fio, setFio] = useState('')
@@ -51,7 +56,7 @@ export const BookingModal = (props: ModalProps) => {
 
     const [roomsOptions, setRoomsOptions] = useState([])
     const [defRoomsOptions, setDefRoomsOptions] = useState([])
-
+    const dispatch = useDispatch();
     const { openWindow, setOpenWindow } = useContext(WindowContext)
     EventBus.subscribe('bookingCloseWindow', () => closeWindow())
 
@@ -83,6 +88,28 @@ export const BookingModal = (props: ModalProps) => {
         if(props.onActionClose)
             props.onActionClose()
     }
+
+    //const changeSelected = (newSelected: TypeSelected) => {
+    useEffect(() => {
+        if (selected.end.room) {
+            const curRoom = rooms.filter((item) => item._id == selected.start.room)[0]
+            if (typeof curRoom != 'undefined') {
+                const cost = Math.abs(moment(selected.start.day).diff(moment(selected.end.day), "days") * parseInt(curRoom.cost))
+                dispatch(setCurrentBooking({
+                    _id: 'create',
+                    cost: cost + '',
+                    fio: '',
+                    room: selected.start.room,
+                    startDate: selected.start.day.toDate(),
+                    endDate: moment(selected.end.day).toDate()
+                }))
+                dispatch(updateSelected(selected))
+                //setSelected(newSelected)
+                dispatch(clearErrors())
+                setOpenWindow(true)
+            }
+        }
+    }, [selected])
 
     const changeBooking = (newStartDate, newEndDate, room) => {
         const result = props.onChangeBooking(newStartDate, newEndDate, room)

@@ -4,6 +4,7 @@ import {
 
 import {TypeBooking} from "./booking-reducers";
 
+//@ts-ignore
 export function currentBooking(state:TypeBooking = {}, action:{type: string; payload: TypeBooking;}) {
     const payload = action.payload
     switch (action.type) {

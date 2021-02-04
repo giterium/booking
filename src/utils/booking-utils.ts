@@ -17,10 +17,7 @@ export const setCurrentBooking = createAction(
 );
 
 export function momentNullDate () {
-    var date = "1970-01-01";
-    var time = "00:00";
-
-    return moment(date + ' ' + time);
+    return moment("1970-01-01 00:00");
 }
 
 const unSelected = () => {
@@ -31,7 +28,6 @@ const unSelected = () => {
 }
 
 export function isGoodRange (startDate, endDate, id_room, curIdBooking = '') {
-
     const booking:TypeBooking[] = store.getState().booking;
     const bookingSlice = booking.filter(item => item.room == id_room)
     for(const curBooking of bookingSlice) {
@@ -62,7 +58,6 @@ export function timenull(date) {
 }
 
 export const isBooking = (day, room) => {
-
     const booking:TypeBooking[] = store.getState().booking;
     const bookingSlice = booking.filter(item => item.room == room._id)
 
@@ -152,7 +147,6 @@ export const changeBooking = (startDate, endDate, room = '') => {
             ]
         }
         else if(moment(startDate).diff(endDate, 'days') < 0 &&  isGoodRange(moment(startDate), moment(endDate),  room)) {
-
             dispatch(updateSelected({
                 start: {day: moment(timenull(startDate)), room: room},
                 end: {day: moment(timenull(endDate)), room: room}
@@ -160,7 +154,6 @@ export const changeBooking = (startDate, endDate, room = '') => {
             return true
         }
         else if(moment(timenull(startDate)).diff(timenull(endDate), 'days') > 0 && isGoodRange(moment(endDate), moment(startDate), room)) {
-
             dispatch(updateSelected({
                 start: {day: moment(timenull(endDate)), room: room},
                 end: {day: moment(timenull(startDate)), room: room}
@@ -245,14 +238,12 @@ export const clickDayRoom = (day, room) => {
             }))
         } else {
             if (!selected.end.room) {
-
                 if(isGoodRange(selected.start.day, day.date, room._id)) {
                     if (selected.start.day.format('DD.MM.YY') == day.date.format('DD.MM.YY')) {
                         unSelected();
                     } else if (selected.start.room != room._id)
                         unSelected();
                     else {
-
                         if (day.date < selected.start.day) {
                             dispatch(updateSelected({
                                 start: {day: day.date, room: room._id},

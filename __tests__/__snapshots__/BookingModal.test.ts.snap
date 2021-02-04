@@ -1,0 +1,216 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Booking Modal component should snapshot BookingModal  1`] = `
+"<Provider store={{...}}>
+  <BookingModal>
+    <div id=\\"root\\">
+      <Modal isOpen={true} style={{...}} ariaHideApp={false} portalClassName=\\"ReactModalPortal\\" bodyOpenClassName=\\"ReactModal__Body--open\\" role=\\"dialog\\" closeTimeoutMS={0} shouldFocusAfterRender={true} shouldCloseOnEsc={true} shouldCloseOnOverlayClick={true} shouldReturnFocusAfterClose={true} preventScroll={false} parentSelector={[Function: parentSelector]} overlayElement={[Function: overlayElement]} contentElement={[Function: contentElement]}>
+        <Portal containerInfo={{...}}>
+          <ModalPortal defaultStyles={{...}} isOpen={true} style={{...}} ariaHideApp={false} portalClassName=\\"ReactModalPortal\\" bodyOpenClassName=\\"ReactModal__Body--open\\" role=\\"dialog\\" closeTimeoutMS={0} shouldFocusAfterRender={true} shouldCloseOnEsc={true} shouldCloseOnOverlayClick={true} shouldReturnFocusAfterClose={true} preventScroll={false} parentSelector={[Function: parentSelector]} overlayElement={[Function: overlayElement]} contentElement={[Function: contentElement]}>
+            <div className=\\"ReactModal__Overlay ReactModal__Overlay--after-open\\" style={{...}} onClick={[Function (anonymous)]} onMouseDown={[Function (anonymous)]}>
+              <div id={[undefined]} style={{...}} className=\\"ReactModal__Content ReactModal__Content--after-open\\" tabIndex=\\"-1\\" onKeyDown={[Function (anonymous)]} onMouseDown={[Function (anonymous)]} onMouseUp={[Function (anonymous)]} onClick={[Function (anonymous)]} role=\\"dialog\\" aria-label={[undefined]} aria-modal={true} data-testid={[undefined]}>
+                <h2 className=\\"titleModal\\">
+                   
+                </h2>
+                <br />
+                <table className=\\"tableModal\\">
+                  <tbody>
+                    <TableInput title=\\"Name\\" className=\\"usualInput\\" name=\\"fio\\" changeUpdate={[Function: changeUpdate]} defaultValue=\\"\\">
+                      <tr>
+                        <td className=\\"updateFieldTitle\\">
+                          Name
+                          :
+                        </td>
+                        <td>
+                          <input type=\\"text\\" className=\\"usualInput\\" name=\\"fio\\" onChange={[Function: changeUpdate]} onFocus={[undefined]} onClick={[undefined]} onKeyUp={[Function: changeUpdate]} onKeyPress={[undefined]} defaultValue=\\"\\" />
+                        </td>
+                      </tr>
+                    </TableInput>
+                    <TableErrors errors=\\"\\">
+                      <tr>
+                        <td colSpan={2}>
+                          <div className=\\"errorBox\\" />
+                        </td>
+                      </tr>
+                    </TableErrors>
+                    <tr>
+                      <td className=\\"cellModal\\">
+                        Date of entry: 
+                      </td>
+                      <td>
+                        <r className=\\"startDatePicker\\" locale=\\"ru\\" selected={{...}} onChange={[Function: onChange]} dateFormat=\\"dd.MM.yyyy\\" allowSameDay={false} dateFormatCalendar=\\"LLLL yyyy\\" disabled={false} disabledKeyboardNavigation={false} dropdownMode=\\"scroll\\" onFocus={[Function: onFocus]} onBlur={[Function: onBlur]} onKeyDown={[Function: onKeyDown]} onInputClick={[Function: onInputClick]} onSelect={[Function: onSelect]} onClickOutside={[Function: onClickOutside]} onMonthChange={[Function: onMonthChange]} onCalendarOpen={[Function: onCalendarOpen]} onCalendarClose={[Function: onCalendarClose]} preventOpenOnFocus={false} onYearChange={[Function: onYearChange]} onInputError={[Function: onInputError]} monthsShown={1} readOnly={false} withPortal={false} shouldCloseOnSelect={true} showTimeSelect={false} showTimeInput={false} showPreviousMonths={false} showMonthYearPicker={false} showFullMonthYearPicker={false} showTwoColumnMonthYearPicker={false} showYearPicker={false} showQuarterYearPicker={false} strictParsing={false} timeIntervals={30} timeCaption=\\"Time\\" previousMonthButtonLabel=\\"Previous Month\\" nextMonthButtonLabel=\\"Next Month\\" previousYearButtonLabel=\\"Previous Year\\" nextYearButtonLabel=\\"Next Year\\" timeInputLabel=\\"Time\\" enableTabLoop={true} yearItemNumber={12} renderDayContents={[Function: renderDayContents]} focusSelectedMonth={false} showPopperArrow={true} excludeScrollbar={true} customTimeInput={{...}}>
+                          <r className={[undefined]} wrapperClassName={[undefined]} hidePopper={true} portalId={[undefined]} popperModifiers={{...}} targetComponent={{...}} popperContainer={[undefined]} popperComponent={{...}} popperPlacement=\\"bottom-start\\" popperProps={{...}} popperOnKeyDown={[Function (anonymous)]} enableTabLoop={true}>
+                            <Manager className=\\"react-datepicker-manager\\">
+                              <Reference>
+                                <InnerReference setReferenceNode={[Function (anonymous)]}>
+                                  <div className=\\"react-datepicker-wrapper\\">
+                                    <div className=\\"react-datepicker__input-container\\">
+                                      <input type=\\"text\\" value=\\"04.02.2021\\" onBlur={[Function (anonymous)]} onChange={[Function (anonymous)]} onClick={[Function (anonymous)]} onFocus={[Function (anonymous)]} onKeyDown={[Function (anonymous)]} id={[undefined]} name={[undefined]} autoFocus={[undefined]} placeholder={[undefined]} disabled={false} autoComplete={[undefined]} className=\\"startDatePicker\\" title={[undefined]} readOnly={false} required={[undefined]} tabIndex={[undefined]} aria-describedby={[undefined]} aria-invalid={[undefined]} aria-labelledby={[undefined]} aria-required={[undefined]} />
+                                    </div>
+                                  </div>
+                                </InnerReference>
+                              </Reference>
+                            </Manager>
+                          </r>
+                        </r>
+                      </td>
+                    </tr>
+                    <TableErrors errors=\\"\\">
+                      <tr>
+                        <td colSpan={2}>
+                          <div className=\\"errorBox\\" />
+                        </td>
+                      </tr>
+                    </TableErrors>
+                    <tr>
+                      <td className=\\"cellModal\\">
+                        Date of departure: 
+                      </td>
+                      <td>
+                        <r className=\\"endDatePicker\\" locale=\\"ru\\" selected={{...}} onChange={[Function: onChange]} dateFormat=\\"dd.MM.yyyy\\" allowSameDay={false} dateFormatCalendar=\\"LLLL yyyy\\" disabled={false} disabledKeyboardNavigation={false} dropdownMode=\\"scroll\\" onFocus={[Function: onFocus]} onBlur={[Function: onBlur]} onKeyDown={[Function: onKeyDown]} onInputClick={[Function: onInputClick]} onSelect={[Function: onSelect]} onClickOutside={[Function: onClickOutside]} onMonthChange={[Function: onMonthChange]} onCalendarOpen={[Function: onCalendarOpen]} onCalendarClose={[Function: onCalendarClose]} preventOpenOnFocus={false} onYearChange={[Function: onYearChange]} onInputError={[Function: onInputError]} monthsShown={1} readOnly={false} withPortal={false} shouldCloseOnSelect={true} showTimeSelect={false} showTimeInput={false} showPreviousMonths={false} showMonthYearPicker={false} showFullMonthYearPicker={false} showTwoColumnMonthYearPicker={false} showYearPicker={false} showQuarterYearPicker={false} strictParsing={false} timeIntervals={30} timeCaption=\\"Time\\" previousMonthButtonLabel=\\"Previous Month\\" nextMonthButtonLabel=\\"Next Month\\" previousYearButtonLabel=\\"Previous Year\\" nextYearButtonLabel=\\"Next Year\\" timeInputLabel=\\"Time\\" enableTabLoop={true} yearItemNumber={12} renderDayContents={[Function: renderDayContents]} focusSelectedMonth={false} showPopperArrow={true} excludeScrollbar={true} customTimeInput={{...}}>
+                          <r className={[undefined]} wrapperClassName={[undefined]} hidePopper={true} portalId={[undefined]} popperModifiers={{...}} targetComponent={{...}} popperContainer={[undefined]} popperComponent={{...}} popperPlacement=\\"bottom-start\\" popperProps={{...}} popperOnKeyDown={[Function (anonymous)]} enableTabLoop={true}>
+                            <Manager className=\\"react-datepicker-manager\\">
+                              <Reference>
+                                <InnerReference setReferenceNode={[Function (anonymous)]}>
+                                  <div className=\\"react-datepicker-wrapper\\">
+                                    <div className=\\"react-datepicker__input-container\\">
+                                      <input type=\\"text\\" value=\\"04.02.2021\\" onBlur={[Function (anonymous)]} onChange={[Function (anonymous)]} onClick={[Function (anonymous)]} onFocus={[Function (anonymous)]} onKeyDown={[Function (anonymous)]} id={[undefined]} name={[undefined]} autoFocus={[undefined]} placeholder={[undefined]} disabled={false} autoComplete={[undefined]} className=\\"endDatePicker\\" title={[undefined]} readOnly={false} required={[undefined]} tabIndex={[undefined]} aria-describedby={[undefined]} aria-invalid={[undefined]} aria-labelledby={[undefined]} aria-required={[undefined]} />
+                                    </div>
+                                  </div>
+                                </InnerReference>
+                              </Reference>
+                            </Manager>
+                          </r>
+                        </r>
+                      </td>
+                    </tr>
+                    <TableErrors errors=\\"\\">
+                      <tr>
+                        <td colSpan={2}>
+                          <div className=\\"errorBox\\" />
+                        </td>
+                      </tr>
+                    </TableErrors>
+                    <tr>
+                      <td className=\\"cellModal\\">
+                        Room: 
+                      </td>
+                      <td>
+                        <div style={{...}}>
+                          <StateManager classNamePrefix=\\"list\\" className=\\"listRooms\\" styles={{...}} value={{...}} onChange={[Function: onChange]} name=\\"id_room\\" options={{...}} defaultInputValue=\\"\\" defaultMenuIsOpen={false} defaultValue={{...}}>
+                            <Select classNamePrefix=\\"list\\" className=\\"listRooms\\" styles={{...}} value={{...}} onChange={[Function (anonymous)]} name=\\"id_room\\" options={{...}} inputValue=\\"\\" menuIsOpen={false} onInputChange={[Function (anonymous)]} onMenuClose={[Function (anonymous)]} onMenuOpen={[Function (anonymous)]} backspaceRemovesValue={true} blurInputOnSelect={true} captureMenuScroll={false} closeMenuOnSelect={true} closeMenuOnScroll={false} components={{...}} controlShouldRenderValue={true} escapeClearsValue={false} filterOption={[Function (anonymous)]} formatGroupLabel={[Function: formatGroupLabel]} getOptionLabel={[Function: getOptionLabel]} getOptionValue={[Function: getOptionValue]} isDisabled={false} isLoading={false} isMulti={false} isRtl={false} isSearchable={true} isOptionDisabled={[Function: isOptionDisabled]} loadingMessage={[Function: loadingMessage]} maxMenuHeight={300} minMenuHeight={140} menuPlacement=\\"bottom\\" menuPosition=\\"absolute\\" menuShouldBlockScroll={false} menuShouldScrollIntoView={true} noOptionsMessage={[Function: noOptionsMessage]} openMenuOnFocus={false} openMenuOnClick={true} pageSize={5} placeholder=\\"Select...\\" screenReaderStatus={[Function: screenReaderStatus]} tabIndex=\\"0\\" tabSelectsValue={true}>
+                              <SelectContainer cx={[Function (anonymous)]} clearValue={[Function (anonymous)]} getStyles={[Function (anonymous)]} getValue={[Function (anonymous)]} hasValue={false} isMulti={false} isRtl={false} options={{...}} selectOption={[Function (anonymous)]} setValue={[Function (anonymous)]} selectProps={{...}} theme={{...}} className=\\"listRooms\\" innerProps={{...}} isDisabled={false} isFocused={false}>
+                                <EmotionCssPropInternal css={{...}} className=\\"listRooms\\" id={[undefined]} onKeyDown={[Function (anonymous)]} __EMOTION_TYPE_PLEASE_DO_NOT_USE__=\\"div\\" __EMOTION_LABEL_PLEASE_DO_NOT_USE__=\\"SelectContainer\\">
+                                  <div className=\\"listRooms css-jxd5du-container\\" id={[undefined]} onKeyDown={[Function (anonymous)]}>
+                                    <Control cx={[Function (anonymous)]} clearValue={[Function (anonymous)]} getStyles={[Function (anonymous)]} getValue={[Function (anonymous)]} hasValue={false} isMulti={false} isRtl={false} options={{...}} selectOption={[Function (anonymous)]} setValue={[Function (anonymous)]} selectProps={{...}} theme={{...}} innerRef={[Function (anonymous)]} innerProps={{...}} isDisabled={false} isFocused={false} menuIsOpen={false}>
+                                      <EmotionCssPropInternal css={{...}} className=\\"list__control\\" onMouseDown={[Function (anonymous)]} onTouchEnd={[Function (anonymous)]} __EMOTION_TYPE_PLEASE_DO_NOT_USE__=\\"div\\" __EMOTION_LABEL_PLEASE_DO_NOT_USE__=\\"Control\\">
+                                        <div className=\\"list__control css-1ayw91x-control\\" onMouseDown={[Function (anonymous)]} onTouchEnd={[Function (anonymous)]}>
+                                          <ValueContainer cx={[Function (anonymous)]} clearValue={[Function (anonymous)]} getStyles={[Function (anonymous)]} getValue={[Function (anonymous)]} hasValue={false} isMulti={false} isRtl={false} options={{...}} selectOption={[Function (anonymous)]} setValue={[Function (anonymous)]} selectProps={{...}} theme={{...}} isDisabled={false}>
+                                            <EmotionCssPropInternal css={{...}} className=\\"list__value-container\\" __EMOTION_TYPE_PLEASE_DO_NOT_USE__=\\"div\\" __EMOTION_LABEL_PLEASE_DO_NOT_USE__=\\"ValueContainer\\">
+                                              <div className=\\"list__value-container css-g1d714-ValueContainer\\">
+                                                <Placeholder cx={[Function (anonymous)]} clearValue={[Function (anonymous)]} getStyles={[Function (anonymous)]} getValue={[Function (anonymous)]} hasValue={false} isMulti={false} isRtl={false} options={{...}} selectOption={[Function (anonymous)]} setValue={[Function (anonymous)]} selectProps={{...}} theme={{...}} isDisabled={false} isFocused={false}>
+                                                  <EmotionCssPropInternal css={{...}} className=\\"list__placeholder\\" __EMOTION_TYPE_PLEASE_DO_NOT_USE__=\\"div\\" __EMOTION_LABEL_PLEASE_DO_NOT_USE__=\\"Placeholder\\">
+                                                    <div className=\\"list__placeholder css-1wa3eu0-placeholder\\">
+                                                      Select...
+                                                    </div>
+                                                  </EmotionCssPropInternal>
+                                                </Placeholder>
+                                                <Input autoCapitalize=\\"none\\" autoComplete=\\"off\\" autoCorrect=\\"off\\" cx={[Function (anonymous)]} getStyles={[Function (anonymous)]} id=\\"react-select-2-input\\" innerRef={[Function (anonymous)]} isDisabled={false} isHidden={false} onBlur={[Function (anonymous)]} onChange={[Function (anonymous)]} onFocus={[Function (anonymous)]} selectProps={{...}} spellCheck=\\"false\\" tabIndex=\\"0\\" form={[undefined]} theme={{...}} type=\\"text\\" value=\\"\\" aria-autocomplete=\\"list\\" aria-label={[undefined]} aria-labelledby={[undefined]}>
+                                                  <EmotionCssPropInternal css={{...}} __EMOTION_TYPE_PLEASE_DO_NOT_USE__=\\"div\\" __EMOTION_LABEL_PLEASE_DO_NOT_USE__=\\"Input\\">
+                                                    <div className=\\"css-b8ldur-Input\\">
+                                                      <AutosizeInput className=\\"list__input\\" inputRef={[Function (anonymous)]} inputStyle={{...}} disabled={false} autoCapitalize=\\"none\\" autoComplete=\\"off\\" autoCorrect=\\"off\\" id=\\"react-select-2-input\\" onBlur={[Function (anonymous)]} onChange={[Function (anonymous)]} onFocus={[Function (anonymous)]} spellCheck=\\"false\\" tabIndex=\\"0\\" form={[undefined]} type=\\"text\\" value=\\"\\" aria-autocomplete=\\"list\\" aria-label={[undefined]} aria-labelledby={[undefined]} minWidth={1} injectStyles={true}>
+                                                        <div className=\\"list__input\\" style={{...}}>
+                                                          <input className={[undefined]} disabled={false} autoCapitalize=\\"none\\" autoComplete=\\"off\\" autoCorrect=\\"off\\" id=\\"react-select-2-input\\" onBlur={[Function (anonymous)]} onChange={[Function (anonymous)]} onFocus={[Function (anonymous)]} spellCheck=\\"false\\" tabIndex=\\"0\\" form={[undefined]} type=\\"text\\" value=\\"\\" aria-autocomplete=\\"list\\" aria-label={[undefined]} aria-labelledby={[undefined]} style={{...}} />
+                                                          <div style={{...}} />
+                                                        </div>
+                                                      </AutosizeInput>
+                                                    </div>
+                                                  </EmotionCssPropInternal>
+                                                </Input>
+                                              </div>
+                                            </EmotionCssPropInternal>
+                                          </ValueContainer>
+                                          <IndicatorsContainer cx={[Function (anonymous)]} clearValue={[Function (anonymous)]} getStyles={[Function (anonymous)]} getValue={[Function (anonymous)]} hasValue={false} isMulti={false} isRtl={false} options={{...}} selectOption={[Function (anonymous)]} setValue={[Function (anonymous)]} selectProps={{...}} theme={{...}} isDisabled={false}>
+                                            <EmotionCssPropInternal css={{...}} className=\\"list__indicators\\" __EMOTION_TYPE_PLEASE_DO_NOT_USE__=\\"div\\" __EMOTION_LABEL_PLEASE_DO_NOT_USE__=\\"IndicatorsContainer\\">
+                                              <div className=\\"list__indicators css-1hb7zxy-IndicatorsContainer\\">
+                                                <IndicatorSeparator cx={[Function (anonymous)]} clearValue={[Function (anonymous)]} getStyles={[Function (anonymous)]} getValue={[Function (anonymous)]} hasValue={false} isMulti={false} isRtl={false} options={{...}} selectOption={[Function (anonymous)]} setValue={[Function (anonymous)]} selectProps={{...}} theme={{...}} isDisabled={false} isFocused={false}>
+                                                  <EmotionCssPropInternal css={{...}} className=\\"list__indicator-separator\\" __EMOTION_TYPE_PLEASE_DO_NOT_USE__=\\"span\\" __EMOTION_LABEL_PLEASE_DO_NOT_USE__=\\"IndicatorSeparator\\">
+                                                    <span className=\\"list__indicator-separator css-1okebmr-indicatorSeparator\\" />
+                                                  </EmotionCssPropInternal>
+                                                </IndicatorSeparator>
+                                                <DropdownIndicator cx={[Function (anonymous)]} clearValue={[Function (anonymous)]} getStyles={[Function (anonymous)]} getValue={[Function (anonymous)]} hasValue={false} isMulti={false} isRtl={false} options={{...}} selectOption={[Function (anonymous)]} setValue={[Function (anonymous)]} selectProps={{...}} theme={{...}} innerProps={{...}} isDisabled={false} isFocused={false}>
+                                                  <EmotionCssPropInternal onMouseDown={[Function (anonymous)]} onTouchEnd={[Function (anonymous)]} aria-hidden=\\"true\\" css={{...}} className=\\"list__indicator list__dropdown-indicator\\" __EMOTION_TYPE_PLEASE_DO_NOT_USE__=\\"div\\" __EMOTION_LABEL_PLEASE_DO_NOT_USE__=\\"DropdownIndicator\\">
+                                                    <div onMouseDown={[Function (anonymous)]} onTouchEnd={[Function (anonymous)]} aria-hidden=\\"true\\" className=\\"list__indicator list__dropdown-indicator css-tlfecz-indicatorContainer\\">
+                                                      <DownChevron>
+                                                        <Svg size={20}>
+                                                          <EmotionCssPropInternal height={20} width={20} viewBox=\\"0 0 20 20\\" aria-hidden=\\"true\\" focusable=\\"false\\" css={{...}} __EMOTION_TYPE_PLEASE_DO_NOT_USE__=\\"svg\\" __EMOTION_LABEL_PLEASE_DO_NOT_USE__=\\"Svg\\">
+                                                            <svg height={20} width={20} viewBox=\\"0 0 20 20\\" aria-hidden=\\"true\\" focusable=\\"false\\" className=\\"css-tj5bde-Svg\\">
+                                                              <path d=\\"M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z\\" />
+                                                            </svg>
+                                                          </EmotionCssPropInternal>
+                                                        </Svg>
+                                                      </DownChevron>
+                                                    </div>
+                                                  </EmotionCssPropInternal>
+                                                </DropdownIndicator>
+                                              </div>
+                                            </EmotionCssPropInternal>
+                                          </IndicatorsContainer>
+                                        </div>
+                                      </EmotionCssPropInternal>
+                                    </Control>
+                                    <input name=\\"id_room\\" type=\\"hidden\\" value=\\"\\" />
+                                  </div>
+                                </EmotionCssPropInternal>
+                              </SelectContainer>
+                            </Select>
+                          </StateManager>
+                        </div>
+                      </td>
+                    </tr>
+                    <TableErrors errors=\\"\\">
+                      <tr>
+                        <td colSpan={2}>
+                          <div className=\\"errorBox\\" />
+                        </td>
+                      </tr>
+                    </TableErrors>
+                    <tr>
+                      <td className=\\"cellModal\\">
+                        Cost: 
+                      </td>
+                      <td>
+                        <span className=\\"cost\\">
+                          0
+                        </span>
+                         $
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <Button onClick={[Function: onClick]} className=\\" deleteButton deleteButton\\" title=\\"Delete\\">
+                  <button onClick={[Function: onClick]} className=\\" deleteButton deleteButton\\">
+                    Delete
+                  </button>
+                </Button>
+                <div className=\\"modalBoxButton\\">
+                  <Button className=\\"actionButton\\" onClick={[Function: onClick]} title=\\"Save\\">
+                    <button onClick={[Function: onClick]} className=\\"actionButton\\">
+                      Save
+                    </button>
+                  </Button>
+                  <Button onClick={[Function: onClick]} className=\\"closeButton\\" title=\\"Cancel\\">
+                    <button onClick={[Function: onClick]} className=\\"closeButton\\">
+                      Cancel
+                    </button>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </ModalPortal>
+        </Portal>
+      </Modal>
+    </div>
+  </BookingModal>
+</Provider>"
+`;
