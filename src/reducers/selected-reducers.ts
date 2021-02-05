@@ -3,15 +3,10 @@ import {
 } from "../actions/types";
 
 import moment, {Moment} from "moment";
-//import {momentNullDate} from "../utils/booking-utils";
 
 function momentNullDate () {
-    var date = "1970-01-01";
-    var time = "00:00";
-
-    return moment(date + ' ' + time);
+    return moment("1970-01-01 00:00")
 }
-
 
 interface TypeItemSelected {
     day: Moment;

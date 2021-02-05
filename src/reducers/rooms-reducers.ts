@@ -1,4 +1,4 @@
-import { ROOMS_FETCH_DATA_SUCCESS, ROOMS_IS_LOADING, ROOMS_HAS_ERRORED, CLEAR_ERRORS, DELETE_ROOMS, DELETE_ROOMS_SUCCESS, UPDATE_ROOMS, UPDATE_ROOMS_SUCCESS, UPDATE_ROOMS_ERRORS, ADD_ROOMS, ADD_ROOMS_SUCCESS, ADD_ROOMS_ERRORS } from '../actions/types';
+import { ROOMS_FETCH_DATA_SUCCESS, ROOMS_IS_LOADING, ROOMS_HAS_ERRORED, DELETE_ROOMS_SUCCESS, UPDATE_ROOMS_SUCCESS, ADD_ROOMS_SUCCESS } from '../actions/types';
 
 export interface TypeRoom {
     _id: string;
@@ -32,24 +32,20 @@ export function rooms(state:TypeRoom[] = [], action:{type: string; rooms: TypeRo
     const payload = action.payload
     switch (action.type) {
         case ROOMS_FETCH_DATA_SUCCESS:
-            var newState:any = action.rooms;
-            return [].concat(newState);
+            return action.rooms
 
         case UPDATE_ROOMS_SUCCESS:
-            if(payload[0] == null) payload[0] = 0;
-            var newState:any = state;
-            newState[payload[0]] = payload[1];
-            state = [];
-            return state.concat(newState);
+            if(payload[0] == null)
+                payload[0] = 0
+            var newArray = [...state]
+            newArray[payload[0]] = {...newArray[payload[0]], ...payload[1]}
+            return newArray
 
         case DELETE_ROOMS_SUCCESS:
-            var newState:any = state;
-            newState.splice(payload[0], 1);
-            state = [];
-            return newState;
+            return [...state.slice(0, payload[0]), ...state.slice(payload[0] + 1)];
 
         case ADD_ROOMS_SUCCESS:
-            return state.concat(payload);
+            return [...state, payload]
 
         default:
             return state;

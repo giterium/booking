@@ -30,28 +30,23 @@ export function bookingIsLoading(state = false, action: {type: string; isLoading
 }
 
 export function booking(state:TypeBooking[] = [], action: {type: string; booking: TypeBooking[]; payload: TypeBooking;}) {
-    //alert(1)
     const payload = action.payload
     switch (action.type) {
         case BOOKING_FETCH_DATA_SUCCESS:
-            var newArr:any = action.booking;
-            return [].concat(newArr);
+            return action.booking
 
         case UPDATE_BOOKING_SUCCESS:
-            if(payload[0] == null) payload[0] = 0;
-            var newArr:any = state;
-            newArr[payload[0]] = payload[1];
-            state = [];
-            return state.concat(newArr);
+            if(payload[0] == null)
+                payload[0] = 0
+            var newArray = [...state]
+            newArray[payload[0]] = {...newArray[payload[0]], ...payload[1]}
+            return newArray
 
         case DELETE_BOOKING_SUCCESS:
-            var newArr:any = state;
-            newArr.splice(payload[0], 1);
-            state = [];
-            return state.concat(newArr);
+            return [...state.slice(0, payload[0]), ...state.slice(payload[0] + 1)]
 
         case ADD_BOOKING_SUCCESS:
-            return state.concat(payload);
+            return [...state, payload]
 
         default:
             return state;

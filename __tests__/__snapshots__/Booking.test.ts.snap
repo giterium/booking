@@ -15,9 +15,6 @@ exports[`Booking component should snapshot Booking  1`] = `
             <div className=\\"headerRow\\">
               <div className=\\"headerCell\\" />
               <div className=\\"headerCell\\">
-                04.02
-              </div>
-              <div className=\\"headerCell\\">
                 05.02
               </div>
               <div className=\\"headerCell\\">
@@ -56,23 +53,21 @@ exports[`Booking component should snapshot Booking  1`] = `
               <div className=\\"headerCell\\">
                 17.02
               </div>
+              <div className=\\"headerCell\\">
+                18.02
+              </div>
             </div>
             <div className=\\"roomRow\\">
               <div className=\\"roomCell\\">
                 № 
                 23
               </div>
-              <div onClick={[Function: onClick]} className=\\" cell d04-02-21 dayCell\\">
+              <div onClick={[Function: onClick]} className=\\" cell d05-02-21 dayCell\\">
                 <div className=\\"roomSubCell\\" />
                 <div className=\\"roomSubCellLeft\\" />
                 <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}}>
                   123
                 </div>
-              </div>
-              <div onClick={[Function: onClick]} className=\\" cell d05-02-21 dayCell\\">
-                <div className=\\"roomSubCell\\" />
-                <div className=\\"roomSubCellLeft\\" />
-                <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
               </div>
               <div onClick={[Function: onClick]} className=\\" cell d06-02-21 dayCell\\">
                 <div className=\\"roomSubCell\\" />
@@ -130,6 +125,11 @@ exports[`Booking component should snapshot Booking  1`] = `
                 <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
               </div>
               <div onClick={[Function: onClick]} className=\\" cell d17-02-21 dayCell\\">
+                <div className=\\"roomSubCell\\" />
+                <div className=\\"roomSubCellLeft\\" />
+                <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
+              </div>
+              <div onClick={[Function: onClick]} className=\\" cell d18-02-21 dayCell\\">
                 <div className=\\"roomSubCell\\" />
                 <div className=\\"roomSubCellLeft\\" />
                 <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
@@ -200,7 +200,7 @@ exports[`Booking component should snapshot Booking  1`] = `
                                     <InnerReference setReferenceNode={[Function (anonymous)]}>
                                       <div className=\\"react-datepicker-wrapper\\">
                                         <div className=\\"react-datepicker__input-container\\">
-                                          <input type=\\"text\\" value=\\"04.02.2021\\" onBlur={[Function (anonymous)]} onChange={[Function (anonymous)]} onClick={[Function (anonymous)]} onFocus={[Function (anonymous)]} onKeyDown={[Function (anonymous)]} id={[undefined]} name={[undefined]} autoFocus={[undefined]} placeholder={[undefined]} disabled={false} autoComplete={[undefined]} className=\\"startDatePicker\\" title={[undefined]} readOnly={false} required={[undefined]} tabIndex={[undefined]} aria-describedby={[undefined]} aria-invalid={[undefined]} aria-labelledby={[undefined]} aria-required={[undefined]} />
+                                          <input type=\\"text\\" value=\\"05.02.2021\\" onBlur={[Function (anonymous)]} onChange={[Function (anonymous)]} onClick={[Function (anonymous)]} onFocus={[Function (anonymous)]} onKeyDown={[Function (anonymous)]} id={[undefined]} name={[undefined]} autoFocus={[undefined]} placeholder={[undefined]} disabled={false} autoComplete={[undefined]} className=\\"startDatePicker\\" title={[undefined]} readOnly={false} required={[undefined]} tabIndex={[undefined]} aria-describedby={[undefined]} aria-invalid={[undefined]} aria-labelledby={[undefined]} aria-required={[undefined]} />
                                         </div>
                                       </div>
                                     </InnerReference>
@@ -229,7 +229,7 @@ exports[`Booking component should snapshot Booking  1`] = `
                                     <InnerReference setReferenceNode={[Function (anonymous)]}>
                                       <div className=\\"react-datepicker-wrapper\\">
                                         <div className=\\"react-datepicker__input-container\\">
-                                          <input type=\\"text\\" value=\\"04.02.2021\\" onBlur={[Function (anonymous)]} onChange={[Function (anonymous)]} onClick={[Function (anonymous)]} onFocus={[Function (anonymous)]} onKeyDown={[Function (anonymous)]} id={[undefined]} name={[undefined]} autoFocus={[undefined]} placeholder={[undefined]} disabled={false} autoComplete={[undefined]} className=\\"endDatePicker\\" title={[undefined]} readOnly={false} required={[undefined]} tabIndex={[undefined]} aria-describedby={[undefined]} aria-invalid={[undefined]} aria-labelledby={[undefined]} aria-required={[undefined]} />
+                                          <input type=\\"text\\" value=\\"05.02.2021\\" onBlur={[Function (anonymous)]} onChange={[Function (anonymous)]} onClick={[Function (anonymous)]} onFocus={[Function (anonymous)]} onKeyDown={[Function (anonymous)]} id={[undefined]} name={[undefined]} autoFocus={[undefined]} placeholder={[undefined]} disabled={false} autoComplete={[undefined]} className=\\"endDatePicker\\" title={[undefined]} readOnly={false} required={[undefined]} tabIndex={[undefined]} aria-describedby={[undefined]} aria-invalid={[undefined]} aria-labelledby={[undefined]} aria-required={[undefined]} />
                                         </div>
                                       </div>
                                     </InnerReference>

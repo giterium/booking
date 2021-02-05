@@ -21,8 +21,8 @@ describe('Booking actions', () => {
         expect(store.getState().booking[0].fio).toEqual('321');
     });
 
-    test('Should dispatches correct updateBooking', () => {
-        store.dispatch(selectActions.deleteBooking(0));
+    test('Should dispatches correct deleteBooking', () => {
+        store.dispatch(selectActions.deleteBooking('1234', 0));
         expect(store.getState().booking.length).toEqual(0);
     });
 
