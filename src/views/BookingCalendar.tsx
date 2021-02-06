@@ -1,13 +1,14 @@
 import React, {useEffect, useState}  from 'react';
-import {useDispatch, shallowEqual, useSelector} from 'react-redux';
+import {shallowEqual, useSelector} from 'react-redux';
 import {TypeRoom} from "../reducers/rooms-reducers";
 import moment, {Moment} from 'moment';
 import styles from '../css/booking.module.css';
 import {Button} from "../components/Button";
 import {TypeBooking} from "../reducers/booking-reducers";
 import {TypeSelected} from "../reducers/selected-reducers";
-import {timenull, isSelected, updateSelected, clickDayRoom} from "../utils/booking-utils";
+import {timenull, isSelected, updateSelected, clickDayRoom, commonStylesCell} from "../utils/booking-utils";
 import {RootState} from "../reducers";
+import {store} from "../configureStore";
 
 export interface TypeDay {
     date: Date;
@@ -20,18 +21,23 @@ type CalendarProps = {
     endDate: Date | Moment;
 };
 
-export const Calendar = (props : CalendarProps) => {
+export const Calendar = React.memo((props : CalendarProps) => {
     const rooms: TypeRoom[] = useSelector((state: RootState) => state.rooms, shallowEqual);
     const selected: TypeSelected = useSelector((state: RootState) => state.selected, shallowEqual);
     const booking: TypeBooking[] = useSelector((state: RootState) => state.booking, shallowEqual);
+    const currentBooking:TypeBooking = store.getState().currentBooking
 
     const [startDate, setStartDate] = useState(props.startDate);
     const [endDate, setEndDate] = useState(props.endDate);
     const [daysList, setDaysList] = useState([]);
-    const dispatch = useDispatch();
 
     const getBookingInfo = (day, room, field) => {
-        for(const curBooking of booking) {
+        for(const current of booking) {
+            if(current._id == currentBooking._id)
+                var curBooking = currentBooking
+            else
+                var curBooking = current
+
             if (
                 curBooking.room == room._id
                 &&
@@ -45,7 +51,12 @@ export const Calendar = (props : CalendarProps) => {
 
     const getWidthFio = (day, room) => {
         let duration = 0;
-        for(const curBooking of booking) {
+        for(const current of booking) {
+            if(current._id == currentBooking._id)
+                var curBooking = currentBooking
+            else
+                var curBooking = current
+
             if (
                 curBooking.room == room._id
                 &&
@@ -78,10 +89,6 @@ export const Calendar = (props : CalendarProps) => {
     }
 
     useEffect(() => {
-        dispatch(updateSelected(selected))
-    }, [selected]);
-
-    useEffect(() => {
         const list:TypeDay[] = [];
         const current = startDate.clone();
         while(current <= endDate){
@@ -112,12 +119,12 @@ export const Calendar = (props : CalendarProps) => {
                         <div
                             key={room.num+'-'+day.date+'-cell'}
                             onClick={()=>clickDayRoom(day, room)}
-                            className={isSelected(day, room, selected)}
+                            className={commonStylesCell(day, room) + ' ' + isSelected(day, room, selected)}
                         >
                             <div className={styles.roomSubCell}></div>
                             <div className={styles.roomSubCellLeft}></div>
                             <div
-                                onClick={() =>clickBooking(getBookingInfo(day, room, '_id'))}
+                                onClick={(e) =>{ e.stopPropagation(); clickBooking( getBookingInfo(day, room, '_id') ) }}
                                 className={styles.bookingCellFio}
                                 style={{width: getWidthFio(day, room), overflow: 'hidden'}}
                             >
@@ -136,4 +143,4 @@ export const Calendar = (props : CalendarProps) => {
         </div>
         <Button onClick={()=>{localStorage.clear(); document.location.reload();}} title={'Clear'} />
     </div>
-}
+})

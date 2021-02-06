@@ -9,7 +9,7 @@ exports[`Booking component should snapshot Booking  1`] = `
           Booking
         </div>
       </TitlePage>
-      <Calendar onClickBooking={[Function: onClickBooking]} startDate={{...}} endDate={{...}}>
+      <Memo() onClickBooking={[Function: onClickBooking]} startDate={{...}} endDate={{...}}>
         <div>
           <div className=\\"shahmatkaBox\\">
             <div className=\\"headerRow\\">
@@ -62,72 +62,72 @@ exports[`Booking component should snapshot Booking  1`] = `
                 № 
                 23
               </div>
-              <div onClick={[Function: onClick]} className=\\" cell d06-02-21 dayCell\\">
+              <div onClick={[Function: onClick]} className=\\" cell d06-02-21 dayCell undefined\\">
                 <div className=\\"roomSubCell\\" />
                 <div className=\\"roomSubCellLeft\\" />
                 <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
               </div>
-              <div onClick={[Function: onClick]} className=\\" cell d07-02-21 dayCell\\">
+              <div onClick={[Function: onClick]} className=\\" cell d07-02-21 dayCell undefined\\">
                 <div className=\\"roomSubCell\\" />
                 <div className=\\"roomSubCellLeft\\" />
                 <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
               </div>
-              <div onClick={[Function: onClick]} className=\\" cell d08-02-21 dayCell\\">
+              <div onClick={[Function: onClick]} className=\\" cell d08-02-21 dayCell undefined\\">
                 <div className=\\"roomSubCell\\" />
                 <div className=\\"roomSubCellLeft\\" />
                 <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
               </div>
-              <div onClick={[Function: onClick]} className=\\" cell d09-02-21 dayCell\\">
+              <div onClick={[Function: onClick]} className=\\" cell d09-02-21 dayCell undefined\\">
                 <div className=\\"roomSubCell\\" />
                 <div className=\\"roomSubCellLeft\\" />
                 <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
               </div>
-              <div onClick={[Function: onClick]} className=\\" cell d10-02-21 dayCell\\">
+              <div onClick={[Function: onClick]} className=\\" cell d10-02-21 dayCell undefined\\">
                 <div className=\\"roomSubCell\\" />
                 <div className=\\"roomSubCellLeft\\" />
                 <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
               </div>
-              <div onClick={[Function: onClick]} className=\\" cell d11-02-21 dayCell\\">
+              <div onClick={[Function: onClick]} className=\\" cell d11-02-21 dayCell undefined\\">
                 <div className=\\"roomSubCell\\" />
                 <div className=\\"roomSubCellLeft\\" />
                 <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
               </div>
-              <div onClick={[Function: onClick]} className=\\" cell d12-02-21 dayCell\\">
+              <div onClick={[Function: onClick]} className=\\" cell d12-02-21 dayCell undefined\\">
                 <div className=\\"roomSubCell\\" />
                 <div className=\\"roomSubCellLeft\\" />
                 <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
               </div>
-              <div onClick={[Function: onClick]} className=\\" cell d13-02-21 dayCell\\">
+              <div onClick={[Function: onClick]} className=\\" cell d13-02-21 dayCell undefined\\">
                 <div className=\\"roomSubCell\\" />
                 <div className=\\"roomSubCellLeft\\" />
                 <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
               </div>
-              <div onClick={[Function: onClick]} className=\\" cell d14-02-21 dayCell\\">
+              <div onClick={[Function: onClick]} className=\\" cell d14-02-21 dayCell undefined\\">
                 <div className=\\"roomSubCell\\" />
                 <div className=\\"roomSubCellLeft\\" />
                 <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
               </div>
-              <div onClick={[Function: onClick]} className=\\" cell d15-02-21 dayCell\\">
+              <div onClick={[Function: onClick]} className=\\" cell d15-02-21 dayCell undefined\\">
                 <div className=\\"roomSubCell\\" />
                 <div className=\\"roomSubCellLeft\\" />
                 <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
               </div>
-              <div onClick={[Function: onClick]} className=\\" cell d16-02-21 dayCell\\">
+              <div onClick={[Function: onClick]} className=\\" cell d16-02-21 dayCell undefined\\">
                 <div className=\\"roomSubCell\\" />
                 <div className=\\"roomSubCellLeft\\" />
                 <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
               </div>
-              <div onClick={[Function: onClick]} className=\\" cell d17-02-21 dayCell\\">
+              <div onClick={[Function: onClick]} className=\\" cell d17-02-21 dayCell undefined\\">
                 <div className=\\"roomSubCell\\" />
                 <div className=\\"roomSubCellLeft\\" />
                 <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
               </div>
-              <div onClick={[Function: onClick]} className=\\" cell d18-02-21 dayCell\\">
+              <div onClick={[Function: onClick]} className=\\" cell d18-02-21 dayCell undefined\\">
                 <div className=\\"roomSubCell\\" />
                 <div className=\\"roomSubCellLeft\\" />
                 <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
               </div>
-              <div onClick={[Function: onClick]} className=\\" cell d19-02-21 dayCell\\">
+              <div onClick={[Function: onClick]} className=\\" cell d19-02-21 dayCell undefined\\">
                 <div className=\\"roomSubCell\\" />
                 <div className=\\"roomSubCellLeft\\" />
                 <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
@@ -153,8 +153,8 @@ exports[`Booking component should snapshot Booking  1`] = `
             </button>
           </Button>
         </div>
-      </Calendar>
-      <BookingModal onChangeBooking={[Function: changeBooking]} onActionModal={[Function: actionModal]} onActionDelete={[Function: actionDelete]} onActionClose={[Function: actionClose]}>
+      </Memo()>
+      <BookingModal onActionModal={[Function: actionModal]} onActionDelete={[Function: actionDelete]} onActionClose={[Function: actionClose]}>
         <div id=\\"root\\">
           <Modal isOpen={true} style={{...}} ariaHideApp={false} portalClassName=\\"ReactModalPortal\\" bodyOpenClassName=\\"ReactModal__Body--open\\" role=\\"dialog\\" closeTimeoutMS={0} shouldFocusAfterRender={true} shouldCloseOnEsc={true} shouldCloseOnOverlayClick={true} shouldReturnFocusAfterClose={true} preventScroll={false} parentSelector={[Function: parentSelector]} overlayElement={[Function: overlayElement]} contentElement={[Function: contentElement]}>
             <Portal containerInfo={{...}}>

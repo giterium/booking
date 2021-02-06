@@ -1,5 +1,5 @@
 import {store} from '../src/configureStore';
-import {isGoodRange, isBooking, timenull, isSelected, setCurrentBooking, changeBooking} from "../src/utils/booking-utils";
+import {isGoodRange, isBooking, timenull, isSelected, setCurrentBooking, checkBooking} from "../src/utils/booking-utils";
 import * as selectActions from "../src/actions/booking-actions";
 import "regenerator-runtime/runtime";
 import moment from "moment";
@@ -46,8 +46,8 @@ describe('Booking Helpers', () => {
         expect(isSelected({date: timenull(moment().add(3,'days'))}, {_id: '1'}, selected)).toEqual(expect.not.stringContaining('selected'));
     });
 
-    test('Should correct execute changeBooking when startDate of selected more than endDate of selected', () => {
+    test('Should correct execute checkBooking when startDate of selected more than endDate of selected', () => {
         store.dispatch(setCurrentBooking({_id: 'create', room: '1', cost: '200', fio: '123', startDate: moment(), endDate: moment().add(2,'days')}));
-        expect(changeBooking(timenull(moment().add(3,'days')), timenull(moment()), {_id: '1'})).toEqual([timenull(moment()), timenull(moment().add(3,'days')), '']);
+        expect(checkBooking(timenull(moment().add(3,'days')), timenull(moment()), {_id: '1'})).toEqual([timenull(moment()), timenull(moment().add(3,'days')), '']);
     });
 });

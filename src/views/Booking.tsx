@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import {useDispatch, shallowEqual, useSelector} from 'react-redux';
 import {itemsRoomsFetchData} from '../actions/rooms-actions';
 import {clearErrors, deleteBooking, createBooking, itemsBookingFetchData, updateBooking} from '../actions/booking-actions';
@@ -11,7 +11,7 @@ import {TypeRoom} from '../reducers/rooms-reducers';
 import {RootState} from '../reducers';
 import {TypeBooking} from '../reducers/booking-reducers';
 import moment from 'moment';
-import {timenull, updateSelected, setCurrentBooking, changeBooking} from "../utils/booking-utils";
+import {timenull, updateSelected, setCurrentBooking} from "../utils/booking-utils";
 
 export interface IContextProps {
     openWindow: boolean;
@@ -43,6 +43,7 @@ export const Booking = () => {
             start:{day:null, room:false},
             end:{day:null, room:false}
         }))
+        dispatch(setCurrentBooking({}));
     }
 
     if (bookingHasErrored) {
@@ -65,6 +66,8 @@ export const Booking = () => {
 
     const actionModal = (cost, fio, room, startDate, endDate) => {
         if(currentBooking._id == 'create') {
+            dispatch(setCurrentBooking({}))
+
             dispatch(createBooking({
                 _id: '',
                 cost: cost,
@@ -72,9 +75,11 @@ export const Booking = () => {
                 room: room,
                 startDate: startDate,
                 endDate: endDate
-            }));
+            }))
         }
         else {
+            dispatch(setCurrentBooking({}))
+
             dispatch(updateBooking({
                 _id: currentBooking._id,
                 cost: currentBooking.cost,
@@ -82,7 +87,7 @@ export const Booking = () => {
                 room: currentBooking.room,
                 startDate: currentBooking.startDate,
                 endDate: currentBooking.endDate
-            }, booking.findIndex(item => item._id == currentBooking._id)));
+            }, booking.findIndex(item => item._id == currentBooking._id)))
         }
     }
 
@@ -104,7 +109,6 @@ export const Booking = () => {
                 />
                 <WindowContext.Provider value={{ openWindow, setOpenWindow }}>
                     <BookingModal
-                        onChangeBooking={changeBooking}
                         onActionModal={actionModal}
                         onActionDelete={actionDelete}
                         onActionClose={actionClose}

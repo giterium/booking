@@ -15,7 +15,7 @@ import {EventBus} from "../events";
 import {RootState} from "../reducers";
 import {TypeBooking} from "../reducers/booking-reducers";
 import {clearErrors} from "../actions/booking-actions";
-import {setCurrentBooking, updateSelected} from "../utils/booking-utils";
+import {setCurrentBooking, updateSelected, checkBooking} from "../utils/booking-utils";
 import {TypeSelected} from "../reducers/selected-reducers";
 
 const modalStyles = {
@@ -35,7 +35,7 @@ interface TypeRoomsOptions {
 }
 
 type ModalProps = {
-    onChangeBooking: (startDate: Moment | Date, endDate: Moment | Date, room: string) => any;
+    //onChangeBooking: (startDate: Moment | Date, endDate: Moment | Date, room: string) => any;
     onActionDelete: (id: string) => void;
     onActionClose?: () => void;
     onActionModal: (cost: string, fio: string, room: string, startDate: Moment | Date, endDate: Moment | Date) => void;
@@ -110,7 +110,7 @@ export const BookingModal = (props: ModalProps) => {
     }, [selected])
 
     const changeBooking = (newStartDate, newEndDate, room) => {
-        const result = props.onChangeBooking(newStartDate, newEndDate, room)
+        const result = checkBooking(newStartDate, newEndDate, room)
         if(typeof result != 'undefined') {
             if (result === true) {
                 const curRoom = rooms.filter((item) => item._id == room)[0];
@@ -138,6 +138,8 @@ export const BookingModal = (props: ModalProps) => {
             }
         }
     }
+
+
 
     return <div id="root">
         <Modal

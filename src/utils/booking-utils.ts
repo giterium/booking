@@ -40,6 +40,8 @@ export function isGoodRange (startDate, endDate, id_room, curIdBooking = '') {
                 moment(timenull(startDate)).isSameOrBefore(timenull(curBooking.startDate)) && moment(timenull(endDate)).isSameOrAfter(timenull(curBooking.endDate))
                 ||
                 moment(timenull(startDate)).isSame(timenull(curBooking.startDate)) && moment(timenull(endDate)).isSame(timenull(curBooking.endDate))
+                ||
+                moment(timenull(startDate)).isSameOrAfter(timenull(curBooking.endDate)) && moment(timenull(endDate)).isSameOrBefore(timenull(curBooking.startDate))
             )
             &&
             curIdBooking != curBooking._id
@@ -58,12 +60,19 @@ export function timenull(date) {
 }
 
 export const isBooking = (day, room) => {
-    const booking:TypeBooking[] = store.getState().booking;
-    const bookingSlice = booking.filter(item => item.room == room._id)
+    const currentBooking:TypeBooking = store.getState().currentBooking
+    const booking:TypeBooking[] = store.getState().booking
 
-    let is_booking = false;
-    let is_first_booking = false;
-    let is_last_booking = false;
+    const bookingWithCurrent = [...booking]
+    const index = booking.findIndex((p) => p._id == currentBooking._id)
+    if(index != -1) {
+        bookingWithCurrent[index] = {...currentBooking}
+    }
+    const bookingSlice = bookingWithCurrent.filter(item => item.room == room._id)
+
+    let is_booking = false
+    let is_first_booking = false
+    let is_last_booking = false
 
     for(const curBooking of bookingSlice) {
         if (
@@ -96,40 +105,31 @@ export const isBooking = (day, room) => {
         return '';
 }
 
-const commonStylesCell = (day, room) => {
+export const commonStylesCell = (day, room) => {
     return isBooking(day, room) + ' cell d' + day.date.format('DD-MM-YY') + ' ' +styles.dayCell;
 }
 
 export const isSelected = (day, room, selected) => {
     if(selected.start.room && !selected.end.room ) {
         if(selected.start.day.format('DD.MM.YY') == day.date.format('DD.MM.YY') && selected.start.room == room._id) {
-            return commonStylesCell(day, room)  + ' ' + styles.selected +' '+ styles.firstSelected;
-        }
-        else {
-            return commonStylesCell(day, room) ;
+            return styles.selected +' '+ styles.firstSelected;
         }
     }
     else if(selected.start.room == room._id && selected.end.room == room._id) {
         if(selected.start.day.diff(day.date) <= 0 && selected.end.day.diff(day.date) >= 0) {
             if(selected.start.day.format('DD.MM.YY') == day.date.format('DD.MM.YY')) {
-                return commonStylesCell(day, room)  + ' ' + styles.selected + ' ' + styles.firstSelected;
+                return styles.selected + ' ' + styles.firstSelected;
             }
             else if(moment(timenull(selected.end.day)).diff(timenull(day.date)) == 0) {
-                return commonStylesCell(day, room) + ' ' + styles.selected + ' ' + styles.lastSelected;
+                return styles.selected + ' ' + styles.lastSelected;
             }
             else
-                return commonStylesCell(day, room)  + ' ' + styles.selected;
+                return styles.selected;
         }
-        else {
-            return commonStylesCell(day, room);
-        }
-    }
-    else {
-        return commonStylesCell(day, room);
     }
 }
 
-export const changeBooking = (startDate, endDate, room = '') => {
+export const checkBooking = (startDate, endDate, room = '') => {
     const rooms:TypeRoom[] = store.getState().rooms;
     const selected:TypeSelected = store.getState().selected;
     const currentBooking:TypeBooking = store.getState().currentBooking;
@@ -174,8 +174,9 @@ export const changeBooking = (startDate, endDate, room = '') => {
         }
     }
     else {
-        if(room == '')
+        if(room == '') {
             room = currentBooking.room;
+        }
         if(moment(timenull(startDate)).isSame(timenull(endDate))) {
             alert('Дата выезда и дата въезда должны различаться.')
             return [

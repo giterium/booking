@@ -5,7 +5,6 @@ import configureStore from 'redux-mock-store';
 const mockStore = configureStore([]);
 import "regenerator-runtime/runtime";
 import {momentNullDate} from "../src/utils/booking-utils";
-import {Booking} from "../src/views/Booking";
 
 describe("Booking Modal component", () => {
     let store;
@@ -69,6 +68,7 @@ describe("Booking Modal component", () => {
         expect(mockCallBack.mock.calls.length).toBe(1);
     });
 
+/*
     it('datepicker calls the onChange Event in StartDate', done => {
         const mockCallBack = jest.fn();
         const wrapper = mount( <Provider store={store}><BookingModal onChangeBooking={mockCallBack} /></Provider>)
@@ -86,6 +86,7 @@ describe("Booking Modal component", () => {
         done();
         expect(mockCallBack.mock.calls.length).toBe(1);
     });
+ */
 
     it("should call onActionDelete method", () => {
         const mockCallBack = jest.fn();
