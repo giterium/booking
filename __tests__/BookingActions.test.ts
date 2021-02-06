@@ -31,6 +31,12 @@ describe('Booking actions', () => {
         expect(store.getState().bookingHasErrored).toEqual(true);
     });
 
+
+    test('Should dispatches correct bookingIsLoading', () => {
+        store.dispatch(selectActions.bookingIsLoading(true));
+        expect(store.getState().bookingIsLoading).toEqual(true);
+    });
+
     test('Should dispatches correct bookingFetchDataSuccess', () => {
         const result = {
             type: 'BOOKING_FETCH_DATA_SUCCESS',

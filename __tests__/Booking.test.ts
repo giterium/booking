@@ -12,8 +12,24 @@ const sleep = m => new Promise(r => setTimeout(r, m))
 
 describe("Booking component", () => {
     let store;
+    let storeForSnapshot;
 
     beforeEach(() => {
+        storeForSnapshot = mockStore({
+            rooms: [{
+                _id: 'enzymeOpenWindow',
+                num: 23,
+                building: 2,
+                capacity: 2,
+                cost: '100'
+            }],
+            booking: [{_id: '123', room: 'enzymeOpenWindow', cost: '200', fio: '123', startDate: moment("2021-01-01").toDate(), endDate: moment("2021-01-01").add(2,'days').toDate()}],
+            selected: {
+                start:{day:momentNullDate(), room:''},
+                end:{day:momentNullDate(), room:''}
+            },
+        })
+
         store = mockStore({
             rooms: [{
                 _id: 'enzymeOpenWindow',
@@ -35,7 +51,7 @@ describe("Booking component", () => {
     })
 
     it("should snapshot Booking ", () => {
-        const wrapper = mount(<Provider store={store}><Booking /></Provider>)
+        const wrapper = mount(<Provider store={storeForSnapshot}><Booking /></Provider>)
         expect(wrapper.debug()).toMatchSnapshot()
     })
 

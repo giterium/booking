@@ -10,6 +10,7 @@ import moment from "moment";
 describe("Booking Calendar component", () => {
     let store;
     let props;
+    let propsForSnapshot;
     const mockOnClickBooking = jest.fn();
 
     beforeEach(() => {
@@ -33,11 +34,15 @@ describe("Booking Calendar component", () => {
             startDate: timenull(moment()),
             endDate: timenull(moment().add(13,'days')),
         };
+        propsForSnapshot = {
+            onClickBooking: mockOnClickBooking,
+            startDate: timenull(moment("2021-01-01")),
+            endDate: timenull(moment("2021-01-01").add(13,'days')),
+        };
     });
 
     it("should render Booking Calendar component", () => {
-        //const props = {rooms};
-        const wrapper = mount(<Provider store={store}><Calendar {...props} /></Provider>);
+        const wrapper = mount(<Provider store={store}><Calendar {...propsForSnapshot} /></Provider>);
         expect(wrapper.debug()).toMatchSnapshot();
     });
 
