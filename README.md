@@ -1,4 +1,4 @@
-Booking Calendar
+Simple Booking Calendar
 ================
 
 ### Warning

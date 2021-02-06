@@ -1,5 +1,7 @@
 import {store} from '../src/configureStore';
-import {isGoodRange, isBooking, timenull, isSelected, setCurrentBooking, checkBooking} from "../src/utils/booking-utils";
+import {isBooking, timenull, isSelected, setCurrentBooking} from "../src/utils/booking-utils";
+import {checkBooking} from "../src/utils/checkBooking";
+import {isGoodRange} from "../src/utils/isGoodRange";
 import * as selectActions from "../src/actions/booking-actions";
 import "regenerator-runtime/runtime";
 import moment from "moment";

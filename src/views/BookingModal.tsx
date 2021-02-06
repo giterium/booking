@@ -15,7 +15,8 @@ import {EventBus} from "../events";
 import {RootState} from "../reducers";
 import {TypeBooking} from "../reducers/booking-reducers";
 import {clearErrors} from "../actions/booking-actions";
-import {setCurrentBooking, updateSelected, checkBooking} from "../utils/booking-utils";
+import {setCurrentBooking, updateSelected} from "../utils/booking-utils";
+import {checkBooking} from "../utils/checkBooking";
 import {TypeSelected} from "../reducers/selected-reducers";
 
 const modalStyles = {
