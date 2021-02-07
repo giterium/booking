@@ -11,7 +11,7 @@ import {TypeRoom} from '../reducers/rooms-reducers';
 import {RootState} from '../reducers';
 import {TypeBooking} from '../reducers/booking-reducers';
 import moment from 'moment';
-import {timenull, updateSelected, setCurrentBooking} from "../utils/booking-utils";
+import {timenull, updateSelected, setCurrentBooking, momentNullDate} from "../utils/booking-utils";
 
 export interface IContextProps {
     openWindow: boolean;
@@ -40,19 +40,10 @@ export const Booking = () => {
 
     const actionClose = () => {
         dispatch(updateSelected({
-            start:{day:null, room:false},
-            end:{day:null, room:false}
+            start:{day:momentNullDate(), room:false},
+            end:{day:momentNullDate(), room:false}
         }))
         dispatch(setCurrentBooking({}));
-    }
-
-    if (bookingHasErrored) {
-        dispatch(bookingHasErrored(false))
-        return <><LoadError /></>
-    }
-
-    if (bookingIsLoading) {
-        return <><Loading /></>
     }
 
     const actionDelete = (id) => {
@@ -99,6 +90,15 @@ export const Booking = () => {
     }
 
     document.title = "Booking"
+
+    if (bookingHasErrored) {
+        dispatch(bookingHasErrored(false))
+        return <><LoadError /></>
+    }
+
+    if (bookingIsLoading) {
+        return <><Loading /></>
+    }
 
     return  <div id="wrapper">
                 <TitlePage title='Booking' />

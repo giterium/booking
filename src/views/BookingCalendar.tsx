@@ -1,4 +1,4 @@
-import React, {useEffect, useState}  from 'react';
+import React, {useEffect, useState, useMemo}  from 'react';
 import {shallowEqual, useSelector} from 'react-redux';
 import {TypeRoom} from "../reducers/rooms-reducers";
 import moment, {Moment} from 'moment';

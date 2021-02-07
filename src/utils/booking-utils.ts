@@ -9,12 +9,12 @@ import {isGoodRange} from "./isGoodRange"
 export const updateSelected = createAction(
     'UPDATED_SELECTED',
     updates => updates,
-);
+)
 
 export const setCurrentBooking = createAction(
     'UPDATED_CURRENT_BOOKING',
     updates => updates,
-);
+)
 
 export function momentNullDate ():Moment {
     return moment("1970-01-01 00:00")
@@ -158,4 +158,4 @@ export const clickDayRoom = (day, room) => {
     else {
         unSelected()
     }
-};
+}

@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext, useMemo}  from 'react';
+import React, {useEffect, useState, useContext}  from 'react';
 import {TypeRoom} from "../reducers/rooms-reducers";
 import {WindowContext} from './Booking';
 import Modal from 'react-modal';
@@ -68,7 +68,7 @@ export const BookingModal = (props: ModalProps) => {
             props.onActionClose()
     }
 
-    useMemo(() => {
+    useEffect(() => {
         const roomsOptions: TypeRoomsOptions[] = []
         rooms.map((room) => {
             roomsOptions.push({label: room.num, value: room._id})
@@ -140,8 +140,6 @@ export const BookingModal = (props: ModalProps) => {
         }
     }
 
-
-
     return <div id="root">
         <Modal
             isOpen={rooms[0] && rooms[0]._id == 'enzymeOpenWindow' ? true : openWindow}
@@ -198,11 +196,10 @@ export const BookingModal = (props: ModalProps) => {
                 </tbody>
             </table>
 
-
-                <Button onClick={() => props.onActionDelete((currentBooking ? currentBooking._id : ''))} className={
-                    ((typeof currentBooking == 'undefined' || currentBooking._id == 'create') ? 'hidden' : '')+
-                    ' deleteButton '+styles.deleteButton
-                } title="Delete" />
+            <Button onClick={() => props.onActionDelete((currentBooking ? currentBooking._id : ''))} className={
+                ((typeof currentBooking == 'undefined' || currentBooking._id == 'create') ? 'hidden' : '')+
+                ' deleteButton '+styles.deleteButton
+            } title="Delete" />
 
             <div className={styles.modalBoxButton}>
                 <Button
