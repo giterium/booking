@@ -14,14 +14,18 @@ import moment from 'moment';
 import {timenull, updateSelected, setCurrentBooking, momentNullDate} from "../utils/booking-utils";
 
 export interface IContextProps {
-    openWindow: boolean
-    setOpenWindow: (a: boolean) => void
-    currentBooking: TypeBooking
+    openWindow: boolean;
+    setOpenWindow: (a: boolean) => void;
+    currentBooking: TypeBooking;
+}
+export interface BookingProps {
+    startDate?: Date;
+    endDate?: Date;
 }
 
 export const WindowContext = React.createContext({});
 
-export const Booking = (): ReactElement => {
+export const Booking = (props: BookingProps): ReactElement => {
     const bookingIsLoading: boolean = useSelector((state: RootState) => state.bookingIsLoading, shallowEqual);
     const bookingHasErrored: (a: boolean) => boolean = useSelector((state: RootState) => state.bookingHasErrored, shallowEqual);
     const [openWindow, setOpenWindow] = useState(false);
@@ -104,8 +108,8 @@ export const Booking = (): ReactElement => {
                 <TitlePage title='Booking' />
                 <Calendar
                     onClickBooking={onClickBooking}
-                    startDate={timenull(moment())}
-                    endDate={timenull(moment().add(13,'days'))}
+                    startDate={props.startDate ? props.startDate : timenull(moment())}
+                    endDate={props.endDate ? props.endDate : timenull(moment().add(13,'days'))}
                 />
                 <WindowContext.Provider value={{ openWindow, setOpenWindow }}>
                     <BookingModal

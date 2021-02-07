@@ -2,59 +2,59 @@
 
 exports[`Booking component should snapshot Booking  1`] = `
 "<Provider store={{...}}>
-  <Booking>
+  <Booking startDate={{...}} endDate={{...}}>
     <div id=\\"wrapper\\">
       <TitlePage title=\\"Booking\\">
         <div className=\\"titlePage\\">
           Booking
         </div>
       </TitlePage>
-      <Memo() onClickBooking={[Function: onClickBooking]} startDate={{...}} endDate={{...}}>
+      <Calendar onClickBooking={[Function: onClickBooking]} startDate={{...}} endDate={{...}}>
         <div>
-          <div className=\\"shahmatkaBox\\">
+          <div className=\\"calendarBox\\">
             <div className=\\"headerRow\\">
               <div className=\\"headerCell\\" />
               <div className=\\"headerCell\\">
-                06.02
+                01.01
               </div>
               <div className=\\"headerCell\\">
-                07.02
+                02.01
               </div>
               <div className=\\"headerCell\\">
-                08.02
+                03.01
               </div>
               <div className=\\"headerCell\\">
-                09.02
+                04.01
               </div>
               <div className=\\"headerCell\\">
-                10.02
+                05.01
               </div>
               <div className=\\"headerCell\\">
-                11.02
+                06.01
               </div>
               <div className=\\"headerCell\\">
-                12.02
+                07.01
               </div>
               <div className=\\"headerCell\\">
-                13.02
+                08.01
               </div>
               <div className=\\"headerCell\\">
-                14.02
+                09.01
               </div>
               <div className=\\"headerCell\\">
-                15.02
+                10.01
               </div>
               <div className=\\"headerCell\\">
-                16.02
+                11.01
               </div>
               <div className=\\"headerCell\\">
-                17.02
+                12.01
               </div>
               <div className=\\"headerCell\\">
-                18.02
+                13.01
               </div>
               <div className=\\"headerCell\\">
-                19.02
+                14.01
               </div>
             </div>
             <div className=\\"roomRow\\">
@@ -62,72 +62,74 @@ exports[`Booking component should snapshot Booking  1`] = `
                 № 
                 23
               </div>
-              <div onClick={[Function: onClick]} className=\\" cell d06-02-21 dayCell undefined\\">
+              <div onClick={[Function: onClick]} className=\\" cell d01-01-21 dayCell \\">
+                <div className=\\"roomSubCell\\" />
+                <div className=\\"roomSubCellLeft\\" />
+                <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}}>
+                  123
+                </div>
+              </div>
+              <div onClick={[Function: onClick]} className=\\" cell d02-01-21 dayCell \\">
                 <div className=\\"roomSubCell\\" />
                 <div className=\\"roomSubCellLeft\\" />
                 <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
               </div>
-              <div onClick={[Function: onClick]} className=\\" cell d07-02-21 dayCell undefined\\">
+              <div onClick={[Function: onClick]} className=\\" cell d03-01-21 dayCell \\">
                 <div className=\\"roomSubCell\\" />
                 <div className=\\"roomSubCellLeft\\" />
                 <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
               </div>
-              <div onClick={[Function: onClick]} className=\\" cell d08-02-21 dayCell undefined\\">
+              <div onClick={[Function: onClick]} className=\\" cell d04-01-21 dayCell \\">
                 <div className=\\"roomSubCell\\" />
                 <div className=\\"roomSubCellLeft\\" />
                 <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
               </div>
-              <div onClick={[Function: onClick]} className=\\" cell d09-02-21 dayCell undefined\\">
+              <div onClick={[Function: onClick]} className=\\" cell d05-01-21 dayCell \\">
                 <div className=\\"roomSubCell\\" />
                 <div className=\\"roomSubCellLeft\\" />
                 <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
               </div>
-              <div onClick={[Function: onClick]} className=\\" cell d10-02-21 dayCell undefined\\">
+              <div onClick={[Function: onClick]} className=\\" cell d06-01-21 dayCell \\">
                 <div className=\\"roomSubCell\\" />
                 <div className=\\"roomSubCellLeft\\" />
                 <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
               </div>
-              <div onClick={[Function: onClick]} className=\\" cell d11-02-21 dayCell undefined\\">
+              <div onClick={[Function: onClick]} className=\\" cell d07-01-21 dayCell \\">
                 <div className=\\"roomSubCell\\" />
                 <div className=\\"roomSubCellLeft\\" />
                 <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
               </div>
-              <div onClick={[Function: onClick]} className=\\" cell d12-02-21 dayCell undefined\\">
+              <div onClick={[Function: onClick]} className=\\" cell d08-01-21 dayCell \\">
                 <div className=\\"roomSubCell\\" />
                 <div className=\\"roomSubCellLeft\\" />
                 <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
               </div>
-              <div onClick={[Function: onClick]} className=\\" cell d13-02-21 dayCell undefined\\">
+              <div onClick={[Function: onClick]} className=\\" cell d09-01-21 dayCell \\">
                 <div className=\\"roomSubCell\\" />
                 <div className=\\"roomSubCellLeft\\" />
                 <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
               </div>
-              <div onClick={[Function: onClick]} className=\\" cell d14-02-21 dayCell undefined\\">
+              <div onClick={[Function: onClick]} className=\\" cell d10-01-21 dayCell \\">
                 <div className=\\"roomSubCell\\" />
                 <div className=\\"roomSubCellLeft\\" />
                 <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
               </div>
-              <div onClick={[Function: onClick]} className=\\" cell d15-02-21 dayCell undefined\\">
+              <div onClick={[Function: onClick]} className=\\" cell d11-01-21 dayCell \\">
                 <div className=\\"roomSubCell\\" />
                 <div className=\\"roomSubCellLeft\\" />
                 <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
               </div>
-              <div onClick={[Function: onClick]} className=\\" cell d16-02-21 dayCell undefined\\">
+              <div onClick={[Function: onClick]} className=\\" cell d12-01-21 dayCell \\">
                 <div className=\\"roomSubCell\\" />
                 <div className=\\"roomSubCellLeft\\" />
                 <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
               </div>
-              <div onClick={[Function: onClick]} className=\\" cell d17-02-21 dayCell undefined\\">
+              <div onClick={[Function: onClick]} className=\\" cell d13-01-21 dayCell \\">
                 <div className=\\"roomSubCell\\" />
                 <div className=\\"roomSubCellLeft\\" />
                 <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
               </div>
-              <div onClick={[Function: onClick]} className=\\" cell d18-02-21 dayCell undefined\\">
-                <div className=\\"roomSubCell\\" />
-                <div className=\\"roomSubCellLeft\\" />
-                <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
-              </div>
-              <div onClick={[Function: onClick]} className=\\" cell d19-02-21 dayCell undefined\\">
+              <div onClick={[Function: onClick]} className=\\" cell d14-01-21 dayCell \\">
                 <div className=\\"roomSubCell\\" />
                 <div className=\\"roomSubCellLeft\\" />
                 <div onClick={[Function: onClick]} className=\\"bookingCellFio\\" style={{...}} />
@@ -153,7 +155,7 @@ exports[`Booking component should snapshot Booking  1`] = `
             </button>
           </Button>
         </div>
-      </Memo()>
+      </Calendar>
       <BookingModal onActionModal={[Function: actionModal]} onActionDelete={[Function: actionDelete]} onActionClose={[Function: actionClose]}>
         <div id=\\"root\\">
           <Modal isOpen={true} style={{...}} ariaHideApp={false} portalClassName=\\"ReactModalPortal\\" bodyOpenClassName=\\"ReactModal__Body--open\\" role=\\"dialog\\" closeTimeoutMS={0} shouldFocusAfterRender={true} shouldCloseOnEsc={true} shouldCloseOnOverlayClick={true} shouldReturnFocusAfterClose={true} preventScroll={false} parentSelector={[Function: parentSelector]} overlayElement={[Function: overlayElement]} contentElement={[Function: contentElement]}>
@@ -198,7 +200,7 @@ exports[`Booking component should snapshot Booking  1`] = `
                                     <InnerReference setReferenceNode={[Function (anonymous)]}>
                                       <div className=\\"react-datepicker-wrapper\\">
                                         <div className=\\"react-datepicker__input-container\\">
-                                          <input type=\\"text\\" value=\\"06.02.2021\\" onBlur={[Function (anonymous)]} onChange={[Function (anonymous)]} onClick={[Function (anonymous)]} onFocus={[Function (anonymous)]} onKeyDown={[Function (anonymous)]} id={[undefined]} name={[undefined]} autoFocus={[undefined]} placeholder={[undefined]} disabled={false} autoComplete={[undefined]} className=\\"startDatePicker\\" title={[undefined]} readOnly={false} required={[undefined]} tabIndex={[undefined]} aria-describedby={[undefined]} aria-invalid={[undefined]} aria-labelledby={[undefined]} aria-required={[undefined]} />
+                                          <input type=\\"text\\" value=\\"01.01.1970\\" onBlur={[Function (anonymous)]} onChange={[Function (anonymous)]} onClick={[Function (anonymous)]} onFocus={[Function (anonymous)]} onKeyDown={[Function (anonymous)]} id={[undefined]} name={[undefined]} autoFocus={[undefined]} placeholder={[undefined]} disabled={false} autoComplete={[undefined]} className=\\"startDatePicker\\" title={[undefined]} readOnly={false} required={[undefined]} tabIndex={[undefined]} aria-describedby={[undefined]} aria-invalid={[undefined]} aria-labelledby={[undefined]} aria-required={[undefined]} />
                                         </div>
                                       </div>
                                     </InnerReference>
@@ -227,7 +229,7 @@ exports[`Booking component should snapshot Booking  1`] = `
                                     <InnerReference setReferenceNode={[Function (anonymous)]}>
                                       <div className=\\"react-datepicker-wrapper\\">
                                         <div className=\\"react-datepicker__input-container\\">
-                                          <input type=\\"text\\" value=\\"06.02.2021\\" onBlur={[Function (anonymous)]} onChange={[Function (anonymous)]} onClick={[Function (anonymous)]} onFocus={[Function (anonymous)]} onKeyDown={[Function (anonymous)]} id={[undefined]} name={[undefined]} autoFocus={[undefined]} placeholder={[undefined]} disabled={false} autoComplete={[undefined]} className=\\"endDatePicker\\" title={[undefined]} readOnly={false} required={[undefined]} tabIndex={[undefined]} aria-describedby={[undefined]} aria-invalid={[undefined]} aria-labelledby={[undefined]} aria-required={[undefined]} />
+                                          <input type=\\"text\\" value=\\"01.02.1970\\" onBlur={[Function (anonymous)]} onChange={[Function (anonymous)]} onClick={[Function (anonymous)]} onFocus={[Function (anonymous)]} onKeyDown={[Function (anonymous)]} id={[undefined]} name={[undefined]} autoFocus={[undefined]} placeholder={[undefined]} disabled={false} autoComplete={[undefined]} className=\\"endDatePicker\\" title={[undefined]} readOnly={false} required={[undefined]} tabIndex={[undefined]} aria-describedby={[undefined]} aria-invalid={[undefined]} aria-labelledby={[undefined]} aria-required={[undefined]} />
                                         </div>
                                       </div>
                                     </InnerReference>

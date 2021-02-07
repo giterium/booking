@@ -31,14 +31,14 @@ const customStyles = {
 }
 
 interface TypeRoomsOptions {
-    label: number
-    value: string
+    label: number;
+    value: string;
 }
 
 type ModalProps = {
-    onActionDelete: (id: string) => void
-    onActionClose?: () => void
-    onActionModal: (cost: string, fio: string, room: string, startDate: Moment | Date, endDate: Moment | Date) => void
+    onActionDelete: (id: string) => void;
+    onActionClose?: () => void;
+    onActionModal: (cost: string, fio: string, room: string, startDate: Moment | Date, endDate: Moment | Date) => void;
 }
 
 export const BookingModal:React.FC<ModalProps> = (props: ModalProps): ReactElement => {
@@ -48,8 +48,8 @@ export const BookingModal:React.FC<ModalProps> = (props: ModalProps): ReactEleme
     const currentBooking: TypeBooking = useSelector((state: RootState) => state.currentBooking, shallowEqual)
 
     const [fio, setFio] = useState('')
-    const [startDate, setStartDate] = useState(new Date())
-    const [endDate, setEndDate] = useState(new Date())
+    const [startDate, setStartDate] = useState(new Date('01-01-1970')) //for snapshot test
+    const [endDate, setEndDate] = useState(new Date('02-01-1970')) //for snapshot test
     const [cost, setCost] = useState('0')
     const [room, setRoom] = useState('')
 

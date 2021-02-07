@@ -45,7 +45,7 @@ exports[`Booking Modal component should snapshot BookingModal  1`] = `
                                 <InnerReference setReferenceNode={[Function (anonymous)]}>
                                   <div className=\\"react-datepicker-wrapper\\">
                                     <div className=\\"react-datepicker__input-container\\">
-                                      <input type=\\"text\\" value=\\"06.02.2021\\" onBlur={[Function (anonymous)]} onChange={[Function (anonymous)]} onClick={[Function (anonymous)]} onFocus={[Function (anonymous)]} onKeyDown={[Function (anonymous)]} id={[undefined]} name={[undefined]} autoFocus={[undefined]} placeholder={[undefined]} disabled={false} autoComplete={[undefined]} className=\\"startDatePicker\\" title={[undefined]} readOnly={false} required={[undefined]} tabIndex={[undefined]} aria-describedby={[undefined]} aria-invalid={[undefined]} aria-labelledby={[undefined]} aria-required={[undefined]} />
+                                      <input type=\\"text\\" value=\\"01.01.1970\\" onBlur={[Function (anonymous)]} onChange={[Function (anonymous)]} onClick={[Function (anonymous)]} onFocus={[Function (anonymous)]} onKeyDown={[Function (anonymous)]} id={[undefined]} name={[undefined]} autoFocus={[undefined]} placeholder={[undefined]} disabled={false} autoComplete={[undefined]} className=\\"startDatePicker\\" title={[undefined]} readOnly={false} required={[undefined]} tabIndex={[undefined]} aria-describedby={[undefined]} aria-invalid={[undefined]} aria-labelledby={[undefined]} aria-required={[undefined]} />
                                     </div>
                                   </div>
                                 </InnerReference>
@@ -74,7 +74,7 @@ exports[`Booking Modal component should snapshot BookingModal  1`] = `
                                 <InnerReference setReferenceNode={[Function (anonymous)]}>
                                   <div className=\\"react-datepicker-wrapper\\">
                                     <div className=\\"react-datepicker__input-container\\">
-                                      <input type=\\"text\\" value=\\"06.02.2021\\" onBlur={[Function (anonymous)]} onChange={[Function (anonymous)]} onClick={[Function (anonymous)]} onFocus={[Function (anonymous)]} onKeyDown={[Function (anonymous)]} id={[undefined]} name={[undefined]} autoFocus={[undefined]} placeholder={[undefined]} disabled={false} autoComplete={[undefined]} className=\\"endDatePicker\\" title={[undefined]} readOnly={false} required={[undefined]} tabIndex={[undefined]} aria-describedby={[undefined]} aria-invalid={[undefined]} aria-labelledby={[undefined]} aria-required={[undefined]} />
+                                      <input type=\\"text\\" value=\\"01.02.1970\\" onBlur={[Function (anonymous)]} onChange={[Function (anonymous)]} onClick={[Function (anonymous)]} onFocus={[Function (anonymous)]} onKeyDown={[Function (anonymous)]} id={[undefined]} name={[undefined]} autoFocus={[undefined]} placeholder={[undefined]} disabled={false} autoComplete={[undefined]} className=\\"endDatePicker\\" title={[undefined]} readOnly={false} required={[undefined]} tabIndex={[undefined]} aria-describedby={[undefined]} aria-invalid={[undefined]} aria-labelledby={[undefined]} aria-required={[undefined]} />
                                     </div>
                                   </div>
                                 </InnerReference>

@@ -11,9 +11,9 @@ import {RootState} from "../reducers"
 import {store} from "../configureStore"
 
 type CalendarProps = {
-    onClickBooking: (id: string) => void
-    startDate: Date | Moment
-    endDate: Date | Moment
+    onClickBooking: (id: string) => void;
+    startDate: Date | Moment;
+    endDate: Date | Moment;
 }
 
 export const Calendar = (props : CalendarProps): ReactElement => {

@@ -9,13 +9,13 @@ function momentNullDate () {
 }
 
 interface TypeItemSelected {
-    day: Moment
-    room: string
+    day: Moment;
+    room: string;
 }
 
 export interface TypeSelected {
-    start: TypeItemSelected
-    end: TypeItemSelected
+    start: TypeItemSelected;
+    end: TypeItemSelected;
 }
 
 const initialState = {

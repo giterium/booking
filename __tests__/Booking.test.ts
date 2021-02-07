@@ -5,7 +5,7 @@ import configureStore from 'redux-mock-store';
 const mockStore = configureStore([]);
 import "regenerator-runtime/runtime";
 import moment from "moment";
-import {momentNullDate} from "../src/utils/booking-utils";
+import {momentNullDate, timenull} from "../src/utils/booking-utils";
 import {Calendar} from "../src/views/BookingCalendar";
 
 const sleep = m => new Promise(r => setTimeout(r, m))
@@ -13,6 +13,7 @@ const sleep = m => new Promise(r => setTimeout(r, m))
 describe("Booking component", () => {
     let store;
     let storeForSnapshot;
+    let propsForSnapshot;
 
     beforeEach(() => {
         storeForSnapshot = mockStore({
@@ -44,6 +45,11 @@ describe("Booking component", () => {
                 end:{day:momentNullDate(), room:''}
             },
         })
+
+        propsForSnapshot = {
+            startDate: timenull(moment("2021-01-01")),
+            endDate: timenull(moment("2021-01-01").add(13,'days')),
+        };
     })
 
     afterEach(() => {
@@ -51,7 +57,7 @@ describe("Booking component", () => {
     })
 
     it("should snapshot Booking ", () => {
-        const wrapper = mount(<Provider store={storeForSnapshot}><Booking /></Provider>)
+        const wrapper = mount(<Provider store={storeForSnapshot}><Booking {...propsForSnapshot} /></Provider>)
         expect(wrapper.debug()).toMatchSnapshot()
     })
 
