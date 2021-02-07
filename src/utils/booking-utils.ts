@@ -17,7 +17,7 @@ export const setCurrentBooking = createAction(
 );
 
 export function momentNullDate ():Moment {
-    return moment("1970-01-01 00:00");
+    return moment("1970-01-01 00:00")
 }
 
 const unSelected = () => {
@@ -29,9 +29,9 @@ const unSelected = () => {
 
 export function timenull(date: Date | Moment):(Date | Moment) {
     if(moment.isMoment(date))
-        return date.clone().milliseconds(0).second(0).minutes(0).hours(0);
+        return date.clone().milliseconds(0).second(0).minutes(0).hours(0)
     else
-        return moment(date).clone().milliseconds(0).second(0).minutes(0).hours(0).toDate();
+        return moment(date).clone().milliseconds(0).second(0).minutes(0).hours(0).toDate()
 }
 
 export const isBooking = (day, room) => {
@@ -58,49 +58,58 @@ export const isBooking = (day, room) => {
             curBooking.room == room._id
         ) {
             if(moment(timenull(curBooking.startDate)).diff(timenull(day.date)) == 0) {
-                is_first_booking = true;
+                is_first_booking = true
             }
             if(moment(timenull(curBooking.endDate)).diff(timenull(day.date)) == 0) {
-                is_last_booking = true;
+                is_last_booking = true
             }
-            is_booking = true;
+            is_booking = true
         }
     }
     if(is_booking) {
         if(is_last_booking && is_first_booking)
-            return styles.isBooking + ' '+styles.isFirstBooking+ ' '+styles.isLastBooking;
+            return styles.isBooking + ' '+styles.isFirstBooking+ ' '+styles.isLastBooking
         else if(is_first_booking)
-            return styles.isBooking + ' '+styles.isFirstBooking;
+            return styles.isBooking + ' '+styles.isFirstBooking
         else if(is_last_booking)
-            return styles.isBooking + ' '+styles.isLastBooking;
+            return styles.isBooking + ' '+styles.isLastBooking
         else
             return styles.isBooking
     }
     else
-        return '';
+        return ''
 }
 
 export const commonStylesCell = (day, room) => {
-    return isBooking(day, room) + ' cell d' + day.date.format('DD-MM-YY') + ' ' +styles.dayCell;
+    return isBooking(day, room) + ' cell d' + day.date.format('DD-MM-YY') + ' ' +styles.dayCell
 }
 
 export const isSelected = (day, room, selected) => {
     if(selected.start.room && !selected.end.room ) {
         if(selected.start.day.format('DD.MM.YY') == day.date.format('DD.MM.YY') && selected.start.room == room._id) {
-            return styles.selected +' '+ styles.firstSelected;
+            return styles.selected +' '+ styles.firstSelected
+        }
+        else {
+            return ''
         }
     }
     else if(selected.start.room == room._id && selected.end.room == room._id) {
         if(selected.start.day.diff(day.date) <= 0 && selected.end.day.diff(day.date) >= 0) {
             if(selected.start.day.format('DD.MM.YY') == day.date.format('DD.MM.YY')) {
-                return styles.selected + ' ' + styles.firstSelected;
+                return styles.selected + ' ' + styles.firstSelected
             }
             else if(moment(timenull(selected.end.day)).diff(timenull(day.date)) == 0) {
-                return styles.selected + ' ' + styles.lastSelected;
+                return styles.selected + ' ' + styles.lastSelected
             }
             else
-                return styles.selected;
+                return styles.selected
         }
+        else {
+            return ''
+        }
+    }
+    else {
+        return ''
     }
 }
 
@@ -138,15 +147,15 @@ export const clickDayRoom = (day, room) => {
                     }
                 }
                 else {
-                    unSelected();
+                    unSelected()
                 }
             }
             else {
-                unSelected();
+                unSelected()
             }
         }
     }
     else {
-        unSelected();
+        unSelected()
     }
 };

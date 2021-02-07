@@ -61,6 +61,13 @@ export const BookingModal = (props: ModalProps) => {
     const { openWindow, setOpenWindow } = useContext(WindowContext)
     EventBus.subscribe('bookingCloseWindow', () => closeWindow())
 
+    const closeWindow = () => {
+        if(setOpenWindow)
+            setOpenWindow(false)
+        if(props.onActionClose)
+            props.onActionClose()
+    }
+
     useMemo(() => {
         const roomsOptions: TypeRoomsOptions[] = []
         rooms.map((room) => {
@@ -83,13 +90,6 @@ export const BookingModal = (props: ModalProps) => {
         }
     }, [openWindow, currentBooking])
 
-    const closeWindow = () => {
-        if(setOpenWindow)
-            setOpenWindow(false)
-        if(props.onActionClose)
-            props.onActionClose()
-    }
-
     useEffect(() => {
         if (selected.end.room) {
             const curRoom = rooms.filter((item) => item._id == selected.start.room)[0]
@@ -98,7 +98,7 @@ export const BookingModal = (props: ModalProps) => {
                 dispatch(setCurrentBooking({
                     _id: 'create',
                     cost: cost + '',
-                    fio: '',
+                    fio: !openWindow ? '' : fio,
                     room: selected.start.room,
                     startDate: selected.start.day.toDate(),
                     endDate: moment(selected.end.day).toDate()
@@ -207,7 +207,7 @@ export const BookingModal = (props: ModalProps) => {
             <div className={styles.modalBoxButton}>
                 <Button
                     className="actionButton"
-                    onClick={() => props.onActionModal(cost, fio, room, startDate, endDate)}
+                    onClick={() => {props.onActionModal(cost, fio, room, startDate, endDate)}}
                     title={(typeof currentBooking == 'undefined' || currentBooking._id == 'create') ? 'Add' : 'Save'}
                 />
                 <Button onClick={() => closeWindow()} className="closeButton" title="Cancel" />

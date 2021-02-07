@@ -21,7 +21,7 @@ type CalendarProps = {
     endDate: Date | Moment;
 };
 
-export const Calendar = React.memo((props : CalendarProps) => {
+export const Calendar = (props : CalendarProps) => {
     const rooms: TypeRoom[] = useSelector((state: RootState) => state.rooms, shallowEqual);
     const selected: TypeSelected = useSelector((state: RootState) => state.selected, shallowEqual);
     const booking: TypeBooking[] = useSelector((state: RootState) => state.booking, shallowEqual);
@@ -143,4 +143,4 @@ export const Calendar = React.memo((props : CalendarProps) => {
         </div>
         <Button onClick={()=>{localStorage.clear(); document.location.reload();}} title={'Clear'} />
     </div>
-})
+}
