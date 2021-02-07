@@ -1,109 +1,106 @@
-import React, {useEffect, useState, useMemo}  from 'react';
-import {shallowEqual, useSelector} from 'react-redux';
-import {TypeRoom} from "../reducers/rooms-reducers";
-import moment, {Moment} from 'moment';
-import styles from '../css/booking.module.css';
-import {Button} from "../components/Button";
-import {TypeBooking} from "../reducers/booking-reducers";
-import {TypeSelected} from "../reducers/selected-reducers";
-import {timenull, isSelected, updateSelected, clickDayRoom, commonStylesCell} from "../utils/booking-utils";
-import {RootState} from "../reducers";
-import {store} from "../configureStore";
-
-export interface TypeDay {
-    date: Date;
-    display: Date;
-}
+import React, {useEffect, useState, ReactElement}  from 'react'
+import {shallowEqual, useSelector} from 'react-redux'
+import {TypeRoom} from "../reducers/rooms-reducers"
+import moment, {Moment} from 'moment'
+import styles from '../css/booking.module.css'
+import {Button} from "../components/Button"
+import {TypeBooking} from "../reducers/booking-reducers"
+import {TypeSelected} from "../reducers/selected-reducers"
+import {timenull, isSelected, clickDayRoom, commonStylesCell, TypeDay} from "../utils/booking-utils"
+import {RootState} from "../reducers"
+import {store} from "../configureStore"
 
 type CalendarProps = {
-    onClickBooking: (id: string) => void;
-    startDate: Date | Moment;
-    endDate: Date | Moment;
-};
+    onClickBooking: (id: string) => void
+    startDate: Date | Moment
+    endDate: Date | Moment
+}
 
-export const Calendar = (props : CalendarProps) => {
-    const rooms: TypeRoom[] = useSelector((state: RootState) => state.rooms, shallowEqual);
-    const selected: TypeSelected = useSelector((state: RootState) => state.selected, shallowEqual);
-    const booking: TypeBooking[] = useSelector((state: RootState) => state.booking, shallowEqual);
+export const Calendar = (props : CalendarProps): ReactElement => {
+    const rooms: TypeRoom[] = useSelector((state: RootState) => state.rooms, shallowEqual)
+    const selected: TypeSelected = useSelector((state: RootState) => state.selected, shallowEqual)
+    const booking: TypeBooking[] = useSelector((state: RootState) => state.booking, shallowEqual)
     const currentBooking:TypeBooking = store.getState().currentBooking
 
-    const [startDate, setStartDate] = useState(props.startDate);
-    const [endDate, setEndDate] = useState(props.endDate);
-    const [daysList, setDaysList] = useState([]);
+    const [startDate, setStartDate] = useState(props.startDate)
+    const [endDate, setEndDate] = useState(props.endDate)
+    const [daysList, setDaysList] = useState([])
 
-    const getBookingInfo = (day, room, field) => {
+    const getBookingInfo = (day:TypeDay, room:TypeRoom, field:string):string => {
         for(const current of booking) {
+            let curBooking
             if(current._id == currentBooking._id)
-                var curBooking = currentBooking
+                curBooking = currentBooking
             else
-                var curBooking = current
+                curBooking = current
 
             if (
                 curBooking.room == room._id
                 &&
                 moment(timenull(curBooking.startDate)).diff(timenull(day.date)) == 0
             ) {
-                return curBooking[field];
+                return curBooking[field]
             }
         }
-        return '';
+        return ''
     }
 
-    const getWidthFio = (day, room) => {
-        let duration = 0;
+    const getWidthFio = (day:TypeDay, room:TypeRoom):string => {
+        let duration = 0
         for(const current of booking) {
+            let curBooking
             if(current._id == currentBooking._id)
-                var curBooking = currentBooking
+                curBooking = currentBooking
             else
-                var curBooking = current
+                curBooking = current
 
             if (
                 curBooking.room == room._id
                 &&
                 moment(timenull(curBooking.startDate)).diff(timenull(day.date)) == 0
             ) {
-                duration = moment(timenull(curBooking.endDate)).diff(moment(timenull(curBooking.startDate)), 'days');
+                duration = moment(timenull(curBooking.endDate)).diff(moment(timenull(curBooking.startDate)), 'days')
                 break;
             }
         }
         if(duration == 1)
-            return 50 + 'px';
+            return 50 + 'px'
         else
-            return 100*duration-50+'px';
+            return 100*duration-50+'px'
     }
 
     const NextWeek = () => {
-        setStartDate(startDate.clone().add(7, 'days'));
-        setEndDate(endDate.clone().add(7, 'days'));
-    };
+        setStartDate(startDate.clone().add(7, 'days'))
+        setEndDate(endDate.clone().add(7, 'days'))
+    }
 
     const PrevWeek = () => {
-        setStartDate(startDate.clone().subtract(7, 'days'));
-        setEndDate(endDate.clone().subtract(7, 'days'));
-    };
+        setStartDate(startDate.clone().subtract(7, 'days'))
+        setEndDate(endDate.clone().subtract(7, 'days'))
+    }
 
     const clickBooking = (id) => {
         if(!selected.start.room) {
-            props.onClickBooking(id);
+            props.onClickBooking(id)
         }
     }
 
     useEffect(() => {
         const list:TypeDay[] = [];
-        const current = startDate.clone();
+        const current = startDate.clone()
         while(current <= endDate){
             list.push({
                 date:current.clone(),
                 display:current.format('DD.MM')
             });
-            current.add(1, 'days');
+            current.add(1, 'days')
         }
         setDaysList((prev: TypeDay[]) => prev = list)
 
-    }, [startDate, setEndDate]);
+    }, [startDate, setEndDate])
 
     return <div>
-        <div className={styles.shahmatkaBox}>
+        <div className={styles.calendarBox}>
             <div className={styles.headerRow}>
                 <div className={styles.headerCell}></div>
                 {daysList.map((day:TypeDay) =>
@@ -141,6 +138,6 @@ export const Calendar = (props : CalendarProps) => {
             <Button onClick={PrevWeek} className={styles.controlButtons} title={'<< Prev'} />
             <Button onClick={NextWeek} className={styles.controlButtons} title={'Next >>'} />
         </div>
-        <Button onClick={()=>{localStorage.clear(); document.location.reload();}} title={'Clear'} />
+        <Button onClick={()=>{localStorage.clear(); document.location.reload()}} title={'Clear'} />
     </div>
 }

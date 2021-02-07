@@ -5,10 +5,10 @@ interface TableInputTypes {
     type?: string,
     className: string,
     name: string,
-    changeUpdate: Function,
-    onKeyPress?: Function,
-    onFocus?: Function,
-    onClick?: Function,
+    changeUpdate: (e: any) => void,
+    onKeyPress?: (e: EventTarget) => void,
+    onFocus?: (e: EventTarget) => void,
+    onClick?: (e: EventTarget) => void,
     defaultValue: string | number
 }
 

@@ -3,10 +3,10 @@ import {store} from "../configureStore";
 import {TypeSelected} from "../reducers/selected-reducers";
 import {TypeBooking} from "../reducers/booking-reducers";
 import moment from "moment";
-import {setCurrentBooking, timenull, updateSelected} from "./booking-utils";
+import {setCurrentBooking, timenull, updateSelected, TypeDay} from "./booking-utils";
 import {isGoodRange} from "./isGoodRange";
 
-export const checkBooking = (startDate, endDate, room = '') => {
+export const checkBooking = (startDate:Date, endDate:Date, room = ''): [Date, Date, string] | boolean => {
     const rooms:TypeRoom[] = store.getState().rooms;
     const selected:TypeSelected = store.getState().selected;
     const currentBooking:TypeBooking = store.getState().currentBooking;

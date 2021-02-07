@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactElement } from 'react';
 import {useDispatch, shallowEqual, useSelector} from 'react-redux';
 import {itemsRoomsFetchData} from '../actions/rooms-actions';
 import {clearErrors, deleteBooking, createBooking, itemsBookingFetchData, updateBooking} from '../actions/booking-actions';
@@ -14,14 +14,14 @@ import moment from 'moment';
 import {timenull, updateSelected, setCurrentBooking, momentNullDate} from "../utils/booking-utils";
 
 export interface IContextProps {
-    openWindow: boolean;
-    setOpenWindow: (a: boolean) => void;
-    currentBooking: TypeBooking;
+    openWindow: boolean
+    setOpenWindow: (a: boolean) => void
+    currentBooking: TypeBooking
 }
 
 export const WindowContext = React.createContext({});
 
-export const Booking = () => {
+export const Booking = (): ReactElement => {
     const bookingIsLoading: boolean = useSelector((state: RootState) => state.bookingIsLoading, shallowEqual);
     const bookingHasErrored: (a: boolean) => boolean = useSelector((state: RootState) => state.bookingHasErrored, shallowEqual);
     const [openWindow, setOpenWindow] = useState(false);

@@ -2,9 +2,15 @@ import moment, { Moment } from "moment"
 import styles from "../css/booking.module.css"
 import { store } from '../configureStore'
 import {TypeBooking} from "../reducers/booking-reducers"
+import {TypeRoom} from "../reducers/rooms-reducers"
 import { createAction } from 'redux-actions'
 import {TypeSelected} from "../reducers/selected-reducers"
 import {isGoodRange} from "./isGoodRange"
+
+export interface TypeDay {
+    date: Date;
+    display: Date;
+}
 
 export const updateSelected = createAction(
     'UPDATED_SELECTED',
@@ -20,7 +26,7 @@ export function momentNullDate ():Moment {
     return moment("1970-01-01 00:00")
 }
 
-const unSelected = () => {
+const unSelected = ():void => {
     store.dispatch(updateSelected({
         start:{day:momentNullDate(), room:''},
         end:{day:momentNullDate(), room:''}
@@ -34,7 +40,7 @@ export function timenull(date: Date | Moment):(Date | Moment) {
         return moment(date).clone().milliseconds(0).second(0).minutes(0).hours(0).toDate()
 }
 
-export const isBooking = (day, room) => {
+export const isBooking = (day:TypeDay, room:TypeRoom):string => {
     const currentBooking:TypeBooking = store.getState().currentBooking
     const booking:TypeBooking[] = store.getState().booking
 
@@ -80,13 +86,13 @@ export const isBooking = (day, room) => {
         return ''
 }
 
-export const commonStylesCell = (day, room) => {
-    return isBooking(day, room) + ' cell d' + day.date.format('DD-MM-YY') + ' ' +styles.dayCell
+export const commonStylesCell = (day:TypeDay, room:TypeRoom):string => {
+    return isBooking(day, room) + ' cell d' + moment(day.date).format('DD-MM-YY') + ' ' +styles.dayCell
 }
 
-export const isSelected = (day, room, selected) => {
+export const isSelected = (day:TypeDay, room:TypeRoom, selected:TypeSelected):string => {
     if(selected.start.room && !selected.end.room ) {
-        if(selected.start.day.format('DD.MM.YY') == day.date.format('DD.MM.YY') && selected.start.room == room._id) {
+        if(selected.start.day.format('DD.MM.YY') == moment(day.date).format('DD.MM.YY') && selected.start.room == room._id) {
             return styles.selected +' '+ styles.firstSelected
         }
         else {
@@ -95,7 +101,7 @@ export const isSelected = (day, room, selected) => {
     }
     else if(selected.start.room == room._id && selected.end.room == room._id) {
         if(selected.start.day.diff(day.date) <= 0 && selected.end.day.diff(day.date) >= 0) {
-            if(selected.start.day.format('DD.MM.YY') == day.date.format('DD.MM.YY')) {
+            if(selected.start.day.format('DD.MM.YY') == moment(day.date).format('DD.MM.YY')) {
                 return styles.selected + ' ' + styles.firstSelected
             }
             else if(moment(timenull(selected.end.day)).diff(timenull(day.date)) == 0) {
@@ -113,7 +119,7 @@ export const isSelected = (day, room, selected) => {
     }
 }
 
-export const clickDayRoom = (day, room) => {
+export const clickDayRoom = (day:TypeDay, room:TypeRoom):void => {
     const dispatch = store.dispatch;
     const selected:TypeSelected = store.getState().selected;
 
@@ -126,12 +132,12 @@ export const clickDayRoom = (day, room) => {
         } else {
             if (!selected.end.room) {
                 if(isGoodRange(selected.start.day, day.date, room._id)) {
-                    if (selected.start.day.format('DD.MM.YY') == day.date.format('DD.MM.YY')) {
+                    if (selected.start.day.format('DD.MM.YY') == moment(day.date).format('DD.MM.YY')) {
                         unSelected();
                     } else if (selected.start.room != room._id)
                         unSelected();
                     else {
-                        if (day.date < selected.start.day) {
+                        if (day.date < selected.start.day.toDate()) {
                             dispatch(updateSelected({
                                 start: {day: day.date, room: room._id},
                                 end: selected.start

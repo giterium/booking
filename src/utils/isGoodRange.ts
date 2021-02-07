@@ -3,7 +3,7 @@ import {store} from "../configureStore";
 import moment, { Moment} from "moment";
 import {timenull} from "./booking-utils";
 
-export function isGoodRange (startDate: Date | Moment, endDate: Date | Moment, id_room: string, curIdBooking: string = ''): boolean {
+export function isGoodRange (startDate: Date | Moment, endDate: Date | Moment, id_room: string, curIdBooking = ''): boolean {
     const booking:TypeBooking[] = store.getState().booking;
     const bookingSlice = booking.filter(item => item.room == id_room)
     for(const curBooking of bookingSlice) {

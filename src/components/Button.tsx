@@ -2,7 +2,7 @@ import React  from 'react';
 
 interface ButtonTypes {
     title: string,
-    onClick?: Function,
+    onClick?: (e: Event) => void,
     className?: string,
 }
 

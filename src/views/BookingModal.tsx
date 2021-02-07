@@ -1,23 +1,23 @@
-import React, {useEffect, useState, useContext}  from 'react';
-import {TypeRoom} from "../reducers/rooms-reducers";
-import {WindowContext} from './Booking';
-import Modal from 'react-modal';
-import {TableInput} from "../components/TableInput";
-import {TableErrors} from "../components/TableErrors";
-import {Button} from "../components/Button";
-import {shallowEqual, useSelector, useDispatch} from "react-redux";
-import styles from '../css/booking.module.css';
-import moment, {Moment} from "moment";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import Select from 'react-select';
-import {EventBus} from "../events";
-import {RootState} from "../reducers";
-import {TypeBooking} from "../reducers/booking-reducers";
-import {clearErrors} from "../actions/booking-actions";
-import {setCurrentBooking, updateSelected} from "../utils/booking-utils";
-import {checkBooking} from "../utils/checkBooking";
-import {TypeSelected} from "../reducers/selected-reducers";
+import React, {useEffect, useState, useContext, ReactElement}  from 'react'
+import {TypeRoom} from "../reducers/rooms-reducers"
+import {WindowContext} from './Booking'
+import Modal from 'react-modal'
+import {TableInput} from "../components/TableInput"
+import {TableErrors} from "../components/TableErrors"
+import {Button} from "../components/Button"
+import {shallowEqual, useSelector, useDispatch} from "react-redux"
+import styles from '../css/booking.module.css'
+import moment, {Moment} from "moment"
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
+import Select from 'react-select'
+import {EventBus} from "../events"
+import {RootState} from "../reducers"
+import {TypeBooking} from "../reducers/booking-reducers"
+import {clearErrors} from "../actions/booking-actions"
+import {setCurrentBooking, updateSelected} from "../utils/booking-utils"
+import {checkBooking} from "../utils/checkBooking"
+import {TypeSelected} from "../reducers/selected-reducers"
 
 const modalStyles = {
     overlay: { zIndex: 100 },
@@ -31,21 +31,19 @@ const customStyles = {
 }
 
 interface TypeRoomsOptions {
-    label: number;
-    value: string;
+    label: number
+    value: string
 }
 
 type ModalProps = {
-    //onChangeBooking: (startDate: Moment | Date, endDate: Moment | Date, room: string) => any;
-    onActionDelete: (id: string) => void;
-    onActionClose?: () => void;
-    onActionModal: (cost: string, fio: string, room: string, startDate: Moment | Date, endDate: Moment | Date) => void;
+    onActionDelete: (id: string) => void
+    onActionClose?: () => void
+    onActionModal: (cost: string, fio: string, room: string, startDate: Moment | Date, endDate: Moment | Date) => void
 }
 
-export const BookingModal = (props: ModalProps) => {
-    const errors: any = useSelector((state: RootState) => state.errors, shallowEqual)
+export const BookingModal:React.FC<ModalProps> = (props: ModalProps): ReactElement => {
+    const errors: {[key: string]:string} = useSelector((state: RootState) => state.errors, shallowEqual)
     const rooms: TypeRoom[] = useSelector((state: RootState) => state.rooms, shallowEqual)
-    const booking: TypeBooking[] = useSelector((state: RootState) => state.booking, shallowEqual)
     const selected: TypeSelected = useSelector((state: RootState) => state.selected, shallowEqual)
     const currentBooking: TypeBooking = useSelector((state: RootState) => state.currentBooking, shallowEqual)
 

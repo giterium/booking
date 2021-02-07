@@ -5,7 +5,9 @@ const ErrorOverlayWebpackPlugin = require("error-overlay-webpack-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
     mode: 'development',
+    stats: 'errors-only',
     devServer: {
+        clientLogLevel: 'quiet',
         contentBase: path.join(__dirname, 'public'),
         port: 8080,
         host: `localhost`,
