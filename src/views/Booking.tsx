@@ -26,6 +26,7 @@ export interface BookingProps {
 export const WindowContext = React.createContext({});
 
 export const Booking = (props: BookingProps): ReactElement => {
+    const errors: {[key: string]:string} = useSelector((state: RootState) => state.errors, shallowEqual)
     const bookingIsLoading: boolean = useSelector((state: RootState) => state.bookingIsLoading, shallowEqual);
     const bookingHasErrored: (a: boolean) => boolean = useSelector((state: RootState) => state.bookingHasErrored, shallowEqual);
     const [openWindow, setOpenWindow] = useState(false);
@@ -61,7 +62,9 @@ export const Booking = (props: BookingProps): ReactElement => {
 
     const actionModal = (cost, fio, room, startDate, endDate) => {
         if(currentBooking._id == 'create') {
-            dispatch(setCurrentBooking({}))
+            if(JSON.stringify(errors) != JSON.stringify({})) {
+                dispatch(setCurrentBooking({}))
+            }
 
             dispatch(createBooking({
                 _id: '',
@@ -71,9 +74,12 @@ export const Booking = (props: BookingProps): ReactElement => {
                 startDate: startDate,
                 endDate: endDate
             }))
+
         }
         else {
-            dispatch(setCurrentBooking({}))
+            if(JSON.stringify(errors) != JSON.stringify({})) {
+                dispatch(setCurrentBooking({}))
+            }
 
             dispatch(updateBooking({
                 _id: currentBooking._id,

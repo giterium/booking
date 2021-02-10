@@ -20,3 +20,9 @@
 .tableUpdateDept td{
     padding: 5px 2px;
 }
+
+.errorBox {
+    font-size: 12px;
+    text-align: right;
+    color: red;
+}

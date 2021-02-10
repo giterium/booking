@@ -1,6 +1,6 @@
 import { EventBus } from '../events';
 import { TypeBooking } from '../reducers/booking-reducers';
-import { BOOKING_FETCH_DATA_SUCCESS, BOOKING_IS_LOADING, BOOKING_HAS_ERRORED, CLEAR_ERRORS, DELETE_BOOKING, DELETE_BOOKING_SUCCESS, UPDATE_BOOKING, UPDATE_BOOKING_SUCCESS, ADD_BOOKING, ADD_BOOKING_SUCCESS} from './types';
+import { BOOKING_FETCH_DATA_SUCCESS, BOOKING_IS_LOADING, BOOKING_HAS_ERRORED, CLEAR_ERRORS, DELETE_BOOKING, DELETE_BOOKING_SUCCESS, UPDATE_BOOKING, UPDATE_BOOKING_SUCCESS, UPDATE_BOOKING_ERRORS, ADD_BOOKING, ADD_BOOKING_SUCCESS, ADD_BOOKING_ERRORS} from './types';
 
 export function bookingHasErrored(bool: boolean) :{type:string; hasErrored: boolean} {
     return {
@@ -43,33 +43,47 @@ export function itemsBookingFetchData(url: string)  {
 export function createBooking (booking: TypeBooking) {
     return (dispatch) => {
         dispatch({type: ADD_BOOKING});
+        if(booking['fio'] == '') {
+            dispatch({
+                type: ADD_BOOKING_ERRORS,
+                payload: {'fio': 'The name must not be empty'}
+            });
+        }
+        else {
+            booking._id = Math.random().toString(36).substring(7);
+            const bookingStore: string | null = localStorage.getItem('booking');
+            let bookingList: TypeBooking[] = [];
+            if (bookingStore != null)
+                bookingList = JSON.parse(bookingStore);
+            bookingList.push(booking);
+            localStorage.setItem('booking', JSON.stringify(bookingList));
 
-        booking._id = Math.random().toString(36).substring(7);
-        const bookingStore:string|null = localStorage.getItem('booking');
-        let bookingList:TypeBooking[] = [];
-        if(bookingStore != null)
-            bookingList = JSON.parse(bookingStore);
-        bookingList.push(booking);
-        localStorage.setItem('booking', JSON.stringify(bookingList));
-
-        dispatch({type: ADD_BOOKING_SUCCESS, payload: booking})
-        EventBus.dispatch('bookingCloseWindow', []);
+            dispatch({type: ADD_BOOKING_SUCCESS, payload: booking})
+            EventBus.dispatch('bookingCloseWindow', []);
+        }
     }
 }
 
 export function updateBooking (booking: TypeBooking, index: number) {
     return (dispatch) => {
         dispatch({type: UPDATE_BOOKING});
+        if(booking['fio'] == '') {
+            dispatch({
+                type: UPDATE_BOOKING_ERRORS,
+                payload: {'fio': 'The name must not be empty'}
+            });
+        }
+        else {
+            const bookingStore: string | null = localStorage.getItem('booking');
+            let bookingList: TypeBooking[] = [];
+            if (bookingStore != null)
+                bookingList = JSON.parse(bookingStore);
+            bookingList[index] = booking;
+            localStorage.setItem('booking', JSON.stringify(bookingList));
 
-        const bookingStore:string|null = localStorage.getItem('booking');
-        let bookingList:TypeBooking[] = [];
-        if(bookingStore != null)
-            bookingList = JSON.parse(bookingStore);
-        bookingList[index] = booking;
-        localStorage.setItem('booking', JSON.stringify(bookingList));
-
-        dispatch({type: UPDATE_BOOKING_SUCCESS, payload: [index, booking]});
-        EventBus.dispatch('bookingCloseWindow', []);
+            dispatch({type: UPDATE_BOOKING_SUCCESS, payload: [index, booking]});
+            EventBus.dispatch('bookingCloseWindow', []);
+        }
     }
 }
 
