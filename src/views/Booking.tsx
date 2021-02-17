@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ReactElement } from 'react';
 import {useDispatch, shallowEqual, useSelector} from 'react-redux';
 import {itemsRoomsFetchData} from '../actions/rooms-actions';
-import {clearErrors, deleteBooking, createBooking, itemsBookingFetchData, updateBooking} from '../actions/booking-actions';
+import {clearErrors, deleteBooking, createBooking, itemsBookingFetchData, updateBooking, bookingHasErrored} from '../actions/booking-actions';
 import {Calendar} from './BookingCalendar';
 import {BookingModal} from './BookingModal';
 import {Loading} from '../components/Loading';
@@ -28,7 +28,7 @@ export const WindowContext = React.createContext({});
 export const Booking = (props: BookingProps): ReactElement => {
     const errors: {[key: string]:string} = useSelector((state: RootState) => state.errors, shallowEqual)
     const bookingIsLoading: boolean = useSelector((state: RootState) => state.bookingIsLoading, shallowEqual);
-    const bookingHasErrored: (a: boolean) => boolean = useSelector((state: RootState) => state.bookingHasErrored, shallowEqual);
+    const bookingHasErroredState: boolean = useSelector((state: RootState) => state.bookingHasErrored, shallowEqual);
     const [openWindow, setOpenWindow] = useState(false);
     const currentBooking: TypeBooking = useSelector((state: RootState) => state.currentBooking, shallowEqual);
 
@@ -101,7 +101,7 @@ export const Booking = (props: BookingProps): ReactElement => {
 
     document.title = "Booking"
 
-    if (bookingHasErrored) {
+    if (bookingHasErroredState) {
         dispatch(bookingHasErrored(false))
         return <><LoadError /></>
     }
